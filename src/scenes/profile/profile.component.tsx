@@ -3,6 +3,7 @@ import {
     ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
     ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput
 } from 'react-native';
+import RazorpayCheckout from 'react-native-razorpay';
 import {
     // Input,
     Layout,
@@ -167,6 +168,30 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             this.setState({ refreshing: false });
         });
     }
+    _onPressButton() {
+        var options = {
+            description: 'Credits towards consultation',
+            image: 'https://i.imgur.com/3g7nmJC.png',
+            currency: 'INR',
+            key: 'rzp_test_ltZLKwudr3G0yx',
+            amount: '50',
+            name: 'foo',
+            prefill: {
+              email: 'void@razorpay.com',
+              contact: '9191919191',
+              name: 'Razorpay Software'
+            },
+            theme: {color: '#F37254'}
+          }
+
+          RazorpayCheckout.open(options).then((data) => {
+            // handle success
+            alert(`Success: ${data.razorpay_payment_id}`);
+          }).catch((error) => {
+            // handle failure
+            alert(`Error: ${error.code} | ${error.description}`);
+          });
+          }
 
     render() {
         const { userData, profileData, qualification } = this.state
@@ -206,9 +231,30 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                         </View>
                     </View>
                     <View style={styles.headerView2}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate(AppRoute.RESUME)}>
-                            <Text style={styles.editButton}>Go to Resume ></Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+    var options = {
+    description: 'Credits towards consultation',
+    image: 'https://i.imgur.com/3g7nmJC.png',
+    currency: 'INR',
+    key: 'rzp_test_ltZLKwudr3G0yx',
+    amount: '500',
+    name: 'Teqto System',
+ //   order_id: 'order_DslnoIgkIDL8Zt',//Replace this with an order_id created using Orders API. Learn more at https://razorpay.com/docs/api/orders.
+    prefill: {
+      email: 'jaykrs@gmail.com',
+      contact: '9716529094',
+      name: 'Jayant Kumar'
+    },
+    theme: {color: '#53a20e'}
+  }
+  RazorpayCheckout.open(options).then((data) => {
+    // handle success
+    alert(`Success: ${data.razorpay_payment_id}`);
+  }).catch((error) => {
+    // handle failure
+    alert(`Error: ${error.code} | ${error.description}`);
+  });
+}}><Text style={styles.cardText3}>Pay Out</Text></TouchableOpacity>
                     </View>
                 </View>
 
