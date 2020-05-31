@@ -1,0 +1,1 @@
+export { CandidateScreen } from './candidate.component';
