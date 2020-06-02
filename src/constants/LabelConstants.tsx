@@ -30,7 +30,7 @@ export class LabelConstants {
     public static readonly ALERT_JOB_SKILL = 'Please Select Job Skill';
     public static readonly ALERT_JOB_DESCRIPTION = 'Please Enter Job Description';
 
-    public static readonly com_alert_NOT_ACTIVATED = 'User is not Activated yet ! Please Activate From Your Email Id';
+    public static readonly com_alert_NOT_ACTIVATED = 'User is not Activated yet ! Check your Inbox';
     public static readonly com_alert_invalid_email_or_password = 'Invalid Email Or Password';
     public static readonly com_alert_changepassword = 'Password Changed Successfully';
     public static readonly com_alert_enter_password = 'Enter Password';
@@ -48,4 +48,7 @@ export class LabelConstants {
     public static readonly com_alert_choose_availability = 'Choose Availability';
     public static readonly com_alert_choose_category = 'Choose Category';
     public static readonly com_alert_choose_language = 'Choose Language';
+    public static readonly com_alert_novisitor_found = 'Seems you have not created any visiter ! please add';
+    public static readonly com_alert_signup_user = 'User created Successfully go to inbox for activation';
+    public static readonly com_alert_visitor_create_error = "Facing some issue in adding visitor please reach us on vtrack@marksman.com";
 }; 

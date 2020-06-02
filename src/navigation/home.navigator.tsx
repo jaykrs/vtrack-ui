@@ -236,7 +236,16 @@ export const HomeNavigator = (): React.ReactElement => (
       component={SettingScreen}
       options={{ title: 'About Us', drawerIcon: AccountsIcon }}
     />
-
+  <Drawer.Screen
+      name={AppRoute.ACCOUNTS}
+      component={SettingScreen}
+      options={{ title: 'Payments', drawerIcon: AccountsIcon }}
+    />
+    <Drawer.Screen
+      name={AppRoute.WALLET}
+      component={SettingScreen}
+      options={{ title: 'Terms of Use', drawerIcon: AccountsIcon }}
+    />
     <Drawer.Screen
       name={AppRoute.LOGOUT}
       component={LogoutScreen}

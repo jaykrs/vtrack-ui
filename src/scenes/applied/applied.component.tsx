@@ -43,6 +43,7 @@ import { pathToFileURL, fileURLToPath } from 'url';
 import { Styles } from '../../assets/styles'
 import Animated from 'react-native-reanimated';
 import { debuglog } from 'util';
+import { LabelConstants } from '../../constants/LabelConstants';
 
 // import axios from 'axios';  
 // import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
@@ -224,12 +225,12 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                 console.log("Visitor Data", response.data);
 
                 Alert.alert('Visitor Created Successfuly');
-
+                this.props.navigation.navigate(AppRoute.MYJOBS);
             },
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        Alert.alert(LabelConstants.com_alert_visitor_create_error);
                     }
                 }
             );

@@ -39,6 +39,7 @@ import {
 import axios from 'axios';
 import { Styles } from '../../assets/styles'
 import { AppConstants } from '../../constants/AppConstants';
+import { LabelConstants } from '../../constants/LabelConstants';
 import DeviceInfo from 'react-native-device-info';
 const data = [
   { text: 'Candidate' },
@@ -131,7 +132,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
           // console.log("from signup",response.data.status);
           Alert.alert(response.data.description + " : " + response.data.emailId);
         } else {
-          Alert.alert("SignUp Successfull Login With Your Credential");
+          Alert.alert(LabelConstants.com_alert_signup_user);
           this.props.navigation.navigate(AppRoute.SIGN_IN);
         }
 

@@ -35,11 +35,12 @@ import { any } from 'prop-types';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { truncate, open } from 'fs';
-import VideoPlayer from 'react-native-video-player';
+//import VideoPlayer from 'react-native-video-player';
 // import { FlatList } from 'react-native-gesture-handler';
 import Share from 'react-native-share';
 import { pathToFileURL, fileURLToPath } from 'url';
-
+import { Styles } from '../../assets/styles';
+import RazorpayCheckout from 'react-native-razorpay';
 type MyState = {
 }
 
@@ -65,9 +66,36 @@ export class SettingScreen extends React.Component<SettingScreenProps & ThemedCo
                     style={{ marginTop: -5, marginLeft: -5 }}
                 />
                 <View style = {styles.content}>
-                    <Text style = {styles.text}> Work of this page is in progress </Text>
-                </View>
-
+                    <Text style = {styles.text}> Work of this page is in progress. </Text>
+                
+              <TouchableOpacity style={[Styles.buttonContainer, styles.button]} 
+                            onPress={() => {
+                                var options = {
+                                description: 'Credits towards vtrack',
+                                image: 'https://i.imgur.com/3g7nmJC.png',
+                                currency: 'INR',
+                                key: 'rzp_test_10eSP45VJvsTV4',
+                                amount: '500',
+                                name: 'marksman Technology P Ltd',
+                                prefill: {
+                                  email: 'jayant.kumar@marksman.com',
+                                  contact: '9716529094',
+                                  name: 'Jayant Kumar'
+                                },
+                                theme: {color: '#53a20e'}
+                              }
+                              RazorpayCheckout.open(options).then((data) => {
+                                // handle success
+                                Alert.alert(`Success: ${data.razorpay_payment_id}`);
+                              }).catch((error) => {
+                                // handle failure
+                                alert(`Error: ${error.code} | ${error.description}`);
+                              });
+                            }}
+                            >
+                                <Text style={Styles.buttonCaption}>Pay Now</Text>
+                            </TouchableOpacity>
+                        </View>
             </SafeAreaLayout>
         )
     }
@@ -87,5 +115,11 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 20
+    },
+    button: {
+        width: '44%',
+        height: 52,
+        marginTop: 35,
+        alignSelf: 'center'
     }
 })

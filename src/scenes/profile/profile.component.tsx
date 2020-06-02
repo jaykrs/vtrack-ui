@@ -286,7 +286,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 style={styles.dataText}
                                 value={emailId}
                                 placeholder='Email Id'
-                                editable={editable}
+                                editable={false}
                                 onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
                             />
                         </View>

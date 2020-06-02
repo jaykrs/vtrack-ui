@@ -241,6 +241,10 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                         <View style={styles.card}>
                             <View style={styles.card1}>
                                 <Text style={styles.text}>{item.firstName} {item.lastName}</Text>
+                                <Text style={styles.textdt}>{item.visitDate.length < 35
+              ? `${item.visitDate.substring(0, 16)}`
+              : `${item.visitDate}`}
+ </Text>
                             </View>
 
                             <View style={styles.card2}>
@@ -379,7 +383,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'rgba(2,15,20,1)'
     },
-
+    textdt: {
+        fontSize: 12,
+        color: 'rgba(2,15,20,1)'
+    },
     searchIcon: {
         color: '#999999',
     },
