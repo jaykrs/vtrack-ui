@@ -3,7 +3,6 @@ import {
     ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
     ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput
 } from 'react-native';
-import RazorpayCheckout from 'react-native-razorpay';
 import {
     // Input,
     Layout,
@@ -20,7 +19,7 @@ import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading,
 import { ProfileScreenProps } from '../../navigation/profile.navigator';
 import { AppRoute } from '../../navigation/app-routes';
 import { ProgressBar } from '../../components/progress-bar.component';
-import { SearchIcon } from '../../assets/icons';
+import { SearchIcon, PencilIcon } from '../../assets/icons';
 import { TimeLineData } from '../../data/TimeLineData.model';
 import { AppConstants } from '../../constants/AppConstants';
 import { Toolbar } from '../../components/toolbar.component';
@@ -44,6 +43,7 @@ import { pathToFileURL, fileURLToPath } from 'url';
 import Animated from 'react-native-reanimated';
 import { EditProfileScreen } from './editProfile.component';
 import { userInfo } from 'os';
+import { Styles } from '../../assets/styles';
 
 // import axios from 'axios';  
 // import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
@@ -81,66 +81,70 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
         super(props)
         this.state = {
             userId: '',
-            userType: '',
-            token: '',
             userData: [],
-            profileData: [],
-            qualification: [],
+            editable: false,
+            f_name: '',
+            l_name: '',
+            emailId: '',
+            phone_country_code: '',
+            vendor_id: '',
+            vendor_name: '',
+            city: '',
+            address: '',
+            pincode: '',
+            country: '',
+            createdBy: '',
+            vendor_location: '',
+            initial: '',
+            phone_number: ''
         }
 
         this._onRefresh = this._onRefresh.bind(this);
+        this.edit = this.edit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
-        // const value = await AsyncStorage.getItem('userDetail');
-        // if (value) {
-        //     // console.log('user Details all data', value);
-        //     const user = JSON.parse(value);
-        //     this.setState({
-        //         userType: user.userType,
-        //         token: user.token,
-        //         userId: user.userId,
-        //     })
-        //     // console.log('user data id', this.state.userId);      
+        const value = await AsyncStorage.getItem('userDetail');
+        if (value) {
+            // console.log('user Details all data', value);
+            const user = JSON.parse(value);
+            this.setState({
+                userId: user.userId,
+            })
+            // console.log('user data id', this.state.userId);      
 
-        //     axios({
-        //         method: 'get',
-        //         url: AppConstants.API_BASE_URL + '/api/user/get/' + user.userId,
+            axios({
+                method: 'get',
+                url: AppConstants.API_BASE_URL + '/api/user/get/' + user.id,
 
-        //     }).then((response) => {
-        //         this.setState({
-        //             ...this.state,
-        //             userData: response.data
-        //         })
-        //         console.log("Profile Data", response.data);
-        //     },
-        //         (error) => {
-        //             console.log(error);
-        //             if (error) {
-        //                 Alert.alert("UserId or Password is invalid");
-        //             }
-        //         }
-        //     );
-
-        //     axios({
-        //         method: 'get',
-        //         url: AppConstants.API_BASE_URL + '/api/profile/getprofile/' + user.userId,
-
-        //     }).then((response) => {
-        //         this.setState({
-        //             ...this.state,
-        //             profileData: response.data
-        //         })
-        //         console.log("Profile Data", response.data);
-        //     },
-        //         (error) => {
-        //             console.log(error);
-        //             if (error) {
-        //                 Alert.alert("UserId or Password is invalid");
-        //             }
-        //         }
-        //     );
-        // }
+            }).then((response) => {
+                this.setState({
+                    ...this.state,
+                    userData: response.data,
+                    f_name: response.data.firstName,
+                    l_name: response.data.lastName,
+                    emailId: response.data.emailId,
+                    phone_country_code: response.data.countryCode,
+                    vendor_id: response.data.vendorId,
+                    vendor_name: response.data.vendorName,
+                    city: response.data.city,
+                    address: response.data.address,
+                    pincode: response.data.pincode,
+                    country: response.data.country,
+                    initial: response.data.initials,
+                    phone_number: response.data.phone
+                })
+                console.log("Profile Data", response.data);
+            },
+                (error) => {
+                    console.log(error);
+                    if (error) {
+                        Alert.alert("UserId or Password is invalid");
+                    }
+                }
+            );
+        }
 
         // axios({
         //     method: 'get',
@@ -162,101 +166,68 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
         // );
     }
 
+    edit() {
+        this.setState({
+            editable: true
+        })
+    }
+
+    handleSubmit() {
+        const { userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
+        axios({
+            method: 'PUT',
+            url: AppConstants.API_BASE_URL + '/api/user/update',
+            data: {
+                emailId: emailId,
+                device_token: '123',
+                f_name: f_name,
+                l_name: l_name,
+                phone_country_code: phone_country_code,
+                vendor_id: vendor_id,
+                vendor_name: vendor_name,
+                city: city,
+                address: address,
+                pincode: pincode,
+                country: country,
+                phone_number: phone_number
+            }
+        }).then((response) => {
+            if (response) {
+                if (response.data.emailId === emailId) {
+                    Alert.alert('User Updated Successfuly')
+                    this.setState({
+                        editable: false
+                    })
+                    this._onRefresh()
+                }
+            }
+        }, (error) => {
+            console.log(error)
+            Alert.alert('Server is Down or You are using wrong Data')
+        });
+
+    }
+
     _onRefresh() {
         this.setState({ refreshing: true });
         this.componentDidMount().then(() => {
             this.setState({ refreshing: false });
         });
     }
-    _onPressButton() {
-        var options = {
-            description: 'Credits towards consultation',
-            image: 'https://i.imgur.com/3g7nmJC.png',
-            currency: 'INR',
-            key: 'rzp_test_ltZLKwudr3G0yx',
-            amount: '50',
-            name: 'foo',
-            prefill: {
-              email: 'void@razorpay.com',
-              contact: '9191919191',
-              name: 'Razorpay Software'
-            },
-            theme: {color: '#F37254'}
-          }
-
-          RazorpayCheckout.open(options).then((data) => {
-            // handle success
-            alert(`Success: ${data.razorpay_payment_id}`);
-          }).catch((error) => {
-            // handle failure
-            alert(`Error: ${error.code} | ${error.description}`);
-          });
-          }
 
     render() {
-        const { userData, profileData, qualification } = this.state
+        const { userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
                 insets={SaveAreaInset.TOP}>
-                {/* <Toolbar
-                    // title='Home Page'
+                <Toolbar
+                    title='Profile'
                     // backIcon={MenuIcon}
-                    onBackPress={this.props.navigation.goBack}
-                    style={{ marginTop: -5, marginLeft: -5, backgroundColor: 'blue'}}
-                /> */}
-                <Header style={styles.header1}>
-                    <Text style={styles.profileText}>My Profile</Text>
-                </Header>
-                <Header style={styles.header2}>
-                </Header>
+                    // onBackPress={this.props.navigation.goBack}
+                    style={{ marginTop: -5, marginLeft: -5, borderBottomColor: '#D9D5DC', borderBottomWidth: 1 }}
+                />
 
-                <View style={styles.header3}>
-                    <View style={styles.headerView1}>
-                        <View style={styles.headerView1_1}>
-                            <View>
-                                <Avatar source={{ uri: AppConstants.IMAGE_BASE_URL + '/avatar/profile.jpeg' }} style={styles.image} />
-                            </View>
-                        </View>
-                        <View style={styles.headerView1_2}>
-                            <Text style={styles.name}>{userData.firstName} {userData.lastName}</Text>
-                            {qualification.map((data, index) => {
-                                if(data.lookUpId == profileData.highestQualification)
-                                return (
-
-                                    <Text style={styles.qualification}>{data.lookUpLabel}</Text>
-
-                                )
-                            })}
-                        </View>
-                    </View>
-                    <View style={styles.headerView2}>
-                    <TouchableOpacity onPress={() => {
-    var options = {
-    description: 'Credits towards consultation',
-    image: 'https://i.imgur.com/3g7nmJC.png',
-    currency: 'INR',
-    key: 'rzp_test_ltZLKwudr3G0yx',
-    amount: '500',
-    name: 'Teqto System',
- //   order_id: 'order_DslnoIgkIDL8Zt',//Replace this with an order_id created using Orders API. Learn more at https://razorpay.com/docs/api/orders.
-    prefill: {
-      email: 'jaykrs@gmail.com',
-      contact: '9716529094',
-      name: 'Jayant Kumar'
-    },
-    theme: {color: '#53a20e'}
-  }
-  RazorpayCheckout.open(options).then((data) => {
-    // handle success
-    alert(`Success: ${data.razorpay_payment_id}`);
-  }).catch((error) => {
-    // handle failure
-    alert(`Error: ${error.code} | ${error.description}`);
-  });
-}}><Text style={styles.cardText3}>Pay Out</Text></TouchableOpacity>
-                    </View>
-                </View>
 
                 <Content style={styles.content}
                     refreshControl={
@@ -266,27 +237,166 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                         />
                     }
                 >
-                    {/* <View style={styles.card1}>
-                        <Text style={styles.cardText1}>Applied</Text>
-                        <Text style={styles.cardText2}>0</Text>
-                    </View> */}
+                    <View style={styles.header}>
+                        {/* <Text style = {styles.headerText}>Profile</Text> */}
+                        <TouchableOpacity style={styles.editButton} onPress={this.edit}>
+                            <Text style={styles.editButtonText}><PencilIcon /></Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <View style={styles.dataView}>
+                            <Label>Initials</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={initial}
+                                placeholder='Initials'
+                                editable={editable}
+                                onChangeText={(initial) => { this.setState({ initial: initial }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>First Name</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={f_name}
+                                placeholder='First Name'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Last Name</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={l_name}
+                                placeholder='Last Name'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Email Id</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={emailId}
+                                placeholder='Email Id'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Country Code</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={phone_country_code}
+                                placeholder='Country Code'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Phone Number</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={phone_number}
+                                placeholder='Phone Number'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Address</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={address}
+                                placeholder='Address'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>City</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={city}
+                                placeholder='City'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Pin Code</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={pincode}
+                                placeholder='Pin Code'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Country</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={country}
+                                placeholder='Country'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Vendor Id</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={vendor_id}
+                                placeholder='Vendor Id'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Vendor Name</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={vendor_name}
+                                placeholder='Vendor Name'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Vendor Location</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={vendor_location}
+                                placeholder='Vendor Location'
+                                editable={editable}
+                                onChangeText={() => { }}
+                            />
+                        </View>
+                    </View>
+                    {editable ?
+                        <View>
+                            <TouchableOpacity style={styles.saveButton} onPress={this.handleSubmit}>
+                                <Text style={styles.saveButtonText}>Save</Text>
+                            </TouchableOpacity>
+                        </View> :
+                        null
+                    }
 
                     <View style={styles.card2}>
-                        {/* <View style={styles.card2_1}>
-                            <Text style={styles.cardText3}>Saved</Text>
-                            <Text style={styles.cardText4}> > </Text>
-                        </View>
-
-                        <View style={styles.card2_1}>
-                            <Text style={styles.cardText3}>Help</Text>
-                            <Text style={styles.cardText4}> > </Text>
-                        </View>
-
-                        <View style={styles.card2_1}>
-                            <Text style={styles.cardText3}>Feedback</Text>
-                            <Text style={styles.cardText4}> > </Text>
-                        </View> */}
-
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.LOGOUT) }}>
                             <View style={styles.card2_2}>
                                 <Text style={styles.cardText3}>Sign Out</Text>
@@ -294,6 +404,8 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                             </View>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={Styles.bottomSpace}></View>
                 </Content>
 
             </SafeAreaLayout>
@@ -308,104 +420,51 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
+    header: {
+        height: 30,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+    },
+
+    headerText: {
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+
+    editButton: {
+        width: '10%',
+        // backgroundColor: 'red',
+        alignSelf: 'center',
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'flex-end'
+    },
+
+    editButtonText: {
+        color: '#000',
+        fontSize: 25
+    },
+
     content: {
         backgroundColor: '#FFFFFF',
         padding: 10
     },
 
-    header1: {
-        height: 120,
-        backgroundColor: '#1DA1F2'
-    },
-
-    header2: {
-        height: 80,
-        backgroundColor: '#FFFFFF',
-    },
-
-    header3: {
-        alignSelf: 'center',
-        borderRadius: 10,
-        width: '80%',
-        height: 150,
-        backgroundColor: '#FFFFFF',
-        borderColor: '#DDDDDD',
-        borderWidth: .8,
-        marginTop: -150
-    },
-
-    headerView1: {
-        height: 100,
-        borderBottomColor: '#DDDDDD',
+    dataView: {
+        backgroundColor: "transparent",
+        paddingLeft: 2,
+        borderColor: "#D9D5DC",
         borderBottomWidth: 1,
-        flexDirection: 'row'
+        marginTop: 15
     },
 
-    headerView1_1: {
-        width: '35%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    headerView1_2: {
-        width: '65%',
-        justifyContent: 'center',
-    },
-
-    headerView2: {
-        height: 50,
-        paddingLeft: 15,
-        justifyContent: 'center'
-    },
-
-    profileText: {
-        color: '#FFFFFF',
-        marginTop: 15,
-        fontSize: 20
-    },
-
-    image: {
-        width: 73,
-        height: 73,
-        borderRadius: 50,
-        borderColor: '#BBBBBB',
-        borderWidth: 1,
-    },
-
-    name: {
-        fontSize: 20
-    },
-
-    qualification: {
-        marginTop: 5
-    },
-
-    editButton: {
-        color: '#1DA1F2',
-        fontSize: 17
-    },
-
-    card1: {
-        borderWidth: .8,
-        width: '85%',
-        borderColor: '#DDDDDD',
-        padding: 10,
-        alignSelf: 'center',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    cardText1: {
-        color: '#1DA1F2',
-        fontSize: 15
-    },
-
-    cardText2: {
-        color: '#1DA1F2',
-        fontSize: 20
+    dataText: {
+        marginTop: 0,
+        marginBottom: -10,
+        marginLeft: 10,
+        color: '#000'
     },
 
     card2: {
@@ -415,14 +474,6 @@ const styles = StyleSheet.create({
         borderWidth: .8,
         borderRadius: 10,
         marginTop: 10,
-    },
-
-    card2_1: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomColor: '#DDDDDD',
-        borderBottomWidth: 1,
-        padding: 10
     },
 
     card2_2: {
@@ -442,7 +493,20 @@ const styles = StyleSheet.create({
         color: '#1DA1F2'
     },
 
+    saveButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#3F51B5',
+        borderRadius: 5,
+        paddingVertical: 15,
+        width: '70%',
+        alignSelf: 'center',
+        marginTop: 20
+    },
 
+    saveButtonText: {
+        color: '#fff'
+    }
 });
 
 
