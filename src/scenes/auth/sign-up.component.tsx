@@ -39,6 +39,7 @@ import {
 import axios from 'axios';
 import { Styles } from '../../assets/styles'
 import { AppConstants } from '../../constants/AppConstants';
+import DeviceInfo from 'react-native-device-info';
 const data = [
   { text: 'Candidate' },
   { text: 'HR' },
@@ -70,15 +71,23 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       vendor_id: '',
       vendor_name: '',
       pwd: '',
-      passwordVisible: true
+      passwordVisible: true,
+      device_token: ''
     }
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onPasswordIconPress = this.onPasswordIconPress.bind(this);
   }
 
+  componentDidMount() {
+    const id = DeviceInfo.getUniqueId();
+    this.setState({
+      device_token: id,
+    });
+  }
+
   onFormSubmit() {
-    const { emailId, f_name, l_name, phone_country_code, phone_number, vendor_id, vendor_name, pwd } = this.state
+    const { emailId, f_name, l_name, phone_country_code, phone_number, vendor_id, vendor_name, pwd, device_token } = this.state
     // let userName = values.username.split(" ", 2);
     // let userRole = largeSelectChanges.selectedOption != undefined && largeSelectChanges.selectedOption.text === 'HR' ? 28 :  29;
     //  console.log('User Role',userRole)
@@ -103,16 +112,16 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
         method: 'post',
         url: AppConstants.API_BASE_URL + '/api/user/add',
         data: {
-          device_token: '123',
+          device_token: device_token,
           emailId: emailId,
           f_name: f_name,
           l_name: l_name,
           phone_country_code: phone_country_code,
-          phone_number: phone_number,          
+          phone_number: phone_number,
           vendor_id: vendor_id,
           vendor_name: vendor_name,
           pwd: pwd
-      }
+        }
       }).then((response) => {
         if (response.data.status === "false") {
           // console.log("from signup",response.data.status);

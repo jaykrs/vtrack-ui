@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './auth.navigator';
-import { HomeNavigator } from './home.navigator';
+import { HomeNavigator, HomeBottomNavigator } from './home.navigator';
 import { HrHomeNavigator } from './hrNavigation/hrHome.navigator';
 import { InformaionNavigator } from './information.navigator';
 import { HrInformaionNavigator } from './hrNavigation/hrInformation.navigator';
@@ -21,10 +21,7 @@ const Stack = createStackNavigator<AppNavigatorParams>();
 
 export const AppNavigator = (props: Partial<StackNavigatorProps>): React.ReactElement => (
   <Stack.Navigator {...props} headerMode='none'>
-    <Stack.Screen name={AppRoute.AUTH} component={AuthNavigator}/>
-    <Stack.Screen name={AppRoute.HRINFORMATION} component={HrInformaionNavigator}/>
-    <Stack.Screen name={AppRoute.INFORMATION} component={InformaionNavigator}/>
-    <Stack.Screen name={AppRoute.HOME} component={HomeNavigator}/>
-    <Stack.Screen name={AppRoute.HRHOME} component={HrHomeNavigator}/>    
+    <Stack.Screen name={AppRoute.AUTH} component={AuthNavigator}/>   
+    <Stack.Screen name={AppRoute.HOME} component={HomeBottomNavigator}/>       
   </Stack.Navigator>
 );

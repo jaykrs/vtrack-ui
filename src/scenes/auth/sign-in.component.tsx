@@ -41,6 +41,7 @@ import { Toolbar } from 'src/components/toolbar.component';
 import { Content } from 'native-base';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Styles } from '../../assets/styles';
+import DeviceInfo from 'react-native-device-info';
 import base64 from 'react-native-base64';
 interface State {
   email: string | undefined;
@@ -57,7 +58,8 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
     this.state = {
       emailId: '',
       pwd: '',
-      passwordVisible: true
+      passwordVisible: true,
+      device_token: ''
     }
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -70,15 +72,20 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
     this.navigateSignUp = this.navigateSignUp.bind(this);
   }
 
-
+  componentDidMount() {
+    const id = DeviceInfo.getUniqueId();
+    this.setState({
+      device_token: id,
+    });
+  }
 
   onFormSubmit() {
-    const { emailId, pwd } = this.state
+    const { emailId, pwd, device_token } = this.state
     axios({
       method: 'post', url: AppConstants.API_BASE_URL + '/api/user/devicevalidate',
       data: {
         emailId: emailId,
-        device_token: '123',
+        device_token: device_token,
         pwd: base64.encode(this.state.pwd)
       }
     }).then((response) => {
@@ -88,7 +95,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
       // console.log(response);
       if (response) {
         if (response.data.isActive)
-        // console.log(response.data);
+        console.log(response.data);
         AsyncStorage.setItem('userDetail', JSON.stringify(response.data), () => {
          this.navigateHome();
         });

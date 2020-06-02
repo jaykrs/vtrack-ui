@@ -79,19 +79,20 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
         super(props)
         this.state = {
             f_name: '',
+            userId: '',
             l_name: '',
             initial: 'Mr.',
             city: '',
             country: '',
-            phone_country_code: '91',
+            phone_country_code: '',
             phone_number: '',
             address: '',
             pincode: '',
-            vendor_id: '123',
-            vendor_name: 'Avinash',
+            vendor_id: '',
+            vendor_name: '',
             profession: '',
-            device_token: '123',
-            vendor_location: 'Hoodi',
+            device_token: '',
+            vendor_location: '',
             emailId: '',
             dob: '2004-11-11'
         }
@@ -104,17 +105,19 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
 
     async componentDidMount() {
 
-        // const value = await AsyncStorage.getItem('userDetail');
-        // if (value) {
-        //     // console.log('user Details all data', value);
-        //     const user = JSON.parse(value);
-        //     this.setState({
-        //         userType: user.userType,
-        //         token: user.token,
-        //         userId: user.userId,
-        //     })
-        //     // console.log('user data id', this.state.userId);      
-        // }
+        const value = await AsyncStorage.getItem('userDetail');
+        if (value) {
+            // console.log('user Details all data', value);
+            const user = JSON.parse(value);
+            this.setState({               
+                userId: user.id,
+                vendor_id: user.vendorId,
+                vendor_name: user.vendorName,
+                device_token: user.deviceToken,
+                vendor_location: user.address,
+            })
+            // console.log('user data id', this.state.userId);      
+        }
 
         // axios({
         //     method: 'get',
@@ -165,22 +168,18 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
             Alert.alert("Please Enter First Name");
         } else if (l_name === "" || l_name.length === 0) {
             Alert.alert("Please Enter Last Name");
+        } else if (phone_country_code === "" || phone_country_code.length === 0) {
+            Alert.alert("Please Enter Phone Country Code");
         } else if (phone_number === "" || phone_number.length === 0) {
             Alert.alert("Please Enter Phone Number");
-        } else if (profession === "" || profession.length === 0) {
-            Alert.alert("Please Enter Profession");
-        } else if (emailId === "" || emailId.length === 0) {
-            Alert.alert("Please Enter Email Id");
-        } else if (address === "" || address.length === 0) {
-            Alert.alert("Please Enter Address");
-        } else if (city === "" || city.length === 0) {
-            Alert.alert("Please Enter City");
-        } else if (country === "" || country.length === 0) {
-            Alert.alert("Please Enter Country");
-        } else if (pincode === "" || pincode.length === 0) {
-            Alert.alert("Please Enter Pin Code");
-        } else if (remarks === "" || remarks.length === 0) {
-            Alert.alert("Please Enter Address");
+        } else if (vendor_id === "" || vendor_id.length === 0) {
+            Alert.alert("Something Went Wrong");
+        } else if (vendor_location === "" || vendor_location.length === 0) {
+            Alert.alert("Something Went Wrong");
+        } else if (vendor_name === "" || vendor_name.length === 0) {
+            Alert.alert("Something Went Wrong");
+        } else if (device_token === "" || device_token.length === 0) {
+            Alert.alert("Something Went Wrong");       
         } else {
             axios({
                 method: 'post',
@@ -200,30 +199,12 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                     vendor_name: vendor_name,
                     profession: profession,
                     device_token: device_token,
-                    vendor_location: vendor_location,
-                    dob: dob,
+                    vendor_location: vendor_location,                   
                     remarks: remarks
                 }
             }).then((response) => {
                 console.log("Visitor Data", response.data);
-                this.setState({
-                    f_name: '',
-                    l_name: '',
-                    initial: 'Mr.',
-                    city: '',
-                    country: '',
-                    phone_country_code: '91',
-                    phone_number: '',
-                    address: '',
-                    pincode: '',
-                    vendor_id: '123',
-                    vendor_name: 'Avinash',
-                    profession: '',
-                    device_token: '123',
-                    vendor_location: 'Hoodi',
-                    emailId: '',
-                    dob: '2004-11-11'
-                })
+              
                 Alert.alert('Visitor Created Successfuly');
 
             },
@@ -296,7 +277,20 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                             {/* <Text style={Styles.inputBoxLabel}>Phone</Text> */}
                             <TextInput
                                 style={Styles.inputBoxStyle}
-                                // keyboardType = 'email-address'
+                                keyboardType = 'numeric'
+                                // textContentType='emailAddress'
+                                placeholder='Enter Phone Country Code'
+                                onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
+                            />
+                        </View>
+                    </View>
+
+                    <View>
+                        <View style={[Styles.inputBoxContainer, styles.emailBox]}>
+                            {/* <Text style={Styles.inputBoxLabel}>Phone</Text> */}
+                            <TextInput
+                                style={Styles.inputBoxStyle}
+                                keyboardType = 'numeric'
                                 // textContentType='emailAddress'
                                 placeholder='Enter Phone Number'
                                 onChangeText={(phone_number) => { this.setState({ phone_number: phone_number }) }}

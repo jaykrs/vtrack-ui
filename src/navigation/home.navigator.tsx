@@ -168,9 +168,9 @@ export interface AccountsScreenProps {
   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.ACCOUNTS>;
 }
 
-// export type BottomHomeScreenProps = BottomTabBarProps & {
-//   navigation: TodoTabNavigationProp;
-// };
+export type BottomHomeScreenProps = BottomTabBarProps & {
+  navigation: MyJobsTabNavigationProp;
+};
 
 export type DrawerHomeScreenProps = DrawerContentComponentProps & {
   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.HOME>;
@@ -191,21 +191,16 @@ const BottomTab = createBottomTabNavigator<HomeBottomTabsNavigatorParams>();
 // rather than hard-coding business logic in navigators
 // like it is described in https://reactnavigation.org/docs/en/next/auth-flow.html
 
-const HomeBottomNavigator = (): React.ReactElement => (
+export const HomeBottomNavigator = (): React.ReactElement => (
   // @ts-ignore: `tabBar` also contains a DrawerNavigationProp
   <BottomTab.Navigator tabBar={props => <HomeTabBar{...props} />}>
 
     <BottomTab.Screen
       name={AppRoute.MYJOBS}
-      component={MyJobsNavigator}
+      component={HomeNavigator}
       options={{ title: 'Visitors', tabBarIcon: TimeLineIcon }}
     />
-
-    {/* <BottomTab.Screen
-      name={AppRoute.TIMELINE}
-      component={TimelineNavigator}
-      options={{ title: 'TIMELINE', tabBarIcon: TimeLineIcon }}
-    /> */}
+  
     <BottomTab.Screen
       name={AppRoute.LIST}
       component={AppliedNavigator}
@@ -222,91 +217,32 @@ const HomeBottomNavigator = (): React.ReactElement => (
 );
 
 export const HomeNavigator = (): React.ReactElement => (
-  HomeBottomNavigator()
   // @ts-ignore: `drawerContent` also contains a DrawerNavigationProp
-  // <Drawer.Navigator drawerContent={props => <HomeDrawer{...props} />}>
-  //   <Drawer.Screen
-  //     name={AppRoute.HOME}
-  //     component={HomeBottomNavigator}
-  //     options={{ title: 'Home', drawerIcon: HomeIcon }}
-  //   />
+  <Drawer.Navigator drawerContent={props => <HomeDrawer{...props} />}>
+    <Drawer.Screen
+      name={AppRoute.HOME}
+      component={MyJobsNavigator}
+      options={{ title: 'Home', drawerIcon: HomeIcon }}
+    />
 
-  //   <Drawer.Screen
-  //     name={AppRoute.ACCOUNTS}
-  //     component={AccountsScreen}
-  //     options={{ title: 'Accounts', drawerIcon: AccountsIcon }}
-  //   />
+    {/* <Drawer.Screen
+      name={AppRoute.ACCOUNTS}
+      component={AccountsScreen}
+      options={{ title: 'Accounts', drawerIcon: AccountsIcon }}
+    /> */}
 
-  //   <Drawer.Screen
-  //     name={AppRoute.SETTING}
-  //     component={SettingScreen}
-  //     options={{ title: 'Setting', drawerIcon: AccountsIcon }}
-  //   />
+    <Drawer.Screen
+      name={AppRoute.SETTING}
+      component={SettingScreen}
+      options={{ title: 'About Us', drawerIcon: AccountsIcon }}
+    />
 
-  //   {/* <Drawer.Screen
-  //     name={AppRoute.PROFILEEDIT}
-  //     component={ProfileEditScreen}
-  //     options={{ title: 'Profile', drawerIcon: PersonIcon }}
-  //   />      */}
+    <Drawer.Screen
+      name={AppRoute.LOGOUT}
+      component={LogoutScreen}
+      options={{ title: 'Logout', drawerIcon: LogoutIcon }}
+    />   
 
-
-  //   {/*     
-  //    <Drawer.Screen
-  //     name={AppRoute.WALLET}
-  //     component={WalletScreen}
-  //     options={{ title: 'Wallet', drawerIcon: WalletIcon }}
-  //   /> */}
-
-  //   {/* <Drawer.Screen
-  //     name={AppRoute.TRANSACTIONHISTORY}
-  //     component={TransactionHistoryScreen}
-  //     options={{ title: 'All Transactions', drawerIcon: TransactionHistoryIcon }}
-  //   />
-  //    */}
-
-
-  //   <Drawer.Screen
-  //     name={AppRoute.CHANGEPASSWORD}
-  //     component={ChangepasswordScreen}
-  //     options={{ title: 'Change password', drawerIcon: ChangePasswordIcon }}
-  //   />
-
-  //   <Drawer.Screen
-  //     name={AppRoute.CONTACT}
-  //     component={ContactUsScreen}
-  //     options={{ title: 'Contact Us', drawerIcon: InfoIcon }}
-  //   />
-  //   <Drawer.Screen
-  //     name={AppRoute.LOGOUT}
-  //     component={LogoutScreen}
-  //     options={{ title: 'Logout', drawerIcon: LogoutIcon }}
-  //   />
-  //   {/* <Drawer.Screen
-  //     name={AppRoute.IMAGEUPLOAD}
-  //     component={ImageUploadScreen}
-  //     options={{ title: 'ImageUpload', drawerIcon: InfoIcon}}
-  //   /> */}
-
-
-
-  //   {/* <Drawer.Screen
-  //     name={AppRoute.PROFILE}
-  //     component={ProfileScreen}
-  //     // options={{ }}
-  //   /> */}
-
-  //   {/* <Drawer.Screen
-  //     name={AppRoute.ASKFREEQUESTION}
-  //     component={AskFreeQuestionScreen}
-  //     // options={{ }}
-  //   /> */}
-
-  //   {/* <Drawer.Screen
-  //     name={AppRoute.MORE}
-  //     component={MoreScreen}
-  //     // options={{ }}
-  //   /> */}
-
-  // </Drawer.Navigator>
+  </Drawer.Navigator>
 );
 

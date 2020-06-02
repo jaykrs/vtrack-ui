@@ -44,6 +44,7 @@ import Animated from 'react-native-reanimated';
 import { Styles } from '../../assets/styles'
 // import axios from 'axios';  
 // import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
+import DeviceInfo from 'react-native-device-info';
 
 const allTodos: TimeLineData[] = [
     TimeLineData.getAllTimelineData()
@@ -90,11 +91,13 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             experience_Required: [],
             employment_Type: [],
             skill: [],
+            deviceId: ''
         }
         this.submitFresher = this.submitFresher.bind(this);
         this.submitExperienced = this.submitExperienced.bind(this);
         this.submitQButton = this.submitQButton.bind(this);
         this._onRefresh = this._onRefresh.bind(this);
+        // this.getdeviceId = this.getdeviceId.bind(this);
     }
 
     submitFresher() {
@@ -124,37 +127,45 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         )
     }
 
+    // getdeviceId = () => {
+    //     //Getting the Unique Id from here
+    //     var id = DeviceInfo.getUniqueId();
+    //     this.setState({
+    //          deviceId: id,
+    //          });
+    // };
+
     async componentDidMount() {
-        // const value = await AsyncStorage.getItem('userDetail');
-        // if (value) {
-        //     // console.log('user Details all data', value);
-        //     const user = JSON.parse(value);
-        //     this.setState({
-        //         userType: user.userType,
-        //         token: user.token,
-        //         userId: user.userId,
-        //     })
-        //     // console.log('user data id', this.state.userId);      
-        // }
-
-        axios({
-            method: 'get',
-            url: AppConstants.API_BASE_URL + '/api/visitor/search/7/123',
-
-        }).then((response) => {
-            this.setState({
-                ...this.state,
-                my_Jobs: response.data
+        const value = await AsyncStorage.getItem('userDetail');
+        if (value) {
+            // console.log('user Details all data', value);
+            const user = JSON.parse(value);
+            this.setState({               
+                userId: user.id,
             })
-            console.log("Profile Data", response.data);
-        },
-            (error) => {
-                console.log(error);
-                if (error) {
-                    Alert.alert("UserId or Password is invalid");
+
+            axios({
+                method: 'get',
+                url: AppConstants.API_BASE_URL + '/api/visitor/search/' + user.id + '/' + user.vendorId,
+    
+            }).then((response) => {
+                this.setState({
+                    ...this.state,
+                    my_Jobs: response.data
+                })
+                console.log("Profile Data", response.data);
+            },
+                (error) => {
+                    console.log(error);
+                    if (error) {
+                        Alert.alert("UserId or Password is invalid");
+                    }
                 }
-            }
-        );
+            );
+            // console.log('user data id', this.state.userId);      
+        }
+
+       
 
         // axios({
         //     method: 'get',
@@ -239,9 +250,9 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     style={{ marginTop: -5, marginLeft: -5 }}
                 /> */}
                 <View style={{ flexDirection: 'row', backgroundColor: '#eee', paddingTop: 5, marginBottom: 0, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style = {Styles.menuButton}>
-                        <TouchableOpacity onPress = {this.props.navigation.toggleDrawer}>
-                        <Text><MenuIcon/></Text>
+                    <View style={Styles.menuButton}>
+                        <TouchableOpacity onPress={this.props.navigation.toggleDrawer}>
+                            <Text><MenuIcon /></Text>
                         </TouchableOpacity>
                     </View>
                     <View style={Styles.searchBox}>
@@ -266,6 +277,12 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 
 
                 </View>
+
+                {/* <TouchableOpacity onPress = {this.getdeviceId}>
+                    <Text>Device Id</Text>
+                </TouchableOpacity>
+                <Text>{this.state.deviceId}</Text> */}
+
                 <Content style={styles.content}
                     refreshControl={
                         <RefreshControl
@@ -297,11 +314,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-    },
-
-    margin: {
-        marginTop: 10
-    },
+    },  
 
     searchBox: {
         width: 375,
@@ -314,7 +327,8 @@ const styles = StyleSheet.create({
 
     content: {
         backgroundColor: '#fff',
-        marginTop: 2
+        marginTop: 0,
+        paddingTop: -10
     },
 
     header: {

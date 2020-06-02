@@ -60,12 +60,12 @@ export class SettingScreen extends React.Component<SettingScreenProps & ThemedCo
                 insets={SaveAreaInset.TOP}>
 
                 <Toolbar
-                    title='Setting'
+                    title='About Us'
                     onBackPress={this.props.navigation.goBack}
                     style={{ marginTop: -5, marginLeft: -5 }}
                 />
                 <View style = {styles.content}>
-                    <Text style = {styles.text}> Setting </Text>
+                    <Text style = {styles.text}> Work of this page is in progress </Text>
                 </View>
 
             </SafeAreaLayout>

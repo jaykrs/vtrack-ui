@@ -96,7 +96,8 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             createdBy: '',
             vendor_location: '',
             initial: '',
-            phone_number: ''
+            phone_number: '',
+            device_token: ''
         }
 
         this._onRefresh = this._onRefresh.bind(this);
@@ -111,6 +112,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             const user = JSON.parse(value);
             this.setState({
                 userId: user.userId,
+                device_token: user.deviceToken
             })
             // console.log('user data id', this.state.userId);      
 
@@ -133,7 +135,8 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                     pincode: response.data.pincode,
                     country: response.data.country,
                     initial: response.data.initials,
-                    phone_number: response.data.phone
+                    phone_number: response.data.phone,
+
                 })
                 console.log("Profile Data", response.data);
             },
@@ -173,13 +176,13 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
     }
 
     handleSubmit() {
-        const { userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
+        const { device_token, userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
         axios({
             method: 'PUT',
             url: AppConstants.API_BASE_URL + '/api/user/update',
             data: {
                 emailId: emailId,
-                device_token: '123',
+                device_token: device_token,
                 f_name: f_name,
                 l_name: l_name,
                 phone_country_code: phone_country_code,
@@ -240,7 +243,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                     <View style={styles.header}>
                         {/* <Text style = {styles.headerText}>Profile</Text> */}
                         <TouchableOpacity style={styles.editButton} onPress={this.edit}>
-                            <Text style={styles.editButtonText}><PencilIcon /></Text>
+                            <Text style={editable ? styles.editButtonTextSelected : styles.editButtonText}><PencilIcon /></Text>
                         </TouchableOpacity>
                     </View>
                     <View>
@@ -262,7 +265,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={f_name}
                                 placeholder='First Name'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(f_name) => { this.setState({ f_name: f_name }) }}
                             />
                         </View>
 
@@ -273,7 +276,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={l_name}
                                 placeholder='Last Name'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(l_name) => { this.setState({ l_name: l_name }) }}
                             />
                         </View>
 
@@ -284,7 +287,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={emailId}
                                 placeholder='Email Id'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
                             />
                         </View>
 
@@ -295,7 +298,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={phone_country_code}
                                 placeholder='Country Code'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
                             />
                         </View>
 
@@ -306,7 +309,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={phone_number}
                                 placeholder='Phone Number'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(phone_number) => { this.setState({ phone_number: phone_number }) }}
                             />
                         </View>
 
@@ -317,7 +320,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={address}
                                 placeholder='Address'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(address) => { this.setState({ address: address }) }}
                             />
                         </View>
 
@@ -328,7 +331,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={city}
                                 placeholder='City'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(city) => { this.setState({ city: city }) }}
                             />
                         </View>
 
@@ -339,7 +342,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={pincode}
                                 placeholder='Pin Code'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(pincode) => { this.setState({ pincode: pincode }) }}
                             />
                         </View>
 
@@ -350,7 +353,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={country}
                                 placeholder='Country'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(country) => { this.setState({ country: country }) }}
                             />
                         </View>
 
@@ -361,7 +364,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={vendor_id}
                                 placeholder='Vendor Id'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(vendor_id) => { this.setState({ vendor_id: vendor_id }) }}
                             />
                         </View>
 
@@ -372,38 +375,27 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 value={vendor_name}
                                 placeholder='Vendor Name'
                                 editable={editable}
-                                onChangeText={() => { }}
+                                onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
                             />
-                        </View>
-
-                        <View style={styles.dataView}>
-                            <Label>Vendor Location</Label>
-                            <TextInput
-                                style={styles.dataText}
-                                value={vendor_location}
-                                placeholder='Vendor Location'
-                                editable={editable}
-                                onChangeText={() => { }}
-                            />
-                        </View>
+                        </View>                       
                     </View>
                     {editable ?
                         <View>
-                            <TouchableOpacity style={styles.saveButton} onPress={this.handleSubmit}>
-                                <Text style={styles.saveButtonText}>Save</Text>
+                            <TouchableOpacity style={[Styles.buttonContainer, styles.button]} onPress={this.handleSubmit}>
+                                <Text style={Styles.buttonCaption}>Submit</Text>
                             </TouchableOpacity>
                         </View> :
                         null
                     }
 
-                    <View style={styles.card2}>
+                    {/* <View style={styles.card2}>
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.LOGOUT) }}>
                             <View style={styles.card2_2}>
                                 <Text style={styles.cardText3}>Sign Out</Text>
                                 <Text style={styles.cardText4}> > </Text>
                             </View>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
                     <View style={Styles.bottomSpace}></View>
                 </Content>
@@ -442,9 +434,14 @@ const styles = StyleSheet.create({
         alignContent: 'flex-end'
     },
 
+    editButtonTextSelected: {
+        color: '#3F51B5',
+        fontSize: 25,
+    },
+
     editButtonText: {
-        color: '#000',
-        fontSize: 25
+        color: '#999',
+        fontSize: 25,        
     },
 
     content: {
@@ -493,20 +490,12 @@ const styles = StyleSheet.create({
         color: '#1DA1F2'
     },
 
-    saveButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#3F51B5',
-        borderRadius: 5,
-        paddingVertical: 15,
-        width: '70%',
-        alignSelf: 'center',
-        marginTop: 20
+    button: {
+        width: '44%',
+        height: 52,
+        marginTop: 35,
+        alignSelf: 'center'
     },
-
-    saveButtonText: {
-        color: '#fff'
-    }
 });
 
 
