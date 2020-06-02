@@ -146,6 +146,24 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 
             axios({
                 method: 'get',
+                url: AppConstants.API_BASE_URL + '/api/user/get/' + user.id,    
+            }).then((response) => {
+                this.setState({
+                    ...this.state,
+                    my_Jobs: response.data
+                })
+                console.log("Profile Data", response.data);
+            },
+                (error) => {
+                    console.log(error);
+                    if (error) {
+                        Alert.alert("Seems you have not created any visitor ! please add.");
+                    }
+                }
+            );
+
+            axios({
+                method: 'get',
                 url: AppConstants.API_BASE_URL + '/api/visitor/search/' + user.id + '/' + user.vendorId,
     
             }).then((response) => {
@@ -158,7 +176,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        Alert.alert("Seems you have not created any visitor ! please add.");
                     }
                 }
             );
@@ -294,9 +312,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     {/* <Header style={styles.header}> */}
 
                     {/* </Header> */}
-                    <View>
-                        <Text>{this.state.my_Jobs.firstName} {this.state.my_Jobs.lastName}</Text>
-                    </View>
+                   
                     {/* <View style = {{height: 50, width: '100%', backgroundColor: 'rgba(145,174,225,0.3)'}}></View> */}
                     <List data={my_Jobs}
                         renderItem={this.renderMyJob}

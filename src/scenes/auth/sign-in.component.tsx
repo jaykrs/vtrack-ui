@@ -63,11 +63,8 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
     }
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onPasswordIconPress = this.onPasswordIconPress.bind(this);
-    this.navigateHRHome = this.navigateHRHome.bind(this);
-    this.navigateHRINFORMATION = this.navigateHRINFORMATION.bind(this);
-    this.navigateHome = this.navigateHome.bind(this);
-    this.navigateINFORMATION = this.navigateINFORMATION.bind(this);
+    this.onPasswordIconPress = this.onPasswordIconPress.bind(this);   
+    this.navigateHome = this.navigateHome.bind(this);   
     this.navigateResetPassword = this.navigateResetPassword.bind(this);
     this.navigateSignUp = this.navigateSignUp.bind(this);
   }
@@ -94,12 +91,14 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
       //  });
       // console.log(response);
       if (response) {
-        if (response.data.isActive)
-        console.log(response.data);
-        AsyncStorage.setItem('userDetail', JSON.stringify(response.data), () => {
-         this.navigateHome();
-        });
-       
+        if (response.data.isActive) {
+          console.log('User Data', response.data);
+          AsyncStorage.setItem('userDetail', JSON.stringify(response.data), () => {
+            this.navigateHome();
+          });
+        } else {
+          Alert.alert(LabelConstants.com_alert_NOT_ACTIVATED);
+        }
       } else {
         Alert.alert(LabelConstants.com_alert_invalid_email_or_password);
       }
@@ -114,17 +113,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
     this.props.navigation.navigate(AppRoute.HOME);
   };
 
-  navigateHRHome() {
-    this.props.navigation.navigate(AppRoute.HRHOME);
-  };
-
-  navigateINFORMATION() {
-    this.props.navigation.navigate(AppRoute.INFORMATION);
-  };
-
-  navigateHRINFORMATION() {
-    this.props.navigation.navigate(AppRoute.HRINFORMATION);
-  };
+ 
 
   navigateSignUp() {
     this.props.navigation.navigate(AppRoute.SIGN_UP);
@@ -201,8 +190,8 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
               {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
-                keyboardType = 'email-address'
-                textContentType = 'emailAddress'
+                keyboardType='email-address'
+                textContentType='emailAddress'
                 placeholder='Enter User Name'
                 onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
               />
@@ -219,11 +208,11 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
               <View style={{ marginTop: 14 }}>
                 {this.state.passwordVisible ?
                   <TouchableOpacity onPress={this.onPasswordIconPress}>
-                   <Text style = {{color: "#D9D5DC"}}> <EyeOffIcon /></Text>
+                    <Text style={{ color: "#D9D5DC" }}> <EyeOffIcon /></Text>
                   </TouchableOpacity> :
-                   <TouchableOpacity onPress={this.onPasswordIconPress}>
-                   <EyeIcon />
-                 </TouchableOpacity>
+                  <TouchableOpacity onPress={this.onPasswordIconPress}>
+                    <EyeIcon />
+                  </TouchableOpacity>
                 }
               </View>
             </View>
@@ -234,10 +223,10 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
               </TouchableOpacity>
             </View>
             <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Forgot Password</Text>
+              <Text style={styles.forgotPassword}>Forgot Password</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress = {() => {this.props.navigation.navigate(AppRoute.SIGN_UP)}}>
-            <Text style={styles.loremIpsum}>Don&#39;t Have an Account</Text>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.SIGN_UP) }}>
+              <Text style={styles.loremIpsum}>Don&#39;t Have an Account</Text>
             </TouchableOpacity>
 
           </View>

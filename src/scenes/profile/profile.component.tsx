@@ -143,7 +143,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        // Alert.alert("UserId or Password is invalid");
                     }
                 }
             );

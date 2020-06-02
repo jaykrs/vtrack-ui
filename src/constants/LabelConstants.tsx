@@ -30,6 +30,7 @@ export class LabelConstants {
     public static readonly ALERT_JOB_SKILL = 'Please Select Job Skill';
     public static readonly ALERT_JOB_DESCRIPTION = 'Please Enter Job Description';
 
+    public static readonly com_alert_NOT_ACTIVATED = 'User is not Activated yet ! Please Activate From Your Email Id';
     public static readonly com_alert_invalid_email_or_password = 'Invalid Email Or Password';
     public static readonly com_alert_changepassword = 'Password Changed Successfully';
     public static readonly com_alert_enter_password = 'Enter Password';

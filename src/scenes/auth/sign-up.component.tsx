@@ -72,7 +72,8 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       vendor_name: '',
       pwd: '',
       passwordVisible: true,
-      device_token: ''
+      device_token: '',
+      address: ''
     }
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -87,7 +88,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
   }
 
   onFormSubmit() {
-    const { emailId, f_name, l_name, phone_country_code, phone_number, vendor_id, vendor_name, pwd, device_token } = this.state
+    const { emailId, f_name, l_name, address, phone_country_code, phone_number, vendor_id, vendor_name, pwd, device_token } = this.state
     // let userName = values.username.split(" ", 2);
     // let userRole = largeSelectChanges.selectedOption != undefined && largeSelectChanges.selectedOption.text === 'HR' ? 28 :  29;
     //  console.log('User Role',userRole)
@@ -97,6 +98,8 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       Alert.alert("Please Enter First Name");
     } else if (l_name === "" || l_name.length === 0) {
       Alert.alert("Please Enter Last Name");
+    } else if (address === "" || address.length === 0) {
+      Alert.alert("Please Enter Address");
     } else if (phone_country_code === "" || phone_country_code.length === 0) {
       Alert.alert("Please Enter Country Code");
     } else if (phone_number === "" || phone_number.length === 0) {
@@ -116,6 +119,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
           emailId: emailId,
           f_name: f_name,
           l_name: l_name,
+          address: address,
           phone_country_code: phone_country_code,
           phone_number: phone_number,
           vendor_id: vendor_id,
@@ -270,6 +274,17 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
               {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
+                placeholder='Enter Address'
+                onChangeText={(address) => { this.setState({ address: address }) }}
+              />
+            </View>
+
+
+            <View style={[Styles.inputBoxContainer, styles.emailBox]}>
+              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
+              <TextInput
+                keyboardType='numeric'
+                style={Styles.inputBoxStyle}
                 placeholder='Enter Country Code'
                 onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
               />
@@ -278,6 +293,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
               {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
+                keyboardType='numeric'
                 style={Styles.inputBoxStyle}
                 placeholder='Enter Phone Number'
                 onChangeText={(phone_number) => { this.setState({ phone_number: phone_number }) }}

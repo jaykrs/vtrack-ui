@@ -109,13 +109,31 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
         if (value) {
             // console.log('user Details all data', value);
             const user = JSON.parse(value);
-            this.setState({               
+            this.setState({
                 userId: user.id,
-                vendor_id: user.vendorId,
-                vendor_name: user.vendorName,
-                device_token: user.deviceToken,
-                vendor_location: user.address,
+                device_token: user.deviceToken,                
             })
+            console.log("User Id", user)
+            axios({
+                method: 'get',
+                url: AppConstants.API_BASE_URL + '/api/user/get/' + user.id,
+
+            }).then((response) => {
+                this.setState({
+                    ...this.state,                    
+                    vendor_id: response.data.vendorId,
+                    vendor_name: response.data.vendorName,
+                    vendor_location: response.data.address,
+                })
+                console.log("Profile Data", response.data);
+            },
+                (error) => {
+                    console.log(error);
+                    if (error) {
+                        Alert.alert("UserId or Password is invalid");
+                    }
+                }
+            );
             // console.log('user data id', this.state.userId);      
         }
 
@@ -174,12 +192,12 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
             Alert.alert("Please Enter Phone Number");
         } else if (vendor_id === "" || vendor_id.length === 0) {
             Alert.alert("Something Went Wrong");
-        } else if (vendor_location === "" || vendor_location.length === 0) {
-            Alert.alert("Something Went Wrong");
+        } else if (vendor_location == null || vendor_location === "" || vendor_location.length === 0) {
+            Alert.alert("Seems you have not added your address");
         } else if (vendor_name === "" || vendor_name.length === 0) {
             Alert.alert("Something Went Wrong");
         } else if (device_token === "" || device_token.length === 0) {
-            Alert.alert("Something Went Wrong");       
+            Alert.alert("Something Went Wrong");
         } else {
             axios({
                 method: 'post',
@@ -199,12 +217,12 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                     vendor_name: vendor_name,
                     profession: profession,
                     device_token: device_token,
-                    vendor_location: vendor_location,                   
+                    vendor_location: vendor_location,
                     remarks: remarks
                 }
             }).then((response) => {
                 console.log("Visitor Data", response.data);
-              
+
                 Alert.alert('Visitor Created Successfuly');
 
             },
@@ -277,7 +295,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                             {/* <Text style={Styles.inputBoxLabel}>Phone</Text> */}
                             <TextInput
                                 style={Styles.inputBoxStyle}
-                                keyboardType = 'numeric'
+                                keyboardType='numeric'
                                 // textContentType='emailAddress'
                                 placeholder='Enter Phone Country Code'
                                 onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
@@ -290,7 +308,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                             {/* <Text style={Styles.inputBoxLabel}>Phone</Text> */}
                             <TextInput
                                 style={Styles.inputBoxStyle}
-                                keyboardType = 'numeric'
+                                keyboardType='numeric'
                                 // textContentType='emailAddress'
                                 placeholder='Enter Phone Number'
                                 onChangeText={(phone_number) => { this.setState({ phone_number: phone_number }) }}
