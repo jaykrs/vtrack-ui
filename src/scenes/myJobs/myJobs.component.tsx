@@ -19,7 +19,7 @@ import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading,
 import { MyJobsScreenProps } from '../../navigation/myJobs.navigator';
 import { AppRoute } from '../../navigation/app-routes';
 import { ProgressBar } from '../../components/progress-bar.component';
-import { SearchIcon } from '../../assets/icons';
+import { SearchIcon, CancelIcon } from '../../assets/icons';
 import { TimeLineData } from '../../data/TimeLineData.model';
 import { AppConstants } from '../../constants/AppConstants';
 import { Toolbar } from '../../components/toolbar.component';
@@ -238,6 +238,34 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     // onBackPress={this.props.navigation.goBack}
                     style={{ marginTop: -5, marginLeft: -5 }}
                 /> */}
+                <View style={{ flexDirection: 'row', backgroundColor: '#eee', paddingTop: 5, marginBottom: 0, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style = {Styles.menuButton}>
+                        <TouchableOpacity onPress = {this.props.navigation.toggleDrawer}>
+                        <Text><MenuIcon/></Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={Styles.searchBox}>
+                        <TouchableOpacity style={Styles.searchIcon}>
+                            <Text style={styles.searchIcon}><SearchIcon /></Text>
+                        </TouchableOpacity>
+                        <TextInput
+                            placeholder="Search"
+                            style={Styles.searchInput}
+                        />
+                        <TouchableOpacity style={Styles.cancelIcon}>
+                            <Text style={styles.cancelIcon}><CancelIcon /></Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    <View style={Styles.filterButton}>
+                        <TouchableOpacity>
+                            <Text style={{ color: '#1DA1F2', fontSize: 20 }}>Filter</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                </View>
                 <Content style={styles.content}
                     refreshControl={
                         <RefreshControl
@@ -247,25 +275,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     }
                 >
                     {/* <Header style={styles.header}> */}
-                    <View style={{ flexDirection: 'row', backgroundColor: '#eee', paddingHorizontal: -10, alignItems: 'center' }}>
-                        <View style={Styles.searchBox}>
-                            <TouchableOpacity></TouchableOpacity>
-                            <Text style={Styles.searchIcon}><SearchIcon /></Text>
-                            <TextInput
-                                placeholder="Search"
-                                style={Styles.searchInput}
-                            />
-                        </View>
 
-
-                        <View style={Styles.filterButton}>
-                            <TouchableOpacity>
-                                <Text style={{ color: '#1DA1F2', fontSize: 20 }}>Filter</Text>
-                            </TouchableOpacity>
-                        </View>
-
-
-                    </View>
                     {/* </Header> */}
                     <View>
                         <Text>{this.state.my_Jobs.firstName} {this.state.my_Jobs.lastName}</Text>
@@ -338,7 +348,13 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         color: 'rgba(2,15,20,1)'
-    }
+    },
+
+    searchIcon: {
+        color: '#999999',
+    },
+
+    cancelIcon: {}
 });
 
 

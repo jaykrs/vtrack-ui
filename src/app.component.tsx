@@ -35,16 +35,17 @@ export default (): React.ReactFragment => {
       }
     }
   }
- 
-check();
+  if (isAuthorized != true) {
+    check();
+  }
   return (
     <React.Fragment>
- 
+
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider
         mapping={mapping}
         theme={light}>
-        <SafeAreaProvider>          
+        <SafeAreaProvider>
           <NavigationContainer>
             <AppNavigator initialRouteName={isAuthorized ? AppRoute.HOME : AppRoute.AUTH} />
           </NavigationContainer>

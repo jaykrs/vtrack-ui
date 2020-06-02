@@ -16,7 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 export const SearchIcon = (style): AntDesign => (
-  <MaterialCommunityIcons size={20} name='magnify' />
+  <MaterialCommunityIcons size={22} name='magnify' />
 );
 
 export const PublicIcon = (style): AntDesign => (
@@ -44,28 +44,36 @@ export const LocationIcon = (style): AntDesign => (
 );
 
 export const PencilIcon = (style): AntDesign => (
-  <Entypo size={15} color= "rgba(128,128,128,1)" name='pencil'/>
+  <Entypo size={20}  name='pencil'/>
 );
 
 export const LogOutIcon = (style): AntDesign => (
   <Entypo size={18} color={'#1DA1F2'} name='log-out'/>
 );
 
+export const MenuIcon = (style): AntDesign => (
+  <Entypo size={25} name='menu'/>
+);
+
 export const FeedbackIcon = (style): AntDesign => (
   <MaterialIcons size={18} color={'#1DA1F2'} name='feedback'/>
 );
 
+export const CancelIcon = (style): AntDesign => (
+  <MaterialIcons size={22} name='cancel'/>
+);
+
 export const ArroCircle = (style): AntDesign => (
-  <FontAwesome5 size={20} color={'#1DA1F2'} name='arrow-circle-right' />
+  <FontAwesome5 size={20} name='arrow-circle-right' />
 );
 
 export const Edit = (style): AntDesign => (
   <MaterialIcons size={12} name='edit' />
 );
 
-export const CancelIcon = (style): AntDesign => (
-  <MaterialCommunityIcons size={12} name='cancel' />
-);
+// export const CancelIcon = (style): AntDesign => (
+//   <MaterialCommunityIcons size={12} name='cancel' />
+// );
 
 export const ArrowUpIcon = (style): AntDesign => (
   <AntDesign size={12} name='arrowup' />
@@ -172,9 +180,9 @@ export const AlertTriangleIcon = (style): IconElement => (
 //   <Icon height = {23} width = {23} name='eye-off-outline' />
 // );
 
-export const MenuIcon = (style): IconElement => (
-  <Icon {...style} name='menu-outline' />
-);
+// export const MenuIcon = (style): IconElement => (
+//   <Icon {...style} name='menu-outline' />
+// );
 
 export const TimeLineIcon = (style): IconElement => (
   <Icon {...style} name='home-outline' />

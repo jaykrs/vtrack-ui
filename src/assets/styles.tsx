@@ -74,28 +74,40 @@ export const Styles = StyleSheet.create({
   },
 
   /*---------------------------------------------This Style is for Search Box-------------------------------------------------------------- */
-searchBox: {
+menuButton: {
+  width: '10%',
+  justifyContent: 'center',
+  alignItems: 'center'
+},
+
+  searchBox: {
   flexDirection: 'row',
   borderColor: 'rgba(2,15,20,0.05)',
-  borderWidth: 5,
+  borderWidth: 1,
   borderRadius: 5,
   marginBottom: 5,
+  marginLeft: 2,
   padding: -20,
-  backgroundColor: '#fff',
+  backgroundColor: '#ccc',
   height: 45,
-  width: '85%'
+  width: '75%'
 },
 
 searchIcon: {
   width: '10%',
-  color: '#aaa',
-  alignSelf: 'center',
-  textAlign: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+cancelIcon: {
+   width: '10%', 
+  justifyContent: 'center',
+  alignItems: 'flex-end',
 },
 
 searchInput: {
-  width: '75%',
-  backgroundColor: '#fff',
+  width: '78%',
+  backgroundColor: '#ccc',
   borderRadius: 5
 },
 
