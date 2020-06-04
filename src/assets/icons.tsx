@@ -88,7 +88,7 @@ export const CompanyIcon = (style): AntDesign => (
 );
 
 export const WalletIcon = (style): AntDesign => (
-  <Fontisto size={18} name='wallet' />
+  <Fontisto size={18} color={'silver'} name='wallet' />
 );
 
 export const EyeIcon = (style): AntDesign => (

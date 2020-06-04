@@ -239,7 +239,7 @@ export const HomeNavigator = (): React.ReactElement => (
   <Drawer.Screen
       name={AppRoute.ACCOUNTS}
       component={SettingScreen}
-      options={{ title: 'Payments', drawerIcon: AccountsIcon }}
+      options={{ title: 'Payments', drawerIcon: WalletIcon }}
     />
     <Drawer.Screen
       name={AppRoute.WALLET}

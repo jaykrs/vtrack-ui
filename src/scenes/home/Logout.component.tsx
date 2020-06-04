@@ -8,7 +8,7 @@ import {
   Button,
   Input
 } from 'react-native-ui-kitten';
-import { ProfileScreenProps } from '../../navigation/home.navigator';
+import { ProfileScreenProps } from '../../navigation/timeline.navigator';
 import { Toolbar } from '../../components/toolbar.component';
 import {
   SafeAreaLayout,
@@ -22,7 +22,8 @@ import { LabelConstants } from '../../constants/LabelConstants';
 import { AsyncStorage } from 'react-native';
 import { AppNavigator } from '../../navigation/app.navigator';
 import { AppRoute } from 'src/navigation/app-routes';
-import {SignInScreen} from '../auth'
+import { SignInScreen } from '../auth'
+
 
 type Mystate = {
 
@@ -32,22 +33,48 @@ export class LogoutScreen extends Component<ProfileScreenProps & SafeAreaLayoutE
   constructor(props) {
     super(props)
     this.state = {}
-   
+
 
   }
 
-  componentDidMount() {
+ async componentDidMount() {
     const data = {};
-    AsyncStorage.setItem('userDetail', JSON.stringify(data), () => {
-   this.props.navigation.navigate('Auth')
-    });
+    const value = await AsyncStorage.getItem('userDetail');
+    if (value) {
+      // console.log('user Details all data', value);
+      const user = JSON.parse(value);
+      this.setState({
+        userId: user.id,
+        device_token: user.deviceToken,
+        emailId: user.emailId
+      })
+      
+      Axios({
+        method: 'get',
+        url: AppConstants.API_BASE_URL + '/api/user/logout/' + user.emailId + '/' + user.deviceToken,
+
+      }).then((response) => {
+        AsyncStorage.setItem('userDetail', JSON.stringify(data), () => {
+          this.props.navigation.navigate('Auth')
+           });
+      },
+        (error) => {
+          console.log(error);
+          if (error) {
+            alert("Something went wrong");
+          }
+        }
+      );
+      // console.log('user data id', this.state.userId);      
+    }
+
 
   }
- 
+
   render() {
     return (
       <View>
-      
+
       </View>
     )
   }
