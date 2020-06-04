@@ -376,11 +376,11 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         </View>
 
                         <View style={styles.dataView}>
-                            <Label>Vendor Location</Label>
+                            <Label>Premise location</Label>
                             <TextInput
                                 style={styles.dataText}
                                 value={vendor_location}
-                                placeholder='Vendor Location'
+                                placeholder='Premise location'
                                 editable={false}
                                 onChangeText={(vendor_location) => { this.setState({ vendor_location: vendor_location }) }}
                             />
