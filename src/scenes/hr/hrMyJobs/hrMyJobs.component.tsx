@@ -154,7 +154,7 @@ export class HrMyJobsScreen extends React.Component<HrMyJobsScreenProps & Themed
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -178,7 +178,7 @@ export class HrMyJobsScreen extends React.Component<HrMyJobsScreenProps & Themed
             (error) => {
                 console.log(error);
                 if (error) {
-                    Alert.alert("UserId or Password is invalid");
+                    alert("UserId or Password is invalid");
                 }
             }
         );

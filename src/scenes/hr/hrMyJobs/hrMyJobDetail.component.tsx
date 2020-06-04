@@ -152,7 +152,7 @@ export class HrMyJobDetailScreen extends React.Component<HrMyJobDetailScreenProp
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -170,7 +170,7 @@ export class HrMyJobDetailScreen extends React.Component<HrMyJobDetailScreenProp
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );     
@@ -194,7 +194,7 @@ export class HrMyJobDetailScreen extends React.Component<HrMyJobDetailScreenProp
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -219,7 +219,7 @@ export class HrMyJobDetailScreen extends React.Component<HrMyJobDetailScreenProp
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );

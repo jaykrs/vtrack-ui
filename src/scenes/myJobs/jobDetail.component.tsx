@@ -15,7 +15,7 @@ import {
     withStyles, TabBar,
     styled, Divider, Avatar, Icon, Button, Card
 } from 'react-native-ui-kitten';
-import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading, Thumbnail, Input, Label, Footer, FooterTab } from 'native-base';
+import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading, Thumbnail, Input, Label, Footer, FooterTab, Textarea } from 'native-base';
 import { JobDetailScreenProps } from '../../navigation/myJobs.navigator';
 import { AppRoute } from '../../navigation/app-routes';
 import { ProgressBar } from '../../components/progress-bar.component';
@@ -28,7 +28,7 @@ import {
     SafeAreaLayoutElement,
     SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { MenuIcon } from '../../assets/icons';
+import { MenuIcon, PencilIcon } from '../../assets/icons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { any } from 'prop-types';
@@ -41,6 +41,8 @@ import Share from 'react-native-share';
 import { pathToFileURL, fileURLToPath } from 'url';
 // import SwipeHiddenHeader from 'react-native-swipe-hidden-header';
 import Animated from 'react-native-reanimated';
+import { Styles } from '../../assets/styles';
+import { isDate } from 'util';
 
 // import axios from 'axios';  
 // import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
@@ -78,56 +80,30 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
         super(props)
         this.state = {
             userId: '',
-            userType: '',
-            token: '',
-            isFresher: false,
-            isExperience: false,
-            qButton: '',
-            my_Job: [],
-            salary_Type: [],
-            job_Industry: [],
-            min_Qualification: [],
-            experience_Required: [],
-            employment_Type: [],
-            skill: [],
-            working_Days: [],
-            working_Shift: [],
-            language: [],
-            perks_Benefit: [],
-            profile_Data: [],
-            company_Data: [],
+            userData: [],
+            editable: false,
+            f_name: '',
+            l_name: '',
+            emailId: '',
+            phone_country_code: '',
+            vendor_id: '',
+            vendor_name: '',
+            city: '',
+            address: '',
+            pincode: '',
+            country: '',
+            createdBy: '',
+            vendor_location: '',
+            initial: '',
+            phone_number: '',
+            device_token: '',
+            id: '',
+            remarks: ''
         }
-        this.submitFresher = this.submitFresher.bind(this);
-        this.submitExperienced = this.submitExperienced.bind(this);
-        this.submitQButton = this.submitQButton.bind(this);
+
         this._onRefresh = this._onRefresh.bind(this);
-    }
-
-    submitFresher() {
-        this.setState(
-            {
-                isFresher: true,
-                isExperience: false
-            }
-        )
-    }
-
-    submitExperienced() {
-        this.setState(
-            {
-                isExperience: true,
-                isFresher: false
-            }
-        )
-    }
-
-    submitQButton(e, selected) {
-        // console.log(selected)
-        this.setState(
-            {
-                qButton: selected
-            }
-        )
+        this.edit = this.edit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
@@ -135,101 +111,99 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
         if (value) {
             // console.log('user Details all data', value);
             const user = JSON.parse(value);
-            this.setState({
-                userType: user.userType,
-                token: user.token,
+            this.setState({               
                 userId: user.userId,
+                device_token: user.deviceToken
             })
             // console.log('user data id', this.state.userId);      
         }
 
-        const value1 = await AsyncStorage.getItem('jobId');
+        const value1 = await AsyncStorage.getItem('visitorId');
         if (value1) {
             const jobData = JSON.parse(value1);
-            console.log('user Details all data', jobData);
-
+            console.log('user Details all data...', jobData);
+            this.setState({
+                id: jobData.jobId
+            })
             axios({
                 method: 'get',
-                url: AppConstants.API_BASE_URL + '/api/job/getjobbyid/' + jobData.jobId,
+                url: AppConstants.API_BASE_URL + '/api/visitor/get/' + jobData.jobId,
             }).then((response) => {
                 this.setState({
                     ...this.state,
-                    my_Job: response.data
+                    my_Job: response.data,
+                    userData: response.data,
+                    f_name: response.data.firstName,
+                    l_name: response.data.lastName,
+                    emailId: response.data.emailId,
+                    phone_country_code: response.data.countryCode,
+                    vendor_id: response.data.vendorId,
+                    vendor_name: response.data.vendorName,
+                    city: response.data.city,
+                    address: response.data.address,
+                    pincode: response.data.pincode,
+                    country: response.data.country,
+                    initial: response.data.initials,
+                    phone_number: response.data.phone,
+                    vendor_location: response.data.vendorLocation,
+                    remarks: response.data.remarks
+                    // id: response.data.id
                 })
                 console.log("Job Data", response.data);
             },
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
-                    }
-                }
-            );
-
-            axios({
-                method: 'get',
-                url: AppConstants.API_BASE_URL + '/api/company/getcompany/' + jobData.jobUserId,
-            }).then((response) => {
-                this.setState({
-                    ...this.state,
-                    company_Data: response.data
-                })
-                console.log("Job Data", response.data);
-            },
-                (error) => {
-                    console.log(error);
-                    if (error) {
-                        Alert.alert("UserId or Password is invalid");
-                    }
-                }
-            );
-
-            axios({
-                method: 'get',
-                url: AppConstants.API_BASE_URL + '/api/profile/getprofile/' + jobData.jobUserId,
-            }).then((response) => {
-                this.setState({
-                    ...this.state,
-                    profile_Data: response.data
-                })
-                console.log("Job Data", response.data);
-            },
-                (error) => {
-                    console.log(error);
-                    if (error) {
-                        Alert.alert("UserId or Password is invalid");
-                    }
-                }
-            );
-
-            axios({
-                method: 'get',
-                url: AppConstants.API_BASE_URL + '/api/lookup/getalllookup',
-            }).then((response) => {
-                this.setState({
-                    ...this.state,
-                    salary_Type: response.data.SALARY_TYPE,
-                    job_Industry: response.data.JOB_CATEGORY,
-                    min_Qualification: response.data.QUALIFICATION,
-                    experience_Required: response.data.EXPERIENCE,
-                    employment_Type: response.data.EMPLOYMENT_TYPE,
-                    skill: response.data.SKILL,
-                    working_Days: response.data.WORKING_DAYS,
-                    working_Shift: response.data.WORKING_SHIFT,
-                    language: response.data.LANGUAGE,
-                    perks_Benefit: response.data.PERKS_BENEFIT,
-                })
-                // console.log("Profile Data", response.data);
-            },
-                (error) => {
-                    console.log(error);
-                    if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );
         }
     }
+
+    edit() {
+        this.setState({
+            editable: true
+        })
+    }
+
+    handleSubmit() {
+        const { device_token, id, userData, editable, remarks, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
+       console.log("Visitor Data", device_token, id, userData, editable, remarks, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number)
+        axios({
+            method: 'PUT',
+            url: AppConstants.API_BASE_URL + '/api/visitor/update',
+            data: {
+                id: id,
+                emailId: emailId,
+                device_token: device_token,
+                f_name: f_name,
+                l_name: l_name,
+                phone_country_code: phone_country_code,
+                city: city,
+                address: address,
+                pincode: pincode,
+                country: country,
+                phone_number: phone_number,
+                remarks: remarks
+            }
+        }).then((response) => {
+            if (response) {
+                if (response.data.emailId === emailId) {
+                    alert('User Updated Successfuly')
+                    this.setState({
+                        editable: false
+                    })
+                    this._onRefresh()
+                }
+            }
+        }, (error) => {
+            console.log(error)
+            alert('Server is Down or You are using wrong Data')
+        });
+
+    }
+
 
     _onRefresh() {
         this.setState({ refreshing: true });
@@ -239,17 +213,19 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
     }
 
     render() {
-        const { my_Job, salary_Type, job_Industry, min_Qualification, experience_Required, employment_Type, language, skill, working_Days, working_Shift, perks_Benefit, profile_Data, company_Data } = this.state
+        const { userData, editable, f_name, remarks, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
                 insets={SaveAreaInset.TOP}>
                 <Toolbar
-                    // title='Home Page'
+                    title='Visitor Detail'
                     // backIcon={MenuIcon}
                     onBackPress={this.props.navigation.goBack}
-                    style={{ marginTop: -5, marginLeft: -5 }}
+                    style={{ marginTop: -5, marginLeft: -5, borderBottomColor: '#D9D5DC', borderBottomWidth: 1 }}
                 />
+
+
                 <Content style={styles.content}
                     refreshControl={
                         <RefreshControl
@@ -258,187 +234,188 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         />
                     }
                 >
-                    <View style={styles.view1}>
-                        <View style={styles.view1_1}>
-                            <View>
-                                <Avatar source={{ uri: AppConstants.IMAGE_BASE_URL + '/avatar/mobile.jpeg' }} style={styles.image} />
-                            </View>
-                        </View>
-                        <View style={styles.view1_2}>
-                            <View>
-                                <Text style={styles.jobType}>{my_Job.jobTitle}</Text>
-                                <Text style={styles.companyName}>{my_Job.companyName}</Text>
-                                <Text style={styles.location}>{my_Job.location}</Text>
-                                {job_Industry.map((data, index) => {
-                                    if (data.lookUpId == my_Job.jobIndustry)
-                                        return (
-                                            <Text style={styles.subData}>{data.lookUpLabel}</Text>
-                                        )
-                                })}
-                            </View>
-                        </View>
+                    
+                {/* <Text>{this.state.device_token}</Text> */}
+                    <View style={styles.header}>
+                        {/* <Text style = {styles.headerText}>Profile</Text> */}
+                        <TouchableOpacity style={styles.editButton} onPress={this.edit}>
+                            <Text style={editable ? styles.editButtonTextSelected : styles.editButtonText}><PencilIcon /></Text>
+                        </TouchableOpacity>
                     </View>
-
-
-                    <View style={styles.view2}>
-                        <Text style={styles.subHeading}>30 Applicants</Text>
-                        <Text style={styles.subHeading}>30 days ago</Text>
-                    </View>
-
-                    <View style={styles.view3}>
-                        <View style={styles.view3_1}>
-                            {salary_Type.map((data, index) => {
-                                if (data.lookUpId == my_Job.salaryType)
-                                    return (
-                                        <View style={{ flexDirection: 'column' }}>
-                                            <Text style={styles.subHeading}>Salary {data.lookUpLabel}</Text>
-                                            <Text style={styles.subData}>{my_Job.salaryFrom} - {my_Job.salaryTo}</Text>
-                                        </View>
-                                    )
-                            })}
-
-                            {experience_Required.map((data, index) => {
-                                if (data.lookUpId == my_Job.experienceRequired)
-                                    return (
-                                        <View style={{ flexDirection: 'column' }}>
-                                            <Text style={styles.subHeading}>Experience</Text>
-                                            <Text style={styles.subData}>{data.lookUpLabel}</Text>
-                                        </View>
-                                    )
-                            })}
-
-                            {employment_Type.map((data, index) => {
-                                if (data.lookUpId == my_Job.employmentType)
-                                    return (
-                                        <View style={{ flexDirection: 'column' }}>
-                                            <Text style={styles.subHeading}>Employment</Text>
-                                            <Text style={styles.subData}>{data.lookUpLabel}</Text>
-                                        </View>
-                                    )
-                            })}
-
+                    <View>
+                        <View style={styles.dataView}>
+                            <Label>Initials</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={initial}
+                                placeholder='Initials'
+                                editable={editable}
+                                onChangeText={(initial) => { this.setState({ initial: initial }) }}
+                            />
                         </View>
 
-                        <View style={styles.view3_2}>
-                            {min_Qualification.map((data, index) => {
-                                if (data.lookUpId == my_Job.minQualification)
-                                    return (
-                                        <View style={{ flexDirection: 'column' }}>
-                                            <Text style={styles.subHeading}>Min Qualification</Text>
-                                            <Text style={styles.subData}>{data.lookUpLabel}</Text>
-                                        </View>
-                                    )
-                            })}
-
-                            {language.map((data, index) => {
-                                if (data.lookUpId == my_Job.languageRequired)
-                                    return (
-                                        <View style={{ flexDirection: 'column' }}>
-                                            <Text style={styles.subHeading}>Language</Text>
-                                            <Text style={styles.subData}>{data.lookUpLabel}</Text>
-                                        </View>
-                                    )
-                            })}
-
-
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={styles.subHeading}>N0. of openings</Text>
-                                <Text style={styles.subData}>{my_Job.openings}</Text>
-                            </View>
-
+                        <View style={styles.dataView}>
+                            <Label>First Name</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={f_name}
+                                placeholder='First Name'
+                                editable={editable}
+                                onChangeText={(f_name) => { this.setState({ f_name: f_name }) }}
+                            />
                         </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Last Name</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={l_name}
+                                placeholder='Last Name'
+                                editable={editable}
+                                onChangeText={(l_name) => { this.setState({ l_name: l_name }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Email Id</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={emailId}
+                                placeholder='Email Id'
+                                editable={false}
+                                onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Country Code</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={phone_country_code}
+                                placeholder='Country Code'
+                                editable={editable}
+                                onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Phone Number</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={phone_number}
+                                placeholder='Phone Number'
+                                editable={editable}
+                                onChangeText={(phone_number) => { this.setState({ phone_number: phone_number }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Address</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={address}
+                                placeholder='Address'
+                                editable={editable}
+                                onChangeText={(address) => { this.setState({ address: address }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>City</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={city}
+                                placeholder='City'
+                                editable={editable}
+                                onChangeText={(city) => { this.setState({ city: city }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Pin Code</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={pincode}
+                                placeholder='Pin Code'
+                                editable={editable}
+                                onChangeText={(pincode) => { this.setState({ pincode: pincode }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Country</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={country}
+                                placeholder='Country'
+                                editable={editable}
+                                onChangeText={(country) => { this.setState({ country: country }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>GSTIN/TIN</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={vendor_id}
+                                placeholder='GSTIN/TIN'
+                                editable={false}
+                                onChangeText={(vendor_id) => { this.setState({ vendor_id: vendor_id }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Premise Name</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={vendor_name}
+                                placeholder='Premise Name'
+                                editable={false}
+                                onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
+                            />
+                        </View>
+
+                        <View style={styles.dataView}>
+                            <Label>Vendor Location</Label>
+                            <TextInput
+                                style={styles.dataText}
+                                value={vendor_location}
+                                placeholder='Vendor Location'
+                                editable={false}
+                                onChangeText={(vendor_location) => { this.setState({ vendor_location: vendor_location }) }}
+                            />
+                        </View>
+
+                        <View style={styles.textAreaBox}>
+                        <Textarea
+                            style={styles.textArea}
+                            value={remarks}
+                            editable={editable}
+                            placeholder='Remarks'
+                            onChangeText={(remarks) => { this.setState({ remarks: remarks }) }}
+                        ></Textarea>
                     </View>
-
-                    <View style={styles.view4}>
-                        <Text style={styles.discriptionHeading}>Job Description</Text>
-                        <Text style={styles.discriptionText}>{my_Job.jobDescription}</Text>
+                    
                     </View>
-
-
-                    <View style={styles.view5}>
-                        {skill.map((data, index) => {
-                            if (data.lookUpId == my_Job.skill)
-                                return (
-                                    <View>
-                                        <Text>Skills:</Text>
-                                        <Text style={styles.skill}>{data.lookUpLabel}</Text>
-                                    </View>
-                                )
-                        })}
-
-                        <Card>
-                            {working_Days.map((data, index) => {
-                                if (data.lookUpId == my_Job.workingDays)
-                                    return (
-                                        <View style={styles.card}>
-                                            <Text style={styles.cardHeading}>Working Days:</Text>
-                                            <Text>{data.lookUpLabel}</Text>
-                                        </View>
-                                    )
-                            })}
-
-                            {working_Shift.map((data, index) => {
-                                if (data.lookUpId == my_Job.workingShift)
-                                    return (
-                                        <View style={styles.card}>
-                                            <Text style={styles.cardHeading}>Working Shifts:</Text>
-                                            <Text>{data.lookUpLabel}</Text>
-                                        </View>
-                                    )
-                            })}
-                        </Card>
+                    {editable ?
                         <View>
-                            <Text>Perks & Benefits</Text>
-                            {perks_Benefit.map((data, index) => {
-                                if (data.lookUpId == my_Job.perksBenefit)
-                                    return (
-                                        <Text style={styles.benifitText}>{data.lookUpLabel}</Text>
-                                    )
-                            })}
-                        </View>
-                        <View style={styles.card1}>
-                            <View style={styles.card1_1}>
-                                <Text>Job Posted By</Text>
-                                <View style={{ paddingRight: 20, paddingBottom: 10 }}>
-                                    <Avatar source={{ uri: AppConstants.IMAGE_BASE_URL + '/avatar/' + 1 + '_avatar.png' }} style={styles.image} />
-                                </View>
-                            </View>
-
-                            <View style={styles.card1_2}>
-                                <Text style={styles.cardHeading}>{profile_Data.displayName}</Text>
-                                <Text>{profile_Data.designation}</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.card1}>
-                            <View style={styles.card1_1}>
-                                <Text>Company</Text>
-                                <View style={{ paddingRight: 20, paddingBottom: 10 }}>
-                                    <Avatar source={{ uri: AppConstants.IMAGE_BASE_URL + '/avatar/Company.jpg' }} style={styles.image} />
-                                </View>
-                            </View>
-
-                            <View style={styles.card1_2}>
-                                <Text style={styles.cardHeading}>{company_Data.name}</Text>
-                                {job_Industry.map((data, index) => {
-                                    if (data.lookUpId == company_Data.industry)
-                                        return (
-                                            <Text>{data.lookUpLabel}</Text>
-                                        )
-                                })}
-
-                            </View>
-                        </View>
-                    </View>
-
-                    <Footer>
-                        <FooterTab style={styles.footerTab}>
-                            <TouchableOpacity style={styles.applyButton} onPress={() => this.props.navigation.navigate(AppRoute.HOME)}>
-                                <Text style={styles.applyButtonText}>Apply Now</Text>
+                            <TouchableOpacity style={[Styles.buttonContainer, styles.button]} onPress={this.handleSubmit}>
+                                <Text style={Styles.buttonCaption}>Submit</Text>
                             </TouchableOpacity>
-                        </FooterTab>
-                    </Footer>
+                        </View> :
+                        null
+                    }
 
+                    {/* <View style={styles.card2}>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.LOGOUT) }}>
+                            <View style={styles.card2_2}>
+                                <Text style={styles.cardText3}>Sign Out</Text>
+                                <Text style={styles.cardText4}> > </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View> */}
+
+                    <View style={Styles.bottomSpace}></View>
                 </Content>
 
             </SafeAreaLayout>
@@ -453,166 +430,101 @@ const styles = StyleSheet.create({
         flex: 1
     },
 
+    header: {
+        height: 30,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+    },
+
+    headerText: {
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+
+    editButton: {
+        width: '10%',
+        // backgroundColor: 'red',
+        alignSelf: 'center',
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'flex-end'
+    },
+
+    editButtonTextSelected: {
+        color: '#3F51B5',
+        fontSize: 25,
+    },
+
+    editButtonText: {
+        color: '#999',
+        fontSize: 25,
+    },
+
     content: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#FFFFFF',
         padding: 10
     },
 
-    view1: {
-        flexDirection: 'row',
+    dataView: {
+        backgroundColor: "transparent",
+        paddingLeft: 2,
+        borderColor: "#D9D5DC",
         borderBottomWidth: 1,
-        borderBottomColor: '#aaaaaa',
-        paddingBottom: 5,
-
+        marginTop: 15
     },
 
-    view1_1: {
-        width: '30%',
+    dataText: {
+        marginTop: 0,
+        marginBottom: -10,
+        marginLeft: 10,
+        color: '#000'
     },
 
-    view1_2: {
-        width: '70%',
-        padding: 5
-    },
-
-    view2: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#aaaaaa',
-        paddingBottom: 5
-    },
-
-    view3: {
-        paddingHorizontal: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#aaaaaa',
-        paddingBottom: 5
-    },
-
-    view3_1: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10
-    },
-
-    view3_2: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10
-    },
-
-    view4: {
-        paddingHorizontal: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#aaaaaa',
-        paddingBottom: 5
-    },
-
-    discriptionHeading: {
-        fontSize: 14,
-        fontWeight: 'bold',
-    },
-
-    discriptionText: {
-        color: '#aaa'
-    },
-
-    view5: {
-        paddingHorizontal: 10,
-        paddingBottom: 5
-    },
-
-    card: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    cardHeading: {
-        fontSize: 18,
-        marginBottom: 10,
-        marginTop: 10
-    },
-    footerTab: {
-        backgroundColor: '#fff'
-    },
-    applyButton: {
-        width: '100%',
-        backgroundColor: '#1DA1F2',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    applyButtonText: {
-        color: '#fff'
-    },
-
-    image: {
-        width: '100%',
-        height: 90,
-        marginTop: 5,
+    card2: {
+        width: '85%',
+        alignSelf: 'center',
+        borderColor: '#DDDDDD',
+        borderWidth: .8,
         borderRadius: 10,
-        borderColor: '#bbbbbb',
-        borderWidth: 1
-    },
-
-    jobType: {
-        fontSize: 14,
-        fontWeight: 'bold',
-    },
-
-    companyName: {
-        fontSize: 16,
-    },
-
-    location: {
-        fontSize: 14,
-        marginTop: 10
-    },
-
-    subHeading: {
-        fontSize: 12,
-        color: '#888888',
-        marginTop: 5
-    },
-
-    subData: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 5
-    },
-
-    skill: {
-        fontSize: 13,
-        color: '#666666',
-        marginTop: 5,
-        marginBottom: 10
-    },
-
-    benifitText: {
-        marginLeft: 20,
-    },
-
-    card1: {
         marginTop: 10,
+    },
+
+    card2_2: {
         flexDirection: 'row',
-        borderColor: '#dddddd',
-        borderWidth: .5,
-        borderRadius: 5
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10
     },
 
-    card1_1: {
-        width: '40%',
-        paddingHorizontal: 5
+    cardText3: {
+        fontSize: 15,
+        color: '#1DA1F2'
+    },
+
+    cardText4: {
+        fontSize: 20,
+        color: '#1DA1F2'
+    },
+
+    button: {
+        width: '44%',
+        height: 52,
+        marginTop: 35,
+        alignSelf: 'center'
+    },
+
+    textArea: {
+        width: '100%',
+        height: 150,
+        backgroundColor: '#eee',
 
     },
 
-    card1_2: {
-        width: '60%',
-        justifyContent: 'center',
+    textAreaBox: {
+        marginTop: 25
     },
-
-});
+})
 
 

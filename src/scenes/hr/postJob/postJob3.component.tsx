@@ -97,7 +97,7 @@ export class PostScreen3 extends React.Component<PostScreen3Props & ThemedCompon
         const jobData3 = { skill: skill }
 
         if (skill === '' || skill.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_SKILL)
+            alert(LabelConstants.ALERT_JOB_SKILL)
         } else {
             AsyncStorage.mergeItem('jobData', JSON.stringify(jobData3), () => {
                 AsyncStorage.getItem('jobData', (err, result) => {

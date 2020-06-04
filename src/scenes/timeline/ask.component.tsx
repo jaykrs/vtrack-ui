@@ -94,7 +94,7 @@ export class AskScreen extends React.Component<ThemedComponentProps & any, MySta
   }
 
   selectAudio(e, timelineType) {
-    // Alert.alert("We are facing some issues, shortly we'll come up with solution");
+    // alert("We are facing some issues, shortly we'll come up with solution");
     // console.log('Video Timeline Type', timelineType)
     FilePickerManager.showFilePicker(audioOptions, (response) => {
       // console.log('Response = ', response);
@@ -157,19 +157,19 @@ export class AskScreen extends React.Component<ThemedComponentProps & any, MySta
           url: AppConstants.API_BASE_URL + '/api/timeline/create/file/' + userId + '/' + timelineType + '/' + catagory,
           data: formData
         }).then((response) => {
-          Alert.alert("Timeline created successfully");
+          alert("Timeline created successfully");
           this.props.navigation.goBack()
         },
           (error) => {
             // console.log(error);
             if (error) {
-              Alert.alert("You are using wrong format");
+              alert("You are using wrong format");
             }
           });
-        // Alert.alert("We are facing some issues, shortly we'll come up with solution");
+        // alert("We are facing some issues, shortly we'll come up with solution");
       }
       else if (timelineBody === '' || timelineBody === null) {
-        Alert.alert('Please write something in timeline')
+        alert('Please write something in timeline')
       }
       else if (catagory && timelineType && userId) {
         //this.props.login(username, summeryDetails);
@@ -184,18 +184,18 @@ export class AskScreen extends React.Component<ThemedComponentProps & any, MySta
             consultantId: userId,
           }
         }).then((response) => {
-          Alert.alert("Timeline created successfully");
+          alert("Timeline created successfully");
           this.props.navigation.goBack()
         },
           (error) => {
             if (error) {
-              Alert.alert("You are using wrong format");
+              alert("You are using wrong format");
             }
           });
       }
     }
     else {
-      Alert.alert('Please create profile first')
+      alert('Please create profile first')
     }
   }
 
@@ -220,7 +220,7 @@ export class AskScreen extends React.Component<ThemedComponentProps & any, MySta
         (error) => {
           console.log(error);
           if (error) {
-            Alert.alert("You are using wrong format");
+            alert("You are using wrong format");
           }
         })
     }

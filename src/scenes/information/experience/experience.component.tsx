@@ -107,21 +107,21 @@ export class ExperienceScreen extends React.Component<ExperienceScreenProps & Th
     const { latestCompany, latestJobRole, designation, latestJobFrom, latestJobTo, salaryType, salary, willJoin } = this.state
     console.log(latestCompany, latestJobRole, designation, latestJobFrom, latestJobTo, salaryType, salary, willJoin)
     if (latestCompany === '' || latestCompany.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_COMPANY_NAME);
+      alert(LabelConstants.ALERT_LATEST_COMPANY_NAME);
     } else if (latestJobRole === '' || latestJobRole.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_JOB_ROLE);
+      alert(LabelConstants.ALERT_LATEST_JOB_ROLE);
     } else if (designation === '' || designation.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_JOB_DESIGNATION);
+      alert(LabelConstants.ALERT_LATEST_JOB_DESIGNATION);
     } else if (latestJobFrom === '' || latestJobFrom.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_JOB_FROM);
+      alert(LabelConstants.ALERT_LATEST_JOB_FROM);
     } else if (latestJobTo === '' || latestJobTo.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_JOB_TO);
+      alert(LabelConstants.ALERT_LATEST_JOB_TO);
     } else if (salaryType === '' || salaryType.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_JOB_SALARY_TYPE);
+      alert(LabelConstants.ALERT_LATEST_JOB_SALARY_TYPE);
     } else if (salary === '' || salary.length === 0) {
-      Alert.alert(LabelConstants.ALERT_LATEST_JOB_SALARY);
+      alert(LabelConstants.ALERT_LATEST_JOB_SALARY);
     } else if (willJoin === '' || willJoin.length === 0) {
-      Alert.alert(LabelConstants.ALERT_WILL_JOIN);
+      alert(LabelConstants.ALERT_WILL_JOIN);
     } else {
 
       const value = await AsyncStorage.getItem('profileData2');

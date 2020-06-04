@@ -137,7 +137,7 @@ export class PostScreen5 extends React.Component<PostScreen5Props & ThemedCompon
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -182,7 +182,7 @@ export class PostScreen5 extends React.Component<PostScreen5Props & ThemedCompon
             (error) => {
                 console.log(error);
                 if (error) {
-                    Alert.alert("UserId or Password is invalid");
+                    alert("UserId or Password is invalid");
                 }
             }
         );

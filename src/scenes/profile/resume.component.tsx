@@ -154,7 +154,7 @@ export class ResumeScreen extends React.Component<ResumeScreenProps & ThemedComp
     }
 
     handleCV() {
-        // Alert.alert(this.state.profile_Data.profileFile)
+        // alert(this.state.profile_Data.profileFile)
         this.setState({
             showCV: !this.state.showCV
         })

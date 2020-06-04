@@ -178,11 +178,11 @@ export class EducationScreen extends React.Component<EducationScreenProps & Them
     }
     if (isFresher) {
       if (userId === '' || userId.length === 0) {
-        Alert.alert('Please Enter Your User Id');
+        alert('Please Enter Your User Id');
       } else if (profileType === '' || profileType.length === 0) {
-        Alert.alert('Please Enter Your Profile Type')
+        alert('Please Enter Your Profile Type')
       } else if (highestQualification === '' || highestQualification.length === 0) {
-        Alert.alert('Please Select Your Highest Qualification')
+        alert('Please Select Your Highest Qualification')
       } else {
         AsyncStorage.setItem('profileData1', JSON.stringify(profileData1), () => {
           AsyncStorage.getItem('profileData1', (err, result) => {
@@ -193,15 +193,15 @@ export class EducationScreen extends React.Component<EducationScreenProps & Them
       }
     } else if (isExperience) {
       if (userId === '' || userId.length === 0) {
-        Alert.alert('Please Enter Your User Id')
+        alert('Please Enter Your User Id')
       } else if (profileType === '' || profileType.length === 0) {
-        Alert.alert('Please Enter Your Profile Type')
+        alert('Please Enter Your Profile Type')
       } else if (experience === '' || experience.length === 0) {
-        Alert.alert('Please Enter Your Experience')
+        alert('Please Enter Your Experience')
       } else if (highestQualification === '' || highestQualification.length === 0) {
-        Alert.alert('Please Select Your Highest Qualification')
+        alert('Please Select Your Highest Qualification')
       } else if (city === '' || city.length === 0) {
-        Alert.alert('Please Enter Your location')
+        alert('Please Enter Your location')
       } else {
         AsyncStorage.setItem('profileData2', JSON.stringify(profileData2), () => {
           AsyncStorage.getItem('profileData2', (err, result) => {

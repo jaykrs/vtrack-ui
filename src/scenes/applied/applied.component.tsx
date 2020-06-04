@@ -112,7 +112,8 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
             const user = JSON.parse(value);
             this.setState({
                 userId: user.id,
-                device_token: user.deviceToken,                
+                device_token: user.deviceToken,
+                emailId: user.emailId
             })
             console.log("User Id", user)
             axios({
@@ -121,7 +122,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
 
             }).then((response) => {
                 this.setState({
-                    ...this.state,                    
+                    ...this.state,
                     vendor_id: response.data.vendorId,
                     vendor_name: response.data.vendorName,
                     vendor_location: response.data.address,
@@ -131,7 +132,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("UserId or Password is invalid");
+                        alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -152,7 +153,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
         //     (error) => {
         //         console.log(error);
         //         if (error) {
-        //             Alert.alert("UserId or Password is invalid");
+        //             alert("UserId or Password is invalid");
         //         }
         //     }
         // );
@@ -175,7 +176,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
         //     (error) => {
         //         console.log(error);
         //         if (error) {
-        //             Alert.alert("UserId or Password is invalid");
+        //             alert("UserId or Password is invalid");
         //         }
         //     }
         // );
@@ -183,22 +184,23 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
 
     handleJobSubmit() {
         const { dob, emailId, remarks, f_name, l_name, initial, city, country, phone_country_code, phone_number, address, pincode, vendor_id, vendor_name, vendor_location, profession, device_token } = this.state
+        console.log('User All Data', 'dob',dob, emailId, remarks, f_name, l_name, initial, city, country, phone_country_code, phone_number, address, pincode, 'vendor_id', vendor_id, 'vendor_name', vendor_name, 'vendor_location', vendor_location, profession, 'device_token', device_token);
         if (f_name === " " || f_name.length === 0) {
-            Alert.alert("Please Enter First Name");
+            alert("Please Enter First Name");
         } else if (l_name === "" || l_name.length === 0) {
-            Alert.alert("Please Enter Last Name");
+            alert("Please Enter Last Name");
         } else if (phone_country_code === "" || phone_country_code.length === 0) {
-            Alert.alert("Please Enter Phone Country Code");
+            alert("Please Enter Phone Country Code");
         } else if (phone_number === "" || phone_number.length === 0) {
-            Alert.alert("Please Enter Phone Number");
+            alert("Please Enter Phone Number");
         } else if (vendor_id === "" || vendor_id.length === 0) {
-            Alert.alert("Something Went Wrong");
+            alert("Something Went Wrong");
         } else if (vendor_location == null || vendor_location === "" || vendor_location.length === 0) {
-            Alert.alert("Seems you have not added your address");
+            alert("Seems you have not added your address");
         } else if (vendor_name === "" || vendor_name.length === 0) {
-            Alert.alert("Something Went Wrong");
+            alert("Something Went Wrong");
         } else if (device_token === "" || device_token.length === 0) {
-            Alert.alert("Something Went Wrong");
+            alert("Something Went Wrong");
         } else {
             axios({
                 method: 'post',
@@ -224,13 +226,13 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
             }).then((response) => {
                 console.log("Visitor Data", response.data);
 
-                Alert.alert('Visitor Created Successfuly');
+                alert('Visitor Created Successfuly');
                 this.props.navigation.navigate(AppRoute.MYJOBS);
             },
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert(LabelConstants.com_alert_visitor_create_error);
+                        alert(LabelConstants.com_alert_visitor_create_error);
                     }
                 }
             );
@@ -265,6 +267,11 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                         />
                     }
                 >
+                    {/* <TouchableOpacity >
+                        <Text>Device Id</Text>
+                    </TouchableOpacity>
+                    <Text>{this.state.device_token}</Text> */}
+
                     <View>
                         <View style={[Styles.inputBoxContainer, styles.emailBox]}>
                             {/* <Text style={Styles.inputBoxLabel}>Name</Text> */}
@@ -415,7 +422,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Vendor Name'
+                                placeholder='Enter Premise Name'
                                 onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
                             />
                         </View>
@@ -428,7 +435,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Vendor Id'
+                                placeholder='Enter GSTIN/TIN'
                                 onChangeText={(vendor_id) => { this.setState({ vendor_id: vendor_id }) }}
                             />
                         </View>
@@ -481,7 +488,7 @@ const styles = StyleSheet.create({
 
     textArea: {
         width: '100%',
-        height: 100,
+        height: 150,
         backgroundColor: '#eee',
 
     },

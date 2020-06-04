@@ -83,7 +83,7 @@ console.log(this.state.userId);
       }).then(res => {
           if(res.ok) {
             //   console.log(res.data);
-              Alert.alert("File uploaded successfully.");
+              alert("File uploaded successfully.");
             //   window.location.reload(false);
           }
       });

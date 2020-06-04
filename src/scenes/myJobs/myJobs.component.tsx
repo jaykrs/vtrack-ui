@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
-    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput
+    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput, Modal
 } from 'react-native';
 import {
     // Input,
@@ -45,6 +45,7 @@ import { Styles } from '../../assets/styles'
 // import axios from 'axios';  
 // import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
 import DeviceInfo from 'react-native-device-info';
+import DatePicker from 'react-native-datepicker';
 
 const allTodos: TimeLineData[] = [
     TimeLineData.getAllTimelineData()
@@ -79,6 +80,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         super(props)
         this.state = {
             userId: '',
+            isVisible: false,
             userType: '',
             token: '',
             isFresher: false,
@@ -91,73 +93,82 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             experience_Required: [],
             employment_Type: [],
             skill: [],
-            deviceId: ''
+            deviceId: '',
+            visitEndDate: '',
+            visitStartDate: '',
+            createdAt: '',
+            vendorId: ''
         }
-        this.submitFresher = this.submitFresher.bind(this);
-        this.submitExperienced = this.submitExperienced.bind(this);
-        this.submitQButton = this.submitQButton.bind(this);
+        // this.submitFresher = this.submitFresher.bind(this);
+        // this.submitExperienced = this.submitExperienced.bind(this);
+        // this.submitQButton = this.submitQButton.bind(this);
         this._onRefresh = this._onRefresh.bind(this);
-        // this.getdeviceId = this.getdeviceId.bind(this);
+        this.getdeviceId = this.getdeviceId.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
     }
 
-    submitFresher() {
-        this.setState(
-            {
-                isFresher: true,
-                isExperience: false
-            }
-        )
-    }
+    // submitFresher() {
+    //     this.setState(
+    //         {
+    //             isFresher: true,
+    //             isExperience: false
+    //         }
+    //     )
+    // }
 
-    submitExperienced() {
-        this.setState(
-            {
-                isExperience: true,
-                isFresher: false
-            }
-        )
-    }
+    // submitExperienced() {
+    //     this.setState(
+    //         {
+    //             isExperience: true,
+    //             isFresher: false
+    //         }
+    //     )
+    // }
 
-    submitQButton(e, selected) {
-        // console.log(selected)
-        this.setState(
-            {
-                qButton: selected
-            }
-        )
-    }
+    // submitQButton(e, selected) {
+    //     // console.log(selected)
+    //     this.setState(
+    //         {
+    //             qButton: selected
+    //         }
+    //     )
+    // }
 
-    // getdeviceId = () => {
-    //     //Getting the Unique Id from here
-    //     var id = DeviceInfo.getUniqueId();
-    //     this.setState({
-    //          deviceId: id,
-    //          });
-    // };
+    getdeviceId = () => {
+        //Getting the Unique Id from here
+        var id = DeviceInfo.getUniqueId();
+        this.setState({
+            deviceId: id,
+        });
+    };
 
     async componentDidMount() {
         const value = await AsyncStorage.getItem('userDetail');
         if (value) {
             // console.log('user Details all data', value);
             const user = JSON.parse(value);
-            this.setState({               
+            this.setState({
                 userId: user.id,
             })
 
             axios({
                 method: 'get',
-                url: AppConstants.API_BASE_URL + '/api/user/get/' + user.id,    
+                url: AppConstants.API_BASE_URL + '/api/user/get/' + user.id,
             }).then((response) => {
                 this.setState({
                     ...this.state,
-                    my_Jobs: response.data
+                    // my_Jobs: response.data,
+                    vendorId: response.data.vendorId,
+                    createdAt: response.data.createdAt.length < 35
+                        ? `${response.data.createdAt.substring(0, 10)}`
+                        : `${response.data.createdAt}`
                 })
                 console.log("Profile Data", response.data);
             },
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("Seems you have not created any visitor ! please add.");
+                        alert("Seems you have not created any visitor ! please add.");
                     }
                 }
             );
@@ -165,25 +176,25 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             axios({
                 method: 'get',
                 url: AppConstants.API_BASE_URL + '/api/visitor/search/' + user.id + '/' + user.vendorId,
-    
+
             }).then((response) => {
                 this.setState({
                     ...this.state,
-                    my_Jobs: response.data
+                    my_Jobs: response.data,                    
                 })
                 console.log("Profile Data", response.data);
             },
                 (error) => {
                     console.log(error);
                     if (error) {
-                        Alert.alert("Seems you have not created any visitor ! please add.");
+                        alert("Seems you have not created any visitor ! please add.");
                     }
                 }
             );
             // console.log('user data id', this.state.userId);      
         }
 
-       
+
 
         // axios({
         //     method: 'get',
@@ -203,27 +214,50 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         //     (error) => {
         //         console.log(error);
         //         if (error) {
-        //             Alert.alert("UserId or Password is invalid");
+        //             alert("UserId or Password is invalid");
         //         }
         //     }
         // );
     }
 
-    handleJobSubmit(e, jobId, jobUserId) {
+    handleJobSubmit(e, jobId) {
         const jobData = {
             jobId: jobId,
-            jobUserId: jobUserId
         }
-        AsyncStorage.setItem('jobId', JSON.stringify(jobData), () => {
-            AsyncStorage.getItem('jobId', (err, result) => {
-                console.log('Job Id is', result);
+        AsyncStorage.setItem('visitorId', JSON.stringify(jobData), () => {
+            AsyncStorage.getItem('visitorId', (err, result) => {
+                console.log('Visitor Id is', result);
             })
             this.props.navigation.navigate(AppRoute.JOBDETAIL);
         })
     }
 
-    search() {
+    handleFilter() {
+        const {isVisible, vendorId, visitStartDate, visitEndDate} = this.state
+        const visit1 = visitStartDate.substring(8,10) + '-' + visitStartDate.substring(5,7) + '-' + visitStartDate.substring(0,4)
+        const visit2 = visitEndDate.substring(8,10) + '-' + visitEndDate.substring(5,7) + '-' + visitEndDate.substring(0,4)
+        console.log("vendorId", vendorId, visit1, visit2)
+        axios({
+            method: 'get',
+            url: AppConstants.API_BASE_URL + '/api/visitor/searchDate/' + vendorId + '/' + visit1 + '/' + visit2 ,
 
+        }).then((response) => {
+            this.setState({
+                ...this.state,
+                isVisible: !isVisible,
+                my_Jobs: response.data
+            })
+            console.log("Profile Data", response.data);
+        },
+            (error) => {
+                console.log(error);
+                if (error) {
+                    alert("Seems you have not created any visitor in this period ! please select another Date.");
+                }
+            }
+        );
+       
+       
     }
 
     _onRefresh() {
@@ -237,14 +271,14 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         <ListItem style={{ borderBottomColor: '#fff', borderBottomWidth: 0 }}>
             {item != null ?
                 <View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={(e) => { this.handleJobSubmit(e, item.id) }}>
                         <View style={styles.card}>
                             <View style={styles.card1}>
                                 <Text style={styles.text}>{item.firstName} {item.lastName}</Text>
                                 <Text style={styles.textdt}>{item.visitDate.length < 35
-              ? `${item.visitDate.substring(0, 16)}`
-              : `${item.visitDate}`}
- </Text>
+                                    ? `${item.visitDate.substring(0, 16)}`
+                                    : `${item.visitDate}`}
+                                </Text>
                             </View>
 
                             <View style={styles.card2}>
@@ -260,7 +294,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
     )
 
     render() {
-        const { my_Jobs } = this.state
+        const { my_Jobs, visitStartDate, visitEndDate, isVisible, createdAt } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
@@ -292,7 +326,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 
 
                     <View style={Styles.filterButton}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress = {() => {this.setState({isVisible: !isVisible})}}>
                             <Text style={{ color: '#1DA1F2', fontSize: 20 }}>Filter</Text>
                         </TouchableOpacity>
                     </View>
@@ -300,7 +334,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 
                 </View>
 
-                {/* <TouchableOpacity onPress = {this.getdeviceId}>
+                {/* <TouchableOpacity onPress={this.getdeviceId}>
                     <Text>Device Id</Text>
                 </TouchableOpacity>
                 <Text>{this.state.deviceId}</Text> */}
@@ -316,11 +350,54 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     {/* <Header style={styles.header}> */}
 
                     {/* </Header> */}
-                   
+
                     {/* <View style = {{height: 50, width: '100%', backgroundColor: 'rgba(145,174,225,0.3)'}}></View> */}
                     <List data={my_Jobs}
                         renderItem={this.renderMyJob}
                     />
+
+
+                    <Modal
+                        animationType={"fade"}
+                        transparent={false}
+                        visible={this.state.isVisible}
+                        onRequestClose={() => { console.log("Modal has been closed.") }}>
+                        {/*All views of Modal*/}
+                        <View style={styles.modal}>
+                            <Text>Select Date</Text>
+                            <View style={{ width: '40%' }}>
+                                <Label>From</Label>
+                                <DatePicker
+                                    date={createdAt}
+                                    format="YYYY-MM-DD"
+                                    minDate={createdAt}
+                                    maxDate={new Date()}
+                                    onDateChange={(visitStartDate) => { this.setState({ visitStartDate: visitStartDate }) }}
+                                />
+                                {/* <Text>{visitStartDate}</Text> */}
+                            </View>
+
+                            <View style={{ width: '40%' }}>
+                                <Label>To</Label>
+                                <DatePicker
+                                    date={new Date()}
+                                    format='YYYY-MM-DD'                                    
+                                    minDate={visitStartDate}
+                                    maxDate={new Date()}
+                                    onDateChange={(visitEndDate) => { this.setState({ visitEndDate: visitEndDate }) }}
+                                />
+                                {/* <Text>{visitEndDate}</Text> */}
+                            </View>
+                            <TouchableOpacity style={styles.modalButton} onPress={() => this.setState({ isVisible: !isVisible })}>
+                                <Text style={styles.modalButtonText}>Cancel</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.modalButton} onPress={() => this.handleFilter()}>
+                                <Text style={styles.modalButtonText}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+
                     <View style={{ height: 10, width: '100%' }}></View>
                 </Content>
 
@@ -334,7 +411,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-    },  
+    },
 
     searchBox: {
         width: 375,
@@ -349,6 +426,36 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         marginTop: 0,
         paddingTop: -10
+    },
+    modal: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#DDDDDD",
+        height: 300,
+        width: '80%',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#AAAAAA',
+        marginTop: 80,
+        marginLeft: 40,
+    },
+
+    modalText: {
+        color: '#FFFFFF'
+    },
+
+    modalButton: {
+        marginTop: 10,
+        backgroundColor: '#1DA1F2',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 50
+    },
+
+    modalButtonText: {
+        color: '#FFFFFF'
     },
 
     header: {

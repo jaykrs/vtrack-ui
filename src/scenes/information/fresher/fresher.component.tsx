@@ -162,13 +162,13 @@ export class FresherScreen extends React.Component<FresherScreenProps & ThemedCo
   handleSubmit() {
     const {jobIndustry, city, salaryFrom, salaryTo} = this.state
     if (jobIndustry === '' || jobIndustry.length === 0) {
-      Alert.alert(LabelConstants.ALERT_COMPANY_INDUSTRY);      
+      alert(LabelConstants.ALERT_COMPANY_INDUSTRY);      
     } else if (city === '' || city.length === 0) {
-      Alert.alert(LabelConstants.ALERT_PREFERRED_CITY);
+      alert(LabelConstants.ALERT_PREFERRED_CITY);
     } else if (salaryFrom === '' || salaryFrom.length === 0) {
-      Alert.alert(LabelConstants.ALERT_EXPECTED_SALARY_FROM);
+      alert(LabelConstants.ALERT_EXPECTED_SALARY_FROM);
     } else if (salaryTo === '' || salaryTo.length === 0) {
-      Alert.alert(LabelConstants.ALERT_EXPECTED_SALARY_TO);
+      alert(LabelConstants.ALERT_EXPECTED_SALARY_TO);
     } else {
       const profileData1 = {
         jobIndustry: jobIndustry,

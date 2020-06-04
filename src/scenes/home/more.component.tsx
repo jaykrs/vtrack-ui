@@ -101,7 +101,7 @@ UNSAFE_componentWillReceiveProps(nextProps) {
     })
   }, (error) => {
     if (error) {
-      Alert.alert(error)
+      alert(error)
     }
   });
 
@@ -115,7 +115,7 @@ UNSAFE_componentWillReceiveProps(nextProps) {
     })
   }, (error) => {
     if (error) {
-      Alert.alert(error)
+      alert(error)
     }
   });
 }
@@ -165,7 +165,7 @@ UNSAFE_componentWillReceiveProps(nextProps) {
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     });
 
@@ -179,7 +179,7 @@ UNSAFE_componentWillReceiveProps(nextProps) {
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     });
 
@@ -195,7 +195,7 @@ UNSAFE_componentWillReceiveProps(nextProps) {
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     })
   }

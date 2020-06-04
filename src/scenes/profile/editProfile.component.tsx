@@ -138,7 +138,7 @@ export class EditProfileScreen extends React.Component<EditProfileScreenProps & 
     }
 
     selectAudio(e, timelineType) {
-        // Alert.alert("We are facing some issues, shortly we'll come up with solution");
+        // alert("We are facing some issues, shortly we'll come up with solution");
         // console.log('Video Timeline Type', timelineType)
         FilePickerManager.showFilePicker(audioOptions, (response) => {
             // console.log('Response = ', response);
@@ -175,12 +175,12 @@ export class EditProfileScreen extends React.Component<EditProfileScreenProps & 
             this.setState({
                 isVisible: !isVisible
             })
-          Alert.alert("Your CV uploaded successfully");         
+          alert("Your CV uploaded successfully");         
         },
           (error) => {
             // console.log(error);
             if (error) {
-              Alert.alert("You are using wrong format");
+              alert("You are using wrong format");
             }
           });       
     }

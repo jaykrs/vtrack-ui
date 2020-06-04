@@ -60,7 +60,7 @@ export class TransactionHistoryScreen extends Component<TransactionHistoryScreen
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     })
   }

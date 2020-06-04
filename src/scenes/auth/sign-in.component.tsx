@@ -104,7 +104,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
       }
     }, (error) => {
       Alert.alert(LabelConstants.com_alert_invalid_email_or_password);
-      console.log(error);
+      // console.log(error);
     });
 
   };

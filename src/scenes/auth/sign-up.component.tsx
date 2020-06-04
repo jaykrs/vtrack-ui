@@ -94,23 +94,23 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
     // let userRole = largeSelectChanges.selectedOption != undefined && largeSelectChanges.selectedOption.text === 'HR' ? 28 :  29;
     //  console.log('User Role',userRole)
     if (emailId === " " || emailId.length === 0) {
-      Alert.alert("Please Enter EmailId");
+      alert("Please Enter EmailId");
     } else if (f_name === "" || f_name.length === 0) {
-      Alert.alert("Please Enter First Name");
+      alert("Please Enter First Name");
     } else if (l_name === "" || l_name.length === 0) {
-      Alert.alert("Please Enter Last Name");
+      alert("Please Enter Last Name");
     } else if (address === "" || address.length === 0) {
-      Alert.alert("Please Enter Address");
+      alert("Please Enter Address");
     } else if (phone_country_code === "" || phone_country_code.length === 0) {
-      Alert.alert("Please Enter Country Code");
+      alert("Please Enter Country Code");
     } else if (phone_number === "" || phone_number.length === 0) {
-      Alert.alert("Please Enter Phone Number");
+      alert("Please Enter Phone Number");
     } else if (vendor_id === "" || vendor_id.length === 0) {
-      Alert.alert("Please Enter Vendor Id");
+      alert("Please Enter GSTIN/TIN");
     } else if (vendor_name === "" || vendor_name.length === 0) {
-      Alert.alert("Please Enter Vendor Name");
+      alert("Please Enter Premise Name");
     } else if (pwd === "" || pwd.length === 0) {
-      Alert.alert("Please Enter Password");
+      alert("Please Enter Password");
     } else {
       axios({
         method: 'post',
@@ -130,9 +130,9 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       }).then((response) => {
         if (response.data.status === "false") {
           // console.log("from signup",response.data.status);
-          Alert.alert(response.data.description + " : " + response.data.emailId);
+          alert(response.data.description + " : " + response.data.emailId);
         } else {
-          Alert.alert(LabelConstants.com_alert_signup_user);
+          alert(LabelConstants.com_alert_signup_user);
           this.props.navigation.navigate(AppRoute.SIGN_IN);
         }
 
@@ -142,7 +142,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       }, (error) => {
         console.log(error);
       });
-      // Alert.alert("SignUp Successfull Login With Your Credential");
+      // alert("SignUp Successfull Login With Your Credential");
       // navigateHome();
     }
   };
@@ -305,7 +305,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
               {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
-                placeholder='Enter Vendor Id'
+                placeholder='Enter GSTIN/TIN'
                 onChangeText={(vendor_id) => { this.setState({ vendor_id: vendor_id }) }}
               />
             </View>
@@ -314,7 +314,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
               {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
-                placeholder='Enter Vendor Name'
+                placeholder='Enter Premise Name'
                 onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
               />
             </View>

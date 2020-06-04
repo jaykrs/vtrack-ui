@@ -76,11 +76,11 @@ export class ChangepasswordScreen extends React.Component<ThemedComponentProps, 
   onClickListener = (viewId) => {
     if (viewId === 'UpdatePassword') {
       if (this.state.password === '' || this.state.password.length === 0) {
-        Alert.alert(LabelConstants.com_alert_enter_password);
+        alert(LabelConstants.com_alert_enter_password);
       } else if (this.state.confirmpassword === '' || this.state.confirmpassword.length == 0) {
-        Alert.alert(LabelConstants.com_alert_enter_confirm_password);
+        alert(LabelConstants.com_alert_enter_confirm_password);
       } else if (this.state.password !== this.state.confirmpassword) {
-        Alert.alert(LabelConstants.com_alert_password_mismatch_please_try_again);
+        alert(LabelConstants.com_alert_password_mismatch_please_try_again);
       } 
       else {
         axios({
@@ -94,7 +94,7 @@ export class ChangepasswordScreen extends React.Component<ThemedComponentProps, 
           }
         }).then(() => {
 
-          Alert.alert(LabelConstants.com_alert_password_updated_successfully);
+          alert(LabelConstants.com_alert_password_updated_successfully);
         }, (error) => {
           console.log(error);
         });
@@ -130,7 +130,7 @@ export class ChangepasswordScreen extends React.Component<ThemedComponentProps, 
         (error) => {
           console.log(error);
           if (error) {
-            Alert.alert("Error");
+            alert("Error");
           }
         });
     }
@@ -148,7 +148,7 @@ export class ChangepasswordScreen extends React.Component<ThemedComponentProps, 
       (error) => {
         console.log(error);
         if (error) {
-          Alert.alert("UserId or Password is invalid");
+          alert("UserId or Password is invalid");
         }
       });
   }

@@ -129,17 +129,17 @@ export class CompanyScreen extends React.Component<CompanyScreenProps & ThemedCo
     handleSubmit() {
         const { userId, industry, name, strength, location, designation } = this.state
         if (userId === '' || userId.length === 0) {
-            Alert.alert(LabelConstants.ALERT_USER_ID);
+            alert(LabelConstants.ALERT_USER_ID);
         } else if (designation === '' || designation.length === 0) {
-            Alert.alert(LabelConstants.ALERT_DESIGNATION);
+            alert(LabelConstants.ALERT_DESIGNATION);
         } else if (name === '' || name.length === 0) {
-            Alert.alert(LabelConstants.ALERT_COMPANY_NAME);
+            alert(LabelConstants.ALERT_COMPANY_NAME);
         } else if (industry === '' || industry.length === 0) {
-            Alert.alert(LabelConstants.ALERT_COMPANY_INDUSTRY);
+            alert(LabelConstants.ALERT_COMPANY_INDUSTRY);
         } else if (location === '' || location.length === 0) {
-            Alert.alert(LabelConstants.ALERT_COMPANY_LOCATION);
+            alert(LabelConstants.ALERT_COMPANY_LOCATION);
         } else if (strength === '' || strength.length === 0) {
-            Alert.alert(LabelConstants.ALERT_COMPANY_STRENGTH);
+            alert(LabelConstants.ALERT_COMPANY_STRENGTH);
         } else {
             axios({
                 method: 'POST',

@@ -116,19 +116,19 @@ export class PostScreen2 extends React.Component<PostScreen2Props & ThemedCompon
         }
 
         if (openings === '' || openings.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_OPENINGS)
+            alert(LabelConstants.ALERT_JOB_OPENINGS)
         } else if (location === '' || location.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_LOCATION)
+            alert(LabelConstants.ALERT_JOB_LOCATION)
         } else if (minQualification === '' || minQualification.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_MINQUALFICATION)
+            alert(LabelConstants.ALERT_JOB_MINQUALFICATION)
         } else if (experienceRequired === '' || experienceRequired.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_EXPERIENCE_REQUIRED)
+            alert(LabelConstants.ALERT_JOB_EXPERIENCE_REQUIRED)
         } else if (salaryFrom === '' || salaryFrom.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_SALARY_FROM)
+            alert(LabelConstants.ALERT_JOB_SALARY_FROM)
         } else if (salaryTo === '' || salaryTo.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_SALARY_TO)
+            alert(LabelConstants.ALERT_JOB_SALARY_TO)
         } else if (salaryType === '' || salaryType.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_SALARY_TYPE)
+            alert(LabelConstants.ALERT_JOB_SALARY_TYPE)
         } else {
         AsyncStorage.mergeItem('jobData', JSON.stringify(jobData2), () => {
             AsyncStorage.getItem('jobData', (err, result) => {
@@ -180,7 +180,7 @@ export class PostScreen2 extends React.Component<PostScreen2Props & ThemedCompon
             (error) => {
                 console.log(error);
                 if (error) {
-                    Alert.alert("UserId or Password is invalid");
+                    alert("UserId or Password is invalid");
                 }
             }
         );

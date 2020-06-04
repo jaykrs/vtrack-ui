@@ -111,7 +111,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             // console.log('user Details all data', value);
             const user = JSON.parse(value);
             this.setState({
-                userId: user.userId,
+                userId: user.id,
                 device_token: user.deviceToken
             })
             // console.log('user data id', this.state.userId);      
@@ -143,7 +143,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                 (error) => {
                     console.log(error);
                     if (error) {
-                        // Alert.alert("UserId or Password is invalid");
+                        // alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -163,7 +163,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
         //     (error) => {
         //         console.log(error);
         //         if (error) {
-        //             Alert.alert("UserId or Password is invalid");
+        //             alert("UserId or Password is invalid");
         //         }
         //     }
         // );
@@ -197,7 +197,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
         }).then((response) => {
             if (response) {
                 if (response.data.emailId === emailId) {
-                    Alert.alert('User Updated Successfuly')
+                    alert('User Updated Successfuly')
                     this.setState({
                         editable: false
                     })
@@ -206,7 +206,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             }
         }, (error) => {
             console.log(error)
-            Alert.alert('Server is Down or You are using wrong Data')
+            alert('Server is Down or You are using wrong Data')
         });
 
     }
@@ -358,22 +358,22 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                         </View>
 
                         <View style={styles.dataView}>
-                            <Label>Vendor Id</Label>
+                            <Label>GSTIN/TIN</Label>
                             <TextInput
                                 style={styles.dataText}
                                 value={vendor_id}
-                                placeholder='Vendor Id'
+                                placeholder='GSTIN/TIN'
                                 editable={editable}
                                 onChangeText={(vendor_id) => { this.setState({ vendor_id: vendor_id }) }}
                             />
                         </View>
 
                         <View style={styles.dataView}>
-                            <Label>Vendor Name</Label>
+                            <Label>Premise Name</Label>
                             <TextInput
                                 style={styles.dataText}
                                 value={vendor_name}
-                                placeholder='Vendor Name'
+                                placeholder='Premise Name'
                                 editable={editable}
                                 onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
                             />

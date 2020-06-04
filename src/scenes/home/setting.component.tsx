@@ -86,7 +86,7 @@ export class SettingScreen extends React.Component<SettingScreenProps & ThemedCo
                               }
                               RazorpayCheckout.open(options).then((data) => {
                                 // handle success
-                                Alert.alert(`Success: ${data.razorpay_payment_id}`);
+                                alert(`Success: ${data.razorpay_payment_id}`);
                               }).catch((error) => {
                                 // handle failure
                                 alert(`Error: ${error.code} | ${error.description}`);

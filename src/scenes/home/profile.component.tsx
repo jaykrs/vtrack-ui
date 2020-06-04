@@ -91,7 +91,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
       //     (error) => {
       //       console.log(error);
       //       if (error) {
-      //         // Alert.alert("UserId or Password is invalid");
+      //         // alert("UserId or Password is invalid");
       //       }
       //     });
       //   this.setState({
@@ -172,7 +172,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
         })
       }, (error) => {
         if (error) {
-          Alert.alert(error)
+          alert(error)
         }
       });
 
@@ -186,7 +186,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
         })
       }, (error) => {
         if (error) {
-          Alert.alert(error)
+          alert(error)
         }
       });
 
@@ -204,7 +204,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
         })
       }, (error) => {
         if (error) {
-          Alert.alert(error)
+          alert(error)
         }
       });
     }
@@ -291,7 +291,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     });
 
@@ -307,7 +307,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     });
 
@@ -323,7 +323,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     })
   }
@@ -349,7 +349,7 @@ export class ProfileScreen extends Component<ProfileScreenProps & SafeAreaLayout
         (error) => {
           console.log(error);
           if (error) {
-            Alert.alert("Data is invailid");
+            alert("Data is invailid");
           }
         }
       );

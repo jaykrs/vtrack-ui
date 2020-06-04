@@ -144,15 +144,15 @@ export class PostScreen extends React.Component<PostScreenProps & ThemedComponen
             companyName: companyName
         }
         if (userId === '' || userId.length === 0) {
-            Alert.alert('Please Enter Your User Id')
+            alert('Please Enter Your User Id')
         } else if (jobIndustry === '' || jobIndustry.length === 0) {
-            Alert.alert('Please Enter Your Profile Type')
+            alert('Please Enter Your Profile Type')
         } else if (jobTitle === '' || jobTitle.length === 0) {
-            Alert.alert('Please Enter Your Job Title')
+            alert('Please Enter Your Job Title')
         } else if (employmentType === '' || employmentType.length === 0) {
-            Alert.alert('Please Selest Your Employment Type')
+            alert('Please Selest Your Employment Type')
         } else if (companyName === '' || companyName.length === 0) {
-            Alert.alert('Please Enter Your Company Name')
+            alert('Please Enter Your Company Name')
     } else {
     AsyncStorage.setItem('jobData', JSON.stringify(jobData1), () => {
         AsyncStorage.getItem('jobData', (err, result) => {

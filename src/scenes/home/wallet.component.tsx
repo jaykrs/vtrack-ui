@@ -86,17 +86,17 @@ export class WalletScreen extends React.Component<WalletScreenProps & ThemedComp
   // onClickListener = (viewId) => {
   //   if (viewId === 'UpdateDetails') {
   //       if (this.state.firstName === '' || this.state.firstName.length === 0) {
-  //        Alert.alert(LabelConstants.com_alert_enter_first_name);
+  //        alert(LabelConstants.com_alert_enter_first_name);
   //     } else if (this.state.lastName === '' || this.state.lastName.length === 0) {
-  //       Alert.alert(LabelConstants.com_alert_enter_last_name);
+  //       alert(LabelConstants.com_alert_enter_last_name);
   //     }else if (this.state.emailId === '' || this.state.emailId.length === 0) {
-  //       Alert.alert(LabelConstants.com_alert_enter_email_id);
+  //       alert(LabelConstants.com_alert_enter_email_id);
   //     } else if (this.state.dob === '' || this.state.dob.length === 0) {
-  //       Alert.alert(LabelConstants.com_alert_enter_date_of_birth);
+  //       alert(LabelConstants.com_alert_enter_date_of_birth);
   //     } else if (this.state.city === '' || this.state.city.length == 0) {
-  //       Alert.alert(LabelConstants.com_alert_enter_city);
+  //       alert(LabelConstants.com_alert_enter_city);
   //     } else if (this.state.phoneNo === '' || this.state.phoneNo.length == 0) {
-  //       Alert.alert(LabelConstants.com_alert_enter_phone_number);
+  //       alert(LabelConstants.com_alert_enter_phone_number);
   //     } else {
   //       axios({
   //         method: 'post',
@@ -113,7 +113,7 @@ export class WalletScreen extends React.Component<WalletScreenProps & ThemedComp
   //         }
   //       }).then(() => {
 
-  //         Alert.alert("Personal Details Updated Successfully");
+  //         alert("Personal Details Updated Successfully");
   //       }, (error) => {
   //         console.log('Data is invailid',error);
   //       });
@@ -125,7 +125,7 @@ export class WalletScreen extends React.Component<WalletScreenProps & ThemedComp
 onClickListener = (viewId) => {
   if (viewId === 'UpdateFund') {
       if (this.state.amount === '' || this.state.amount.length === 0) {
-       Alert.alert("Add amount");
+       alert("Add amount");
     } else {
       axios({
         method: 'post',
@@ -137,7 +137,7 @@ onClickListener = (viewId) => {
           
         }
       }).then(() => {
-        Alert.alert(this.state.amount+"$"+"  Added To Your Wallet");
+        alert(this.state.amount+"$"+"  Added To Your Wallet");
         axios({
           method: 'get',
           url: AppConstants.API_BASE_URL + '/api/user/get/' + this.state.userId,
@@ -152,7 +152,7 @@ onClickListener = (viewId) => {
           (error) => {
             console.log(error);
             if (error) {
-              Alert.alert("UserId or Password is invalid");
+              alert("UserId or Password is invalid");
             }
           });
         this.toggleModal();
@@ -195,7 +195,7 @@ onClickListener = (viewId) => {
         (error) => {
           console.log(error);
           if (error) {
-            Alert.alert("UserId or Password is invalid");
+            alert("UserId or Password is invalid");
           }
         });
     }
@@ -214,7 +214,7 @@ onClickListener = (viewId) => {
       (error) => {
         console.log(error);
         if (error) {
-          Alert.alert("UserId or Password is invalid");
+          alert("UserId or Password is invalid");
         }
       });
   }

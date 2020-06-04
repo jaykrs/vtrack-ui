@@ -90,17 +90,17 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
   onClickListener = (viewId) => {
     if (viewId === 'UpdateDetails') {
       if (this.state.firstName === '' || this.state.firstName.length === 0) {
-        Alert.alert(LabelConstants.com_alert_enter_first_name);
+        alert(LabelConstants.com_alert_enter_first_name);
       } else if (this.state.lastName === '' || this.state.lastName.length === 0) {
-        Alert.alert(LabelConstants.com_alert_enter_last_name);
+        alert(LabelConstants.com_alert_enter_last_name);
       } else if (this.state.emailId === '' || this.state.emailId.length === 0) {
-        Alert.alert(LabelConstants.com_alert_enter_email_id);
+        alert(LabelConstants.com_alert_enter_email_id);
       } else if (this.state.dob === '' || this.state.dob.length === 0) {
-        Alert.alert(LabelConstants.com_alert_enter_date_of_birth);
+        alert(LabelConstants.com_alert_enter_date_of_birth);
       } else if (this.state.city === '' || this.state.city.length == 0) {
-        Alert.alert(LabelConstants.com_alert_enter_city);
+        alert(LabelConstants.com_alert_enter_city);
       } else if (this.state.phoneNo === '' || this.state.phoneNo.length == 0) {
-        Alert.alert(LabelConstants.com_alert_enter_phone_number);
+        alert(LabelConstants.com_alert_enter_phone_number);
       } else {
         axios({
           method: 'post',
@@ -117,7 +117,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           }
         }).then(() => {
 
-          Alert.alert("Personal Details Updated Successfully");
+          alert("Personal Details Updated Successfully");
         }, (error) => {
           console.log('Data is invailid', error);
         });
@@ -188,7 +188,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
         (error) => {
           console.log(error);
           if (error) {
-            Alert.alert("UserId or Password is invalid");
+            alert("UserId or Password is invalid");
           }
         });
 
@@ -208,7 +208,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
       (error) => {
         console.log(error);
         if (error) {
-          Alert.alert("UserId or Password is invalid");
+          alert("UserId or Password is invalid");
         }
       });
   }
@@ -222,12 +222,12 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
     url: AppConstants.API_BASE_URL + '/api/file/upload/avatar/' + this.state.userId,
     data: formData
   }).then((response) => {
-    Alert.alert("Profile Image Uploaded successfully");
+    alert("Profile Image Uploaded successfully");
     // this.props.navigation.goBack()
   },
     (error) => {
       if (error) {
-        Alert.alert("You are using wrong format");
+        alert("You are using wrong format");
       }
     });
 }

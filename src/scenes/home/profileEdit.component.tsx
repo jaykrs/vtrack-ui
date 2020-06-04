@@ -57,13 +57,13 @@ export class ProfileEditScreen extends Component<ProfileEditScreenProps & SafeAr
     if (viewId === 'Update Profile') {
       // console.log("update button pressed",this.state.languagePrimary,this.state.availability,this.state.catagory,this.state.userId);
       if (this.state.availability === '' || this.state.availability.length === 0) {
-        Alert.alert(LabelConstants.com_alert_choose_availability);       
+        alert(LabelConstants.com_alert_choose_availability);       
       } else if (this.state.catagory === '' || this.state.catagory.length === 0) {
-        Alert.alert(LabelConstants.com_alert_choose_category);
+        alert(LabelConstants.com_alert_choose_category);
       } else if (this.state.languagePrimary === '' || this.state.languagePrimary.length == 0) {
-        Alert.alert(LabelConstants.com_alert_choose_language);
+        alert(LabelConstants.com_alert_choose_language);
       } else if (this.state.consultationPrice === '' || this.state.consultationPrice.length == 0) {
-        Alert.alert("Set Consultation Price");
+        alert("Set Consultation Price");
       }else
        {
         Axios({
@@ -83,7 +83,7 @@ export class ProfileEditScreen extends Component<ProfileEditScreenProps & SafeAr
           }
 
         }).then(() => {
-          Alert.alert("Profile Details Updated Successfully");
+          alert("Profile Details Updated Successfully");
           //    this.props.navigation.navigate('HomeScreen');
 
         }, (error) => {
@@ -122,7 +122,7 @@ export class ProfileEditScreen extends Component<ProfileEditScreenProps & SafeAr
       // console.log("getPorfile",response.data);
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     });
     Axios({
@@ -143,7 +143,7 @@ export class ProfileEditScreen extends Component<ProfileEditScreenProps & SafeAr
       // console.log("ConsultationPrice",this.state.consultationPrice);
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     });
 
@@ -159,7 +159,7 @@ export class ProfileEditScreen extends Component<ProfileEditScreenProps & SafeAr
       })
     }, (error) => {
       if (error) {
-        Alert.alert(error)
+        alert(error)
       }
     })
   }

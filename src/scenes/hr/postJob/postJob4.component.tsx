@@ -91,7 +91,7 @@ export class PostScreen4 extends React.Component<PostScreen4Props & ThemedCompon
         const { jobDescription } = this.state
         const jobData4 = {jobDescription: jobDescription}
         if (jobDescription === '' || jobDescription.length === 0) {
-            Alert.alert(LabelConstants.ALERT_JOB_DESCRIPTION)
+            alert(LabelConstants.ALERT_JOB_DESCRIPTION)
         } else {
         AsyncStorage.mergeItem('jobData', JSON.stringify(jobData4), () => {
             AsyncStorage.getItem('jobData', (err, result) => {
@@ -129,7 +129,7 @@ export class PostScreen4 extends React.Component<PostScreen4Props & ThemedCompon
             (error) => {
                 console.log(error);
                 if (error) {
-                    Alert.alert("UserId or Password is invalid");
+                    alert("UserId or Password is invalid");
                 }
             }
         );
