@@ -5,7 +5,7 @@ import {
   Layout,
   Text,
 } from 'react-native-ui-kitten';
-import { AboutScreenProps } from '../../navigation/home.navigator';
+import { TermsScreenProps } from '../../navigation/home.navigator';
 import { Toolbar } from '../../components/toolbar.component';
 import {
   SafeAreaLayout,
@@ -15,18 +15,18 @@ import {
 
 
 
-export const AboutScreen = (props: AboutScreenProps): SafeAreaLayoutElement => (
+export const TermsScreen = (props: TermsScreenProps): SafeAreaLayoutElement => (
   <SafeAreaLayout
     style={styles.safeArea}
     insets={SaveAreaInset.TOP}>
     <Toolbar
-      title='About Us'
+      title='Terms of Use'
       onBackPress={props.navigation.goBack}
     />
     <Divider/>
     <Layout style={styles.container}>
       <Text category='h1'>
-        ABOUT
+        Terms of Use
       </Text>
     </Layout>
   </SafeAreaLayout>

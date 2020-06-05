@@ -10,4 +10,7 @@ export { ImageUploadScreen } from './imageUpload.component';
 export { LogoutScreen } from './Logout.component';
 export { TransactionHistoryScreen} from './transactionhistory.component';
 export { MoreScreen } from './more.component';
-export { SettingScreen } from './setting.component';
+export { PaymentScreen } from './payment.component';
+export { TermsScreen } from './terms.component';
+export { AboutScreen } from './about.component';
+

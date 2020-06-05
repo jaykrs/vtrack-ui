@@ -19,20 +19,13 @@ import { TimelineNavigator } from './timeline.navigator';
 import { MyJobsNavigator } from './myJobs.navigator';
 import { AppliedNavigator } from './applied.navigator';
 import { AppRoute } from './app-routes';
-import {
-  ContactUsScreen,
-  AccountsScreen,
+import { 
   HomeDrawer,
   HomeTabBar,
-  ChangepasswordScreen,
-  // ProfileScreen,
-  // ProfileEditScreen,
-  WalletScreen,
-  LogoutScreen,
-  // AskFreeQuestionScreen,
-  TransactionHistoryScreen,
-  MoreScreen,
-  SettingScreen
+  TermsScreen,
+  AboutScreen, 
+  LogoutScreen, 
+  PaymentScreen
 } from '../scenes/home';
 import {
   TimeLineIcon,
@@ -55,8 +48,9 @@ import { AuthNavigator } from './auth.navigator';
 
 type HomeDrawerNavigatorParams = {
   [AppRoute.HOME]: undefined;
-  [AppRoute.CONTACT]: undefined;
+  [AppRoute.ABOUT]: undefined;
   [AppRoute.ACCOUNTS]: undefined;
+  [AppRoute.TERMS]: undefined;
   [AppRoute.CHANGEPASSWORD]: undefined;
   // [AppRoute.PROFILE]: undefined;
   // [AppRoute.PROFILEEDIT]:undefined;
@@ -69,6 +63,7 @@ type HomeDrawerNavigatorParams = {
   [AppRoute.MORE]: undefined;
   [AppRoute.SETTING]: undefined;
   [AppRoute.INFORMATION]: undefined;
+  [AppRoute.PAYMENT]: undefined;
 
 
 }
@@ -102,8 +97,13 @@ export type MyJobsTabNavigationProp = CompositeNavigationProp<
 >;
 
 export interface AboutScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.CONTACT>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.CONTACT>;
+  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.ABOUT>;
+  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.ABOUT>;
+}
+
+export interface TermsScreenProps {
+  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.TERMS>;
+  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.TERMS>;
 }
 
 // export interface ProfileScreenProps {
@@ -127,9 +127,9 @@ export interface WalletScreenProps {
   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.WALLET>;
 }
 
-export interface SettingScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.SETTING>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.SETTING>;
+export interface PaymentScreenProps {
+  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.PAYMENT>;
+  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.PAYMENT>;
 }
 
 export interface TransactionHistoryScreenProps {
@@ -232,18 +232,18 @@ export const HomeNavigator = (): React.ReactElement => (
     /> */}
 
     <Drawer.Screen
-      name={AppRoute.SETTING}
-      component={SettingScreen}
+      name={AppRoute.ABOUT}
+      component={AboutScreen}
       options={{ title: 'About Us', drawerIcon: AccountsIcon }}
     />
   <Drawer.Screen
-      name={AppRoute.ACCOUNTS}
-      component={SettingScreen}
+      name={AppRoute.PAYMENT}
+      component={PaymentScreen}
       options={{ title: 'Payments', drawerIcon: WalletIcon }}
     />
     <Drawer.Screen
-      name={AppRoute.WALLET}
-      component={SettingScreen}
+      name={AppRoute.TERMS}
+      component={TermsScreen}
       options={{ title: 'Terms of Use', drawerIcon: AccountsIcon }}
     />
     <Drawer.Screen

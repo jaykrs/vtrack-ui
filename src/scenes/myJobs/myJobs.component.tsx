@@ -388,12 +388,12 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                                 />
                                 {/* <Text>{visitEndDate}</Text> */}
                             </View>
-                            <TouchableOpacity style={styles.modalButton} onPress={() => this.setState({ isVisible: !isVisible })}>
-                                <Text style={styles.modalButtonText}>Cancel</Text>
+                            <TouchableOpacity style={[Styles.buttonContainer, styles.button]} onPress={() => this.setState({ isVisible: !isVisible })}>
+                                <Text style={Styles.buttonCaption}>Cancel</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.modalButton} onPress={() => this.handleFilter()}>
-                                <Text style={styles.modalButtonText}>Next</Text>
+                            <TouchableOpacity style={[Styles.buttonContainer, styles.button]} onPress={() => this.handleFilter()}>
+                                <Text style={Styles.buttonCaption}>Next</Text>
                             </TouchableOpacity>
                         </View>
                     </Modal>
@@ -498,7 +498,14 @@ const styles = StyleSheet.create({
         color: '#999999',
     },
 
-    cancelIcon: {}
+    cancelIcon: {},
+
+    button: {
+        width: '44%',
+        height: 35,
+        marginTop: 20,
+        alignSelf: 'center'
+    },
 });
 
 
