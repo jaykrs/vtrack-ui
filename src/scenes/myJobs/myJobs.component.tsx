@@ -79,14 +79,14 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
     constructor(props) {
         super(props)
         this.state = {
-            userId: '',
+            id: '',
             isVisible: false,
             userType: '',
             token: '',
             isFresher: false,
             isExperience: false,
             qButton: '',
-            my_Jobs: [],
+            visitor_list: [],
             salary_Type: [],
             job_Industry: [],
             min_Qualification: [],
@@ -97,11 +97,12 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             visitEndDate: '',
             visitStartDate: '',
             createdAt: '',
-            vendorId: ''
+            vendorId: '',
+            search: ''
         }
         // this.submitFresher = this.submitFresher.bind(this);
-        // this.submitExperienced = this.submitExperienced.bind(this);
-        // this.submitQButton = this.submitQButton.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
         this._onRefresh = this._onRefresh.bind(this);
         this.getdeviceId = this.getdeviceId.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
@@ -148,7 +149,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             // console.log('user Details all data', value);
             const user = JSON.parse(value);
             this.setState({
-                userId: user.id,
+                id: user.id,
             })
 
             axios({
@@ -157,7 +158,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             }).then((response) => {
                 this.setState({
                     ...this.state,
-                    // my_Jobs: response.data,
+                    // visitor_list: response.data,
                     vendorId: response.data.vendorId,
                     createdAt: response.data.createdAt.length < 35
                         ? `${response.data.createdAt.substring(0, 10)}`
@@ -180,7 +181,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             }).then((response) => {
                 this.setState({
                     ...this.state,
-                    my_Jobs: response.data,                    
+                    visitor_list: response.data,
                 })
                 console.log("Profile Data", response.data);
             },
@@ -233,19 +234,19 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
     }
 
     handleFilter() {
-        const {isVisible, vendorId, visitStartDate, visitEndDate} = this.state
-        const visit1 = visitStartDate.substring(8,10) + '-' + visitStartDate.substring(5,7) + '-' + visitStartDate.substring(0,4)
-        const visit2 = visitEndDate.substring(8,10) + '-' + visitEndDate.substring(5,7) + '-' + visitEndDate.substring(0,4)
+        const { isVisible, vendorId, visitStartDate, visitEndDate } = this.state
+        const visit1 = visitStartDate.substring(8, 10) + '-' + visitStartDate.substring(5, 7) + '-' + visitStartDate.substring(0, 4)
+        const visit2 = visitEndDate.substring(8, 10) + '-' + visitEndDate.substring(5, 7) + '-' + visitEndDate.substring(0, 4)
         console.log("vendorId", vendorId, visit1, visit2)
         axios({
             method: 'get',
-            url: AppConstants.API_BASE_URL + '/api/visitor/searchDate/' + vendorId + '/' + visit1 + '/' + visit2 ,
+            url: AppConstants.API_BASE_URL + '/api/visitor/searchDate/' + vendorId + '/' + visit1 + '/' + visit2,
 
         }).then((response) => {
             this.setState({
                 ...this.state,
                 isVisible: !isVisible,
-                my_Jobs: response.data
+                visitor_list: response.data
             })
             console.log("Profile Data", response.data);
         },
@@ -256,8 +257,37 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                 }
             }
         );
-       
-       
+
+
+    }
+
+    handleSearch() {
+        const { search, vendorId, id, } = this.state
+        axios({
+            method: 'get',
+            url: AppConstants.API_BASE_URL + '/api/visitor/searchByName/' + search + '/' + id + '/' + vendorId
+        }).then((response) => {
+            this.setState({
+                ...this.state,
+                visitor_list: response.data,
+            })
+            console.log("Profile Data", response.data);
+        },
+            (error) => {
+                console.log(error);
+                if (error) {
+                    alert("Seems you have not created any visitor by this name !");
+                }
+            }
+        );
+
+    }
+
+    handleCancel() {
+        this.setState({
+            search: ''
+        })
+        this._onRefresh()
     }
 
     _onRefresh() {
@@ -294,7 +324,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
     )
 
     render() {
-        const { my_Jobs, visitStartDate, visitEndDate, isVisible, createdAt } = this.state
+        const { visitor_list, visitStartDate, search, visitEndDate, isVisible, createdAt } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
@@ -312,21 +342,27 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                         </TouchableOpacity>
                     </View>
                     <View style={Styles.searchBox}>
-                        <TouchableOpacity style={Styles.searchIcon}>
+                        <TouchableOpacity style={Styles.searchIcon} onPress={this.handleSearch}>
                             <Text style={styles.searchIcon}><SearchIcon /></Text>
                         </TouchableOpacity>
                         <TextInput
+                            value={search}
                             placeholder="Search"
                             style={Styles.searchInput}
+                            onChangeText={(search) => { this.setState({ search: search }) }}
                         />
-                        <TouchableOpacity style={Styles.cancelIcon}>
-                            <Text style={styles.cancelIcon}><CancelIcon /></Text>
-                        </TouchableOpacity>
+                        {search !== '' ?
+                            <TouchableOpacity style={Styles.cancelIcon} onPress={this.handleCancel}>
+                                <Text style={styles.cancelIcon}><CancelIcon /></Text>
+                            </TouchableOpacity> :
+                            null
+                        }
+
                     </View>
 
 
                     <View style={Styles.filterButton}>
-                        <TouchableOpacity onPress = {() => {this.setState({isVisible: !isVisible})}}>
+                        <TouchableOpacity onPress={() => { this.setState({ isVisible: !isVisible }) }}>
                             <Text style={{ color: '#1DA1F2', fontSize: 20 }}>Filter</Text>
                         </TouchableOpacity>
                     </View>
@@ -352,7 +388,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     {/* </Header> */}
 
                     {/* <View style = {{height: 50, width: '100%', backgroundColor: 'rgba(145,174,225,0.3)'}}></View> */}
-                    <List data={my_Jobs}
+                    <List data={visitor_list}
                         renderItem={this.renderMyJob}
                     />
 
@@ -381,7 +417,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                                 <Label>To</Label>
                                 <DatePicker
                                     date={new Date()}
-                                    format='YYYY-MM-DD'                                    
+                                    format='YYYY-MM-DD'
                                     minDate={visitStartDate}
                                     maxDate={new Date()}
                                     onDateChange={(visitEndDate) => { this.setState({ visitEndDate: visitEndDate }) }}

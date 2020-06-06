@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
+    View, StyleSheet, TouchableOpacity,
     ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl
 } from 'react-native';
 import {
@@ -15,7 +15,7 @@ import {
     withStyles, TabBar,
     styled, Divider, Avatar, Icon, Button
 } from 'react-native-ui-kitten';
-import { ScrollableTab, Tab, Container, Content, Tabs, Header, TabHeading, Thumbnail } from 'native-base';
+import { ScrollableTab, Tab, Container, Content, Tabs, Header, TabHeading, Thumbnail, Footer, FooterTab } from 'native-base';
 import { PaymentScreenProps } from '../../navigation/home.navigator';
 import { AppRoute } from '../../navigation/app-routes';
 import { ProgressBar } from '../../components/progress-bar.component';
@@ -40,6 +40,7 @@ import { truncate, open } from 'fs';
 import Share from 'react-native-share';
 import { pathToFileURL, fileURLToPath } from 'url';
 import { Styles } from '../../assets/styles';
+import moment from "moment";
 import RazorpayCheckout from 'react-native-razorpay';
 type MyState = {
 }
@@ -56,7 +57,9 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
             id: '',
             phone: '',
             f_name: '',
-            l_name: ''
+            l_name: '',
+            payment_Data: [],
+            validity: ''
         }
 
         this.handlePayment = this.handlePayment.bind(this);
@@ -73,11 +76,54 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                 f_name: user.firstName,
                 l_name: user.lastName
             })
+
+            axios({
+                method: 'get',
+                url: AppConstants.API_BASE_URL + '/api/user/getallpayment/' + user.emailId + '/' + user.deviceToken,
+            }).then((response) => {
+                this.setState({
+                    ...this.state,
+                    payment_Data: response.data,
+                })
+                console.log("Profile Data", response.data);
+            },
+                (error) => {
+                    console.log(error);
+                    if (error) {
+                        alert("Seems You have not recharged yet ! Please Recharge");
+                    }
+                }
+            );
+
+            axios({
+                method: 'get',
+                url: AppConstants.API_BASE_URL + '/api/user/get/' + user.id,
+            }).then((response) => {
+                this.setState({
+                    ...this.state,
+                    validity: moment(response.data.validationDate).format("D MMMM YYYY"),
+                })
+                console.log("Profile Data", response.data);
+            },
+                (error) => {
+                    console.log(error);
+                    if (error) {
+                        alert("Something went wrong contact vtrack");
+                    }
+                }
+            );
         }
     }
 
+    _onRefresh() {
+        this.setState({ refreshing: true });
+        this.componentDidMount().then(() => {
+            this.setState({ refreshing: false });
+        });
+    }
+
     handlePayment() {
-        const {emailId, f_name, l_name, phone, id} = this.state
+        const { emailId, f_name, l_name, phone, id } = this.state
         axios({
             method: 'POST',
             url: AppConstants.API_BASE_URL + '/api/user/startpayment',
@@ -87,7 +133,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
 
         }).then((response) => {
             this.setState({
-               id: response.data.id
+                id: response.data.id
             })
             const tId = response.data.id
             const options = {
@@ -114,8 +160,9 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                         transectionId: data.razorpay_payment_id,
                         id: tId
                     }
-        
+
                 }).then((response) => {
+                    this._onRefresh()
                     alert(`Success: ${data.razorpay_payment_id}`);
                 },
                     (error) => {
@@ -124,7 +171,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                             alert("Something went wrong please contact vtrack");
                         }
                     }
-                );                
+                );
             }).catch((error) => {
                 // handle failure
                 alert(`Error: ${error.code} | ${error.description}`);
@@ -139,7 +186,19 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
         );
     }
 
+    renderMyJob = ({ item }: any): ListItemElement => (
+        <ListItem style={{ borderBottomColor: '#fff', borderBottomWidth: 0 }}>
+            {item != null ?                
+                    <View style={styles.history}>
+                        <Text category='h6' style={styles.validity}>Payment {item.amount} Received on {moment(item.transectionDate).format("D MMMM YYYY")}</Text>
+                    </View> :                   
+                null}
+        </ListItem>
+    )
+
+
     render() {
+        const { payment_Data, validity } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
@@ -153,21 +212,30 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                 <Divider />
                 <View style={styles.content}>
                     <Text style={styles.text}>Plan Valid up to</Text>
-                    <Text category='h2' style={styles.validity}>12 August 2021</Text>
+                    <Text category='h2' style={styles.validity}>{validity}</Text>
                     <Text style={styles.transaction}>Transaction Payment Details</Text>
-                    <View style={styles.history}>
-                        <Text category='h6' style={styles.validity}>Payment 500 Received on 5 May 2019</Text>
-                    </View>
-                    <View style={styles.history}>
-                        <Text category='h6' style={styles.validity}>Payment 500 Received on 6 May 2020</Text>
-                    </View>
-
-                    <TouchableOpacity style={[Styles.buttonContainer, styles.button]}
-                        onPress={this.handlePayment}
-                    >
-                        <Text style={Styles.buttonCaption}>Pay Now</Text>
-                    </TouchableOpacity>
                 </View>
+
+                <Content
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                        />
+                    }
+                >
+                    <List data={payment_Data} renderItem={this.renderMyJob} />
+                    <View style={{ height: 10, width: '100%' }}></View>
+                </Content>
+
+                <Footer>
+                    <TouchableOpacity onPress={this.handlePayment}>
+                        <FooterTab style={styles.footer}>
+                            <Text category='h5' style={styles.buttonText}>Pay Now</Text>
+                        </FooterTab>
+                    </TouchableOpacity>
+                </Footer>
+
             </SafeAreaLayout>
         )
     }
@@ -180,7 +248,7 @@ const styles = StyleSheet.create({
 
     content: {
         width: '100%',
-        height: '100%',
+        marginTop: 100,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -204,12 +272,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#c5defc',
         paddingVertical: 10,
-        marginBottom: 5
+        marginBottom: -10
     },
-    button: {
-        width: '44%',
-        height: 52,
-        marginTop: 35,
-        alignSelf: 'center'
+
+    footer: {
+        justifyContent: 'center',
+        width: '100%',
+        alignItems: 'center'
+    },
+
+    buttonText: {
+        color: '#fff'
     }
 })
