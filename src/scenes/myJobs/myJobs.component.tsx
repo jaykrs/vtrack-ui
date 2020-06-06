@@ -108,31 +108,33 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         this.handleFilter = this.handleFilter.bind(this);
     }
 
-    // submitFresher() {
-    //     this.setState(
-    //         {
-    //             isFresher: true,
-    //             isExperience: false
-    //         }
-    //     )
-    // }
+    // async componentDidUpdate() {        
+    //     const value = await AsyncStorage.getItem('userDetail');
+    //     if (value) {
+    //         // console.log('user Details all data', value);
+    //         const user = JSON.parse(value);
 
-    // submitExperienced() {
-    //     this.setState(
-    //         {
-    //             isExperience: true,
-    //             isFresher: false
-    //         }
-    //     )
-    // }
+    //         axios({
+    //             method: 'get',
+    //             url: AppConstants.API_BASE_URL + '/api/visitor/search/' + user.id + '/' + user.vendorId,
 
-    // submitQButton(e, selected) {
-    //     // console.log(selected)
-    //     this.setState(
-    //         {
-    //             qButton: selected
-    //         }
-    //     )
+    //         }).then((response) => {
+    //             if (response.data !== this.state.visitor_list) {
+    //                 this.setState({
+    //                     ...this.state,
+    //                     visitor_list: response.data,
+    //                 })
+    //                 // console.log("Profile Data", response.data);
+    //             }
+    //         },
+    //             (error) => {
+    //                 console.log(error);
+    //                 if (error) {
+    //                     alert("Seems you have not created any visitor ! please add.");
+    //                 }
+    //             }
+    //         );
+    //     }
     // }
 
     getdeviceId = () => {
