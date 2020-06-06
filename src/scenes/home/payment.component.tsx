@@ -138,7 +138,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
             const tId = response.data.id
             const options = {
                 description: AppConstants.RAZOR_DESCRIPTION,
-                image: 'https://i.imgur.com/3g7nmJC.png',
+                image: 'http://www.marksmantech.com/images/icons/logo.png',
                 currency: response.data.currency,
                 key: AppConstants.RAZOR_KEY,
                 amount: response.data.amount,
