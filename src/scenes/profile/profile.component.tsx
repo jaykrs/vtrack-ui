@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
-    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput
+    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput, Picker
 } from 'react-native';
 import {
     // Input,
@@ -44,6 +44,7 @@ import Animated from 'react-native-reanimated';
 import { EditProfileScreen } from './editProfile.component';
 import { userInfo } from 'os';
 import { Styles } from '../../assets/styles';
+import { country_data } from '../../assets/country';
 
 // import axios from 'axios';  
 // import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
@@ -97,11 +98,15 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             vendor_location: '',
             initial: '',
             phone_number: '',
-            device_token: ''
+            device_token: '',
+            countryCode: '',
+            country_data: country_data,
         }
 
         this._onRefresh = this._onRefresh.bind(this);
         this.edit = this.edit.bind(this);
+        this.handleCountry = this.handleCountry.bind(this);
+        this.handleCountryCode = this.handleCountryCode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -136,9 +141,9 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                     country: response.data.country,
                     initial: response.data.initials,
                     phone_number: response.data.phone,
-
                 })
                 console.log("Profile Data", response.data);
+                this.handleCountryCode(response.data.countryCode);
             },
                 (error) => {
                     console.log(error);
@@ -209,6 +214,34 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             alert('Server is Down or You are using wrong Data')
         });
 
+    }
+
+    handleCountry(e, code) {
+        // Alert.alert("", code)
+        this.setState({
+            countryCode: code
+        })
+
+        this.state.country_data.map((item, index) => {
+            if (code === item.code) {
+                // Alert.alert("adadad", item.dial_code)
+                this.setState({
+                    country: item.name,
+                    phone_country_code: item.dial_code
+                })
+            }
+        })
+    }
+
+    handleCountryCode(code) {
+        this.state.country_data.map((item, index) => {
+            if (code === item.dial_code) {
+                // Alert.alert("adadad", item.dial_code)
+                this.setState({
+                    countryCode: item.code,
+                })
+            }
+        })
     }
 
     _onRefresh() {
@@ -292,12 +325,29 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                         </View>
 
                         <View style={styles.dataView}>
+                            <Label>Country</Label>
+                            <Picker
+                                enabled={editable}
+                                selectedValue={this.state.countryCode}
+                                style={{ height: 50, width: '100%', color: '#000', opacity: 0.5 }}
+                                onValueChange={(itemValue, itemIndex) => { this.handleCountry(itemIndex, itemValue) }
+                                }>
+                                {this.state.country_data.map((item, index) => {
+                                    return (
+                                        <Picker.Item label={item.name} value={item.code} />
+                                    )
+                                })}
+                            </Picker>
+                            {/* <Text>{this.state.countryCode} {this.state.country} {this.state.phone_country_code}</Text> */}
+                        </View>
+
+                        <View style={styles.dataView}>
                             <Label>Country Code</Label>
                             <TextInput
                                 style={styles.dataText}
                                 value={phone_country_code}
                                 placeholder='Country Code'
-                                editable={editable}
+                                editable={false}
                                 onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
                             />
                         </View>
@@ -346,7 +396,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                             />
                         </View>
 
-                        <View style={styles.dataView}>
+                        {/* <View style={styles.dataView}>
                             <Label>Country</Label>
                             <TextInput
                                 style={styles.dataText}
@@ -355,7 +405,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 editable={editable}
                                 onChangeText={(country) => { this.setState({ country: country }) }}
                             />
-                        </View>
+                        </View> */}
 
                         <View style={styles.dataView}>
                             <Label>GSTIN/TIN</Label>
@@ -377,7 +427,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 editable={editable}
                                 onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
                             />
-                        </View>                       
+                        </View>
                     </View>
                     {editable ?
                         <View>
@@ -441,7 +491,7 @@ const styles = StyleSheet.create({
 
     editButtonText: {
         color: '#999',
-        fontSize: 25,        
+        fontSize: 25,
     },
 
     content: {
@@ -496,6 +546,17 @@ const styles = StyleSheet.create({
         marginTop: 35,
         alignSelf: 'center'
     },
+    picker: {
+        backgroundColor: "transparent",
+        paddingLeft: 7,
+        borderColor: "#D9D5DC",
+        borderBottomWidth: 1,
+        color: '#779900',
+        width: '100%',
+        height: 43,
+        marginTop: 30,
+        alignSelf: 'center'
+    }
 });
 
 

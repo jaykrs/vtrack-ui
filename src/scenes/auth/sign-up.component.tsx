@@ -41,6 +41,7 @@ import { Styles } from '../../assets/styles'
 import { AppConstants } from '../../constants/AppConstants';
 import { LabelConstants } from '../../constants/LabelConstants';
 import DeviceInfo from 'react-native-device-info';
+import { country_data } from '../../assets/country';
 const data = [
   { text: 'Candidate' },
   { text: 'HR' },
@@ -74,14 +75,19 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       pwd: '',
       passwordVisible: true,
       device_token: '',
-      address: ''
+      address: '',
+      country: '',
+      country_data: country_data,
+      countryCode: 'IN'
     }
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onPasswordIconPress = this.onPasswordIconPress.bind(this);
+    this.handleCountry = this.handleCountry.bind(this);
   }
 
   componentDidMount() {
+    this.handleCountry(1,this.state.countryCode);
     const id = DeviceInfo.getUniqueId();
     this.setState({
       device_token: id,
@@ -89,7 +95,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
   }
 
   onFormSubmit() {
-    const { emailId, f_name, l_name, address, phone_country_code, phone_number, vendor_id, vendor_name, pwd, device_token } = this.state
+    const { emailId, f_name, l_name, address, country, phone_country_code, phone_number, vendor_id, vendor_name, pwd, device_token } = this.state
     // let userName = values.username.split(" ", 2);
     // let userRole = largeSelectChanges.selectedOption != undefined && largeSelectChanges.selectedOption.text === 'HR' ? 28 :  29;
     //  console.log('User Role',userRole)
@@ -101,6 +107,8 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
       alert("Please Enter Last Name");
     } else if (address === "" || address.length === 0) {
       alert("Please Enter Address");
+    } else if (country === "" || country.length === 0) {
+      alert("Please Select Country");
     } else if (phone_country_code === "" || phone_country_code.length === 0) {
       alert("Please Enter Country Code");
     } else if (phone_number === "" || phone_number.length === 0) {
@@ -121,6 +129,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
           f_name: f_name,
           l_name: l_name,
           address: address,
+          country: country,
           phone_country_code: phone_country_code,
           phone_number: phone_number,
           vendor_id: vendor_id,
@@ -158,6 +167,23 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
   navigateSignIn() {
     this.props.navigation.navigate(AppRoute.SIGN_IN);
   };
+
+  handleCountry(e, code) {
+    // Alert.alert("", code)
+    this.setState({
+      countryCode: code
+    })
+
+    this.state.country_data.map((item, index) => {
+      if(code === item.code) {
+    // Alert.alert("adadad", item.dial_code)
+        this.setState({
+          country: item.name,
+          phone_country_code: item.dial_code
+        })
+      }
+    })
+  }
 
   // const onPasswordIconPress = (): void => {
   //   setPasswordVisible(!passwordVisible);
@@ -280,14 +306,29 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
               />
             </View>
 
+            <View style={styles.picker}>
+              <Picker
+                selectedValue={this.state.countryCode}
+                style={{ height: 50, width: '100%', color: '#000', opacity: 0.5 }}
+                onValueChange={(itemValue, itemIndex) => 
+                  {this.handleCountry(itemIndex, itemValue)}                  
+                }>
+                {this.state.country_data.map((item, index) => {
+                  return (
+                    <Picker.Item label={item.name} value={item.code} />
+                  )
+                })}
+              </Picker> 
+              {/* <Text>{this.state.countryCode} {this.state.country} {this.state.phone_country_code}</Text> */}
+            </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
               {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
-                keyboardType='numeric'
+                value={this.state.phone_country_code}
                 style={Styles.inputBoxStyle}
                 placeholder='Enter Country Code'
-                onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
+                editable={false}
               />
             </View>
 
@@ -401,6 +442,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "roboto-regular",
     marginTop: 35,
+    alignSelf: 'center'
+  },
+
+  picker: {
+    backgroundColor: "transparent",
+    paddingLeft: 7,
+    borderColor: "#D9D5DC",
+    borderBottomWidth: 1,
+    color: '#779900',
+    width: '100%',
+    height: 43,
+    marginTop: 30,
     alignSelf: 'center'
   }
 });

@@ -90,7 +90,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                 (error) => {
                     console.log(error);
                     if (error) {
-                        alert("Seems You have not recharged yet ! Please Recharge");
+                        // alert("Seems You have not recharged yet ! Please Recharge");
                     }
                 }
             );
@@ -138,7 +138,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
             const tId = response.data.id
             const options = {
                 description: AppConstants.RAZOR_DESCRIPTION,
-                image: 'http://www.marksmantech.com/images/icons/logo.png',
+                image: 'https://certifyme.xyz/teqto/images/mlogo.png',
                 currency: response.data.currency,
                 key: AppConstants.RAZOR_KEY,
                 amount: response.data.amount,

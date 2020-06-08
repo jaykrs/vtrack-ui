@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
-    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput
+    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput, Picker
 } from 'react-native';
 import {
     // Input,
@@ -42,6 +42,7 @@ import { pathToFileURL, fileURLToPath } from 'url';
 // import SwipeHiddenHeader from 'react-native-swipe-hidden-header';
 import Animated from 'react-native-reanimated';
 import { Styles } from '../../assets/styles';
+import { country_data } from '../../assets/country';
 import { isDate } from 'util';
 
 // import axios from 'axios';  
@@ -98,12 +99,16 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
             phone_number: '',
             device_token: '',
             id: '',
-            remarks: ''
+            remarks: '',
+            countryCode: '',
+            country_data: country_data,
         }
 
         this._onRefresh = this._onRefresh.bind(this);
         this.edit = this.edit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCountry = this.handleCountry.bind(this);
+        this.handleCountryCode = this.handleCountryCode.bind(this);
     }
 
     async componentDidMount() {
@@ -150,6 +155,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                     // id: response.data.id
                 })
                 console.log("Job Data", response.data);
+                this.handleCountryCode(response.data.countryCode);
             },
                 (error) => {
                     console.log(error);
@@ -203,6 +209,35 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
         });
 
     }
+
+    handleCountry(e, code) {
+        // Alert.alert("", code)
+        this.setState({
+            countryCode: code
+        })
+
+        this.state.country_data.map((item, index) => {
+            if (code === item.code) {
+                // Alert.alert("adadad", item.dial_code)
+                this.setState({
+                    country: item.name,
+                    phone_country_code: item.dial_code
+                })
+            }
+        })
+    }
+
+    handleCountryCode(code) {
+        this.state.country_data.map((item, index) => {
+            if (code === item.dial_code) {
+                // Alert.alert("adadad", item.dial_code)
+                this.setState({
+                    countryCode: item.code,
+                })
+            }
+        })
+    }
+
 
 
     _onRefresh() {
@@ -288,12 +323,30 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         </View>
 
                         <View style={styles.dataView}>
+                            <Label>Country</Label>
+                            <Picker
+                            enabled= {editable}
+                                selectedValue={this.state.countryCode}
+                                style={{ height: 50, width: '100%', color: '#000', opacity: 0.5 }}
+                                onValueChange={(itemValue, itemIndex) => { this.handleCountry(itemIndex, itemValue) }
+                                }>
+                                {this.state.country_data.map((item, index) => {
+                                    return (
+                                        <Picker.Item label={item.name} value={item.code} />
+                                    )
+                                })}
+                            </Picker>
+                            {/* <Text>{this.state.countryCode} {this.state.country} {this.state.phone_country_code}</Text> */}
+                        </View>
+
+
+                        <View style={styles.dataView}>
                             <Label>Country Code</Label>
                             <TextInput
                                 style={styles.dataText}
                                 value={phone_country_code}
                                 placeholder='Country Code'
-                                editable={editable}
+                                editable={false}
                                 onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
                             />
                         </View>
@@ -342,7 +395,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                             />
                         </View>
 
-                        <View style={styles.dataView}>
+                        {/* <View style={styles.dataView}>
                             <Label>Country</Label>
                             <TextInput
                                 style={styles.dataText}
@@ -351,7 +404,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                                 editable={editable}
                                 onChangeText={(country) => { this.setState({ country: country }) }}
                             />
-                        </View>
+                        </View> */}
 
                         <View style={styles.dataView}>
                             <Label>GSTIN/TIN</Label>
