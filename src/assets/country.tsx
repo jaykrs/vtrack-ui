@@ -988,12 +988,7 @@ export const country_data =[
       "name": "land Islands",
       "dial_code": "",
       "code": "AX"
-    },
-    {
-      "name": "Antarctica",
-      "dial_code": null,
-      "code": "AQ"
-    },
+    },   
     {
       "name": "Bolivia, Plurinational State of",
       "dial_code": "+591",
