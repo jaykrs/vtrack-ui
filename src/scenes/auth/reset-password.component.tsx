@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ImageBackground,
   StyleSheet,
+  Modal,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Text,
+  Alert,
 } from 'react-native';
 import {
   EdgeInsets,
@@ -24,71 +30,142 @@ import {
   ResetPasswordData,
   ResetPasswordSchema,
 } from '../../data/reset-password.model';
+import { SafeAreaLayout } from '../../components/safe-area-layout.component';
+import { Content } from 'native-base';
+import { Styles } from '../../assets/styles';
+import { AppConstants } from '../../constants/AppConstants';
+import axios from 'axios';
 
-export const ResetPasswordScreen = (props: ResetPasswordScreenProps): LayoutElement => {
 
-  const insets: EdgeInsets = useSafeArea();
+export class ResetPasswordScreen extends Component<ResetPasswordScreenProps & any, any>{
+  constructor(props) {
+    super(props);
 
-  const onFormSubmit = (values: ResetPasswordData): void => {
-    navigateSignIn();
-  };
+    this.state = {
+      emailId: '',
+      isVisible: true
+    }
 
-  const navigateSignIn = (): void => {
-    props.navigation.navigate(AppRoute.SIGN_IN);
-  };
+    this.handlePassword = this.handlePassword.bind(this);
+  }
 
-  const renderForm = (props: FormikProps<ResetPasswordData>): React.ReactFragment => (
-    <React.Fragment>
-      <FormInput
-      padding={0}
-        id='email'
-        style={styles.formControl}
-        placeholder='Email'
-        keyboardType='email-address'
-      />
-      <Button
-        style={styles.button}
-        onPress={props.handleSubmit}>
-        DONE
-      </Button>
-    </React.Fragment>
-  );
+  handlePassword() {
+    const { isVisible, emailId } = this.state
+    console.log("vendorId", emailId)
+    axios({
+      method: 'GET',
+      url: AppConstants.API_BASE_URL + '/api/user/resetpwd/' + emailId,
 
-  return (
-    <React.Fragment>
-      <ImageBackground
-        style={[styles.appBar, { paddingTop: insets.top }]}
-        source={require('../../assets/image-background.jpeg')}>
-        <Toolbar
-          appearance='control'
-          onBackPress={props.navigation.goBack}
-        />
-      </ImageBackground>
-      <Layout style={styles.formContainer}>
-        <Formik
-          initialValues={ResetPasswordData.empty()}
-          validationSchema={ResetPasswordSchema}
-          onSubmit={onFormSubmit}>
-          {renderForm}
-        </Formik>
-      </Layout>
-    </React.Fragment>
-  );
-};
+    }).then((response) => {
+      this.setState({
+        ...this.state,
+        isVisible: !isVisible,
+        visitor_list: response.data
+      })
+      console.log("Profile Data", response.data);
+    },
+      (error) => {
+        console.log(error);
+        if (error) {
+          alert("Seems Your Email Id is not Valid");
+        }
+      }
+    );
+  }
+
+  render() {
+    const {isVisible} = this.state;
+    return (
+      <SafeAreaLayout>
+        <Content>
+
+          <Modal
+            animationType={"fade"}
+            transparent={false}
+            visible={this.state.isVisible}
+            onRequestClose={() => { console.log("Modal has been closed.") }}>
+            {/*All views of Modal*/}
+            <View style={styles.modal}>
+              <View style={[Styles.inputBoxContainer, styles.emailBox]}>
+                {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
+                <TextInput
+                  style={styles.inputBoxStyle}
+                  keyboardType='email-address'
+                  textContentType='emailAddress'
+                  placeholder='Enter Email Id'
+                  onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
+                />
+              </View>
+              <TouchableOpacity onPress={() => { Alert.alert('pressed') }}>
+                <Text>Check</Text>
+              </TouchableOpacity>
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity style={[Styles.buttonContainer, styles.button1]} onPress={() => { this.setState({ isVisible: !isVisible }) }}>
+                  <Text style={Styles.buttonCaption}>Cancel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[Styles.buttonContainer, styles.button2]} onPress={() => this.handlePassword()}>
+                  <Text style={Styles.buttonCaption}>Submit</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        </Content>
+      </SafeAreaLayout>
+    )
+  }
+
+
+}
 
 const styles = StyleSheet.create({
-  appBar: {
-    height: 192,
+  button1: {
+    width: '74%',
+    height: 52,
+    marginTop: 35,
+    marginRight: 15,
+    // alignSelf: 'center'
   },
-  formContainer: {
+
+  button2: {
+    width: '74%',
+    height: 52,
+    marginTop: 35,
+    marginLeft: 15,
+    // alignSelf: 'center'
+  },
+
+  emailBox: {
+    // width: '74%',
+    height: 43,
+    marginTop: 35,
+    alignSelf: 'center'
+  },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#eee",
+    height: 300,
+    width: '80%',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#AAAAAA',
+    marginTop: 80,
+    marginLeft: 40,
+  },
+
+  inputBoxStyle: {
     flex: 1,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-  },
-  formControl: {
-    marginVertical: 4,
-  },
-  button: {
-    marginVertical: 24,
+    color: "#000",
+    backgroundColor: '#fff',
+    alignSelf: "stretch",
+    paddingTop: 14,
+    paddingRight: 5,
+    paddingBottom: 8,
+    paddingLeft: 5,
+    fontSize: 16,
+    fontFamily: "roboto-regular",
+    lineHeight: 16
   },
 });
