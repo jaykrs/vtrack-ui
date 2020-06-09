@@ -251,7 +251,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
                 <Text style={Styles.buttonCaption}>Sign In</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => { this.setState({ isVisible: !isVisible }) }}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.RESET_PASSWORD)}}>
               <Text style={styles.forgotPassword}>Forgot Password</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.SIGN_UP) }}>

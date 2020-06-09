@@ -57,9 +57,10 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 20,
     lineHeight: 18,
-    fontSize: 16
+    fontSize: 16,
+    margin: 10,
+    textAlign: 'justify'
   },
-
   bold: {
     fontWeight: 'bold'
   }

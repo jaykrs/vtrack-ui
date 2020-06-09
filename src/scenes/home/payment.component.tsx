@@ -76,11 +76,11 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                 f_name: user.firstName,
                 l_name: user.lastName
             })
-
-            axios({
+                axios({
                 method: 'get',
                 url: AppConstants.API_BASE_URL + '/api/user/getallpayment/' + user.emailId + '/' + user.deviceToken,
             }).then((response) => {
+                
                 this.setState({
                     ...this.state,
                     payment_Data: response.data,
@@ -163,7 +163,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
 
                 }).then((response) => {
                     this._onRefresh()
-                    alert(`Success: ${data.razorpay_payment_id}`);
+              //      alert(`Success: ${data.razorpay_payment_id}`);
                 },
                     (error) => {
                         console.log(error);
@@ -190,7 +190,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
         <ListItem style={{ borderBottomColor: '#fff', borderBottomWidth: 0 }}>
             {item != null ?                
                     <View style={styles.history}>
-                        <Text category='h6' style={styles.validity}>Payment {item.amount} Received on {moment(item.transectionDate).format("D MMMM YYYY")}</Text>
+                        <Text category='h6' style={styles.validity}>Payment {item.amount} {'\u20B9'} Received on {moment(item.transectionDate).format("D MMMM YYYY")}</Text>
                     </View> :                   
                 null}
         </ListItem>

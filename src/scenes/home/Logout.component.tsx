@@ -57,11 +57,13 @@ export class LogoutScreen extends Component<ProfileScreenProps & SafeAreaLayoutE
         AsyncStorage.setItem('userDetail', JSON.stringify(data), () => {
           this.props.navigation.navigate('Auth')
            });
+           this.props.navigation.navigate('Auth');
       },
         (error) => {
           console.log(error);
           if (error) {
             alert("Something went wrong");
+            this.props.navigation.navigate('Auth');
           }
         }
       );

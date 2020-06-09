@@ -70,17 +70,17 @@ export const TermsScreen = (props: TermsScreenProps): SafeAreaLayoutElement => (
         </Text>
 
         <Text style={styles.simpleHeading}>
-        to verify your identity{'\n'}
-        to provide services and products to you{'\n'}
-        to market our services and products to you, including contacting you electronically (e.g. by text or email for
-        this purpose){'\n'}
-        to tailor content or advertisements to you{'\n'}
-        to improve the services and products that we provide to you{'\n'}
-        to bill you and to collect money that you owe us, including authorising and processing credit card
-        transactions{'\n'}
-        to respond to communications from you, including a complaint{'\n'}
-        to conduct research and statistical analysis (on an anonymised basis){'\n'}
-        to protect and/or enforce our legal rights and interests, including defending any claim{'\n'}
+        To verify your identity{'\n\n'}
+        To provide services and products to you{'\n\n'}
+        To market our services and products to you, including contacting you electronically (e.g. by text or email for
+        this purpose){'\n\n'}
+        To tailor content or advertisements to you{'\n\n'}
+        To improve the services and products that we provide to you{'\n\n'}
+        To bill you and to collect money that you owe us, including authorising and processing credit card
+        transactions{'\n\n'}
+        To respond to communications from you, including a complaint{'\n\n'}
+        To conduct research and statistical analysis (on an anonymised basis){'\n\n'}
+        To protect and/or enforce our legal rights and interests, including defending any claim{'\n\n'}
         for any other purpose authorised by you
         </Text>
 
@@ -151,7 +151,9 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 20,
     lineHeight: 18,
-    fontSize: 16
+    fontSize: 16,
+    margin:10,
+    textAlign: 'justify'
   },
 
   link: {
@@ -174,7 +176,9 @@ const styles = StyleSheet.create({
   simpleHeading: {
     marginBottom: 7,
     lineHeight: 18,
-    fontSize: 16
+    fontSize: 16,
+    margin:10,
+    textAlign: 'justify'
   },
 
   bold: {

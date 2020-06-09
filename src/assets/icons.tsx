@@ -17,7 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 export const SearchIcon = (style): AntDesign => (
-  <MaterialCommunityIcons size={22} name='magnify' />
+  <MaterialCommunityIcons size={23} name='magnify' />
 );
 
 export const PublicIcon = (style): AntDesign => (
@@ -61,7 +61,7 @@ export const FeedbackIcon = (style): AntDesign => (
 );
 
 export const CancelIcon = (style): AntDesign => (
-  <MaterialIcons size={22} name='cancel'/>
+  <MaterialIcons size={23} name='cancel'/>
 );
 
 export const ArroCircle = (style): AntDesign => (
@@ -241,7 +241,9 @@ export const TransactionHistoryIcon = (style): MaterialCommunityIcons => (
   <MaterialCommunityIcons size={16} color={'silver'} name='history' />
 );
 
-
+export const FilterIcon = (style): AntDesign => (
+  <FontAwesome size={23} name='filter'/>
+);
 
 
 

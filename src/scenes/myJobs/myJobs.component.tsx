@@ -19,7 +19,7 @@ import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading,
 import { MyJobsScreenProps } from '../../navigation/myJobs.navigator';
 import { AppRoute } from '../../navigation/app-routes';
 import { ProgressBar } from '../../components/progress-bar.component';
-import { SearchIcon, CancelIcon } from '../../assets/icons';
+import { SearchIcon, CancelIcon,FilterIcon } from '../../assets/icons';
 import { TimeLineData } from '../../data/TimeLineData.model';
 import { AppConstants } from '../../constants/AppConstants';
 import { Toolbar } from '../../components/toolbar.component';
@@ -365,7 +365,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
 
                     <View style={Styles.filterButton}>
                         <TouchableOpacity onPress={() => { this.setState({ isVisible: !isVisible }) }}>
-                            <Text style={{ color: '#1DA1F2', fontSize: 20 }}>Filter</Text>
+                            <Text style={{ color: '#3F51B5' }}><FilterIcon /></Text>
                         </TouchableOpacity>
                     </View>
 
