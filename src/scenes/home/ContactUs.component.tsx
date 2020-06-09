@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import {
   Divider,
   Layout,
@@ -12,6 +12,7 @@ import {
   SafeAreaLayoutElement,
   SaveAreaInset,
 } from '../../components/safe-area-layout.component';
+import { Content } from 'native-base';
 
 
 
@@ -23,12 +24,14 @@ export const ContactUsScreen = (props: ContactUsScreenProps): SafeAreaLayoutElem
       title='Contact Us'
       onBackPress={props.navigation.goBack}
     />
-    <Divider/>
-    <Layout style={styles.container}>
-      <Text category='h1'>
-    Contact Us
+    <Divider />
+    <Content style={styles.container}>
+      <Text style = {styles.simpleHeading}>
+        For any issues or help you can directly contact us at
       </Text>
-    </Layout>
+
+      <Text style={styles.link} onPress={() => Linking.openURL('http://vtrack@marksmantech.com')}>vtrack@marksmantech.com</Text>
+    </Content>
   </SafeAreaLayout>
 );
 
@@ -37,8 +40,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-}
+    padding: 10
+  },
+
+  link: {
+    textDecorationLine: 'underline',
+    color: 'blue',
+  },
+
+  simpleHeading: {
+    marginBottom: 20,
+    lineHeight: 18,
+    fontSize: 16
+  },
 })

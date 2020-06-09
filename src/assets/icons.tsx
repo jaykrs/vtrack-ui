@@ -6,6 +6,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -89,6 +90,14 @@ export const CompanyIcon = (style): AntDesign => (
 
 export const WalletIcon = (style): AntDesign => (
   <Fontisto size={18} color={'silver'} name='wallet' />
+);
+
+export const TermsIcon = (style): AntDesign => (
+  <AntDesign size={18} color={'silver'} name='infocirlce' />
+);
+
+export const ContactUsIcon = (style): AntDesign => (
+  <FontAwesome size={18} color={'silver'} name='phone' />
 );
 
 export const EyeIcon = (style): AntDesign => (

@@ -7,6 +7,7 @@ import {
   RefreshControl,
   Image,
   Text,
+  Modal,
 } from 'react-native';
 import {
   Button,
@@ -59,14 +60,16 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
       emailId: '',
       pwd: '',
       passwordVisible: true,
-      device_token: ''
+      device_token: '',
+      isVisible: false
     }
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onPasswordIconPress = this.onPasswordIconPress.bind(this);   
-    this.navigateHome = this.navigateHome.bind(this);   
+    this.onPasswordIconPress = this.onPasswordIconPress.bind(this);
+    this.navigateHome = this.navigateHome.bind(this);
     this.navigateResetPassword = this.navigateResetPassword.bind(this);
     this.navigateSignUp = this.navigateSignUp.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
   }
 
   componentDidMount() {
@@ -113,7 +116,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
     this.props.navigation.navigate(AppRoute.HOME);
   };
 
- 
+
 
   navigateSignUp() {
     this.props.navigation.navigate(AppRoute.SIGN_UP);
@@ -127,6 +130,31 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
     this.setState({ passwordVisible: !this.state.passwordVisible })
   };
 
+  handlePassword() {
+    const { isVisible, emailId } = this.state
+    console.log("vendorId", emailId)
+    axios({
+      method: 'GET',
+      url: AppConstants.API_BASE_URL + '/api/user/resetpwd/' + emailId,
+
+    }).then((response) => {
+      this.setState({
+        ...this.state,
+        isVisible: !isVisible,
+        visitor_list: response.data
+      })
+      console.log("Profile Data", response.data);
+    },
+      (error) => {
+        console.log(error);
+        if (error) {
+          alert("Seems Your Email Id is not Valid");
+        }
+      }
+    );
+
+
+  }
 
   // const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (
   //   <React.Fragment>
@@ -169,6 +197,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
   // );
 
   render() {
+    const { isVisible } = this.state
     return (
       <SafeAreaLayout
         style={styles.safeArea}
@@ -222,7 +251,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
                 <Text style={Styles.buttonCaption}>Sign In</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.setState({ isVisible: !isVisible }) }}>
               <Text style={styles.forgotPassword}>Forgot Password</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.SIGN_UP) }}>
@@ -230,6 +259,35 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
             </TouchableOpacity>
 
           </View>
+
+          <Modal
+            animationType={"fade"}
+            transparent={false}
+            visible={this.state.isVisible}
+            onRequestClose={() => { console.log("Modal has been closed.") }}>
+            {/*All views of Modal*/}
+            <View style={styles.modal}>
+              <View style={[Styles.inputBoxContainer, styles.emailBox]}>
+                {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
+                <TextInput
+                  style={styles.inputBoxStyle}
+                  keyboardType='email-address'
+                  textContentType='emailAddress'
+                  placeholder='Enter Email Id'
+                  onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
+                />
+              </View>
+              <View style = {{flexDirection: 'row'}}>
+                <TouchableOpacity style={[Styles.buttonContainer, styles.button1]} onPress = {() => {this.setState({isVisible: !isVisible})}}>
+                  <Text style={Styles.buttonCaption}>Cancel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[Styles.buttonContainer, styles.button2]} onPress={() => this.handlePassword()}>
+                  <Text style={Styles.buttonCaption}>Submit</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
           <View style={Styles.bottomSpace}></View>
         </Content>
 
@@ -269,6 +327,22 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
 
+  button1: {
+    width: '74%',
+    height: 52,
+    marginTop: 35,
+    marginRight: 15,
+    // alignSelf: 'center'
+  },
+
+  button2: {
+    width: '74%',
+    height: 52,
+    marginTop: 35,
+    marginLeft: 15,
+    // alignSelf: 'center'
+  },
+
   loremIpsum: {
     color: "rgba(92,100,127,1)",
     fontSize: 18,
@@ -283,5 +357,32 @@ const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     marginTop: 35,
     alignSelf: 'center'
+  },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#eee",
+    height: 300,
+    width: '80%',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#AAAAAA',
+    marginTop: 80,
+    marginLeft: 40,
+  },
+
+  inputBoxStyle: {
+    flex: 1,
+    color: "#000",
+    backgroundColor: '#fff',
+    alignSelf: "stretch",
+    paddingTop: 14,
+    paddingRight: 5,
+    paddingBottom: 8,
+    paddingLeft: 5,
+    fontSize: 16,
+    fontFamily: "roboto-regular",
+    lineHeight: 16
   },
 });

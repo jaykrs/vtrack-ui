@@ -19,13 +19,14 @@ import { TimelineNavigator } from './timeline.navigator';
 import { MyJobsNavigator } from './myJobs.navigator';
 import { AppliedNavigator } from './applied.navigator';
 import { AppRoute } from './app-routes';
-import { 
+import {
   HomeDrawer,
   HomeTabBar,
   TermsScreen,
-  AboutScreen, 
-  LogoutScreen, 
-  PaymentScreen
+  AboutScreen,
+  LogoutScreen,
+  PaymentScreen,
+  ContactUsScreen
 } from '../scenes/home';
 import {
   TimeLineIcon,
@@ -39,6 +40,8 @@ import {
   BellIcon,
   WalletIcon,
   AccountsIcon,
+  TermsIcon,
+  ContactUsIcon,
   ChangePasswordIcon,
   LogoutIcon,
   TransactionHistoryIcon
@@ -49,6 +52,7 @@ import { AuthNavigator } from './auth.navigator';
 type HomeDrawerNavigatorParams = {
   [AppRoute.HOME]: undefined;
   [AppRoute.ABOUT]: undefined;
+  [AppRoute.CONTACTUS]: undefined;
   [AppRoute.ACCOUNTS]: undefined;
   [AppRoute.TERMS]: undefined;
   [AppRoute.CHANGEPASSWORD]: undefined;
@@ -99,6 +103,11 @@ export type MyJobsTabNavigationProp = CompositeNavigationProp<
 export interface AboutScreenProps {
   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.ABOUT>;
   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.ABOUT>;
+}
+
+export interface ContactUsScreenProps {
+  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.CONTACTUS>;
+  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.CONTACTUS>;
 }
 
 export interface TermsScreenProps {
@@ -200,7 +209,7 @@ export const HomeBottomNavigator = (): React.ReactElement => (
       component={HomeNavigator}
       options={{ title: 'Visitors', tabBarIcon: TimeLineIcon }}
     />
-  
+
     <BottomTab.Screen
       name={AppRoute.LIST}
       component={AppliedNavigator}
@@ -224,33 +233,35 @@ export const HomeNavigator = (): React.ReactElement => (
       component={MyJobsNavigator}
       options={{ title: 'Home', drawerIcon: HomeIcon }}
     />
+   
+    <Drawer.Screen
+      name={AppRoute.PAYMENT}
+      component={PaymentScreen}
+      options={{ title: 'Payments', drawerIcon: WalletIcon }}
+    />
 
-    {/* <Drawer.Screen
-      name={AppRoute.ACCOUNTS}
-      component={AccountsScreen}
-      options={{ title: 'Accounts', drawerIcon: AccountsIcon }}
-    /> */}
+    <Drawer.Screen
+      name={AppRoute.CONTACTUS}
+      component={ContactUsScreen}
+      options={{ title: 'Contact Us', drawerIcon: ContactUsIcon }}
+    />
 
     <Drawer.Screen
       name={AppRoute.ABOUT}
       component={AboutScreen}
       options={{ title: 'About Us', drawerIcon: AccountsIcon }}
     />
-  <Drawer.Screen
-      name={AppRoute.PAYMENT}
-      component={PaymentScreen}
-      options={{ title: 'Payments', drawerIcon: WalletIcon }}
-    />
+
     <Drawer.Screen
       name={AppRoute.TERMS}
       component={TermsScreen}
-      options={{ title: 'Terms of Use', drawerIcon: AccountsIcon }}
+      options={{ title: 'Terms and Conditions', drawerIcon: TermsIcon }}
     />
     <Drawer.Screen
       name={AppRoute.LOGOUT}
       component={LogoutScreen}
       options={{ title: 'Logout', drawerIcon: LogoutIcon }}
-    />   
+    />
 
   </Drawer.Navigator>
 );

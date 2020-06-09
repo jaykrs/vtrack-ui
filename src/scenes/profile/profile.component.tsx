@@ -19,7 +19,7 @@ import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading,
 import { ProfileScreenProps } from '../../navigation/profile.navigator';
 import { AppRoute } from '../../navigation/app-routes';
 import { ProgressBar } from '../../components/progress-bar.component';
-import { SearchIcon, PencilIcon } from '../../assets/icons';
+import { SearchIcon, PencilIcon, EyeIcon, EyeOffIcon } from '../../assets/icons';
 import { TimeLineData } from '../../data/TimeLineData.model';
 import { AppConstants } from '../../constants/AppConstants';
 import { Toolbar } from '../../components/toolbar.component';
@@ -101,6 +101,8 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             device_token: '',
             countryCode: '',
             country_data: country_data,
+            pwd: '',
+            passwordVisible: true
         }
 
         this._onRefresh = this._onRefresh.bind(this);
@@ -108,6 +110,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
         this.handleCountry = this.handleCountry.bind(this);
         this.handleCountryCode = this.handleCountryCode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onPasswordIconPress = this.onPasswordIconPress.bind(this);
     }
 
     async componentDidMount() {
@@ -139,6 +142,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                     address: response.data.address,
                     pincode: response.data.pincode,
                     country: response.data.country,
+                    pwd: response.data.pwd,
                     initial: response.data.initials,
                     phone_number: response.data.phone,
                 })
@@ -181,7 +185,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
     }
 
     handleSubmit() {
-        const { device_token, userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
+        const { device_token, pwd, userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
         axios({
             method: 'PUT',
             url: AppConstants.API_BASE_URL + '/api/user/update',
@@ -197,7 +201,8 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                 address: address,
                 pincode: pincode,
                 country: country,
-                phone_number: phone_number
+                phone_number: phone_number,
+                pwd: pwd
             }
         }).then((response) => {
             if (response) {
@@ -244,6 +249,10 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
         })
     }
 
+    onPasswordIconPress() {
+        this.setState({ passwordVisible: !this.state.passwordVisible })
+    };
+
     _onRefresh() {
         this.setState({ refreshing: true });
         this.componentDidMount().then(() => {
@@ -252,7 +261,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
     }
 
     render() {
-        const { userData, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
+        const { userData, pwd, editable, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
@@ -322,6 +331,30 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                 editable={false}
                                 onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
                             />
+                        </View>
+
+                        <View style={ styles.dataView}>
+                            <Label>Password</Label>
+                            <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TextInput
+                                style={styles.dataText}
+                                value={pwd}
+                                editable={editable}
+                                secureTextEntry={this.state.passwordVisible}
+                                placeholder='Enter Password'
+                                onChangeText={(pwd) => { this.setState({ pwd: pwd }) }}
+                            />
+                            <View style={{ marginTop: 14 }}>
+                                {this.state.passwordVisible ?
+                                    <TouchableOpacity onPress={this.onPasswordIconPress}>
+                                        <Text style={{ color: "#D9D5DC" }}> <EyeOffIcon /></Text>
+                                    </TouchableOpacity> :
+                                    <TouchableOpacity onPress={this.onPasswordIconPress}>
+                                        <EyeIcon />
+                                    </TouchableOpacity>
+                                }
+                            </View>
+                            </View>
                         </View>
 
                         <View style={styles.dataView}>
