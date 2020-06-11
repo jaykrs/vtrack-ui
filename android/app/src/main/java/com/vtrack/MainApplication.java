@@ -9,8 +9,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import cl.json.RNSharePackage;
-import cl.json.ShareApplication;
 import com.razorpay.rn.RazorpayPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -22,19 +20,11 @@ public class MainApplication extends Application implements ReactApplication {
           return BuildConfig.DEBUG;
         }
 
-        @Override
-        
+        @Override        
         protected List<ReactPackage> getPackages() {
-          new RNSharePackage();
           new RazorpayPackage();
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();      
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-  //        packages.add(new RazorpayPackage());
-   //       packages.add(new RNSharePackage());
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-     //    packages.add(new MyReactNativePackage());
-          
           return packages;
         }
 
