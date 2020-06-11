@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-   <item android:drawable="@color/blue"/>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="-90"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:toDegrees="270">
 
-        <item
-            android:width="200dp"
-            android:height="200dp"
-            android:drawable="@mipmap/icon"
-            android:gravity="center"/>
+    <shape
+        android:shape="ring"
+        android:useLevel="false">
 
-</layer-list>
+        <gradient
+            android:centerColor="#00fd1d1d"
+            android:centerY="1"
+            android:endColor="#ff0000"
+            android:startColor="#00fd1d1d"
+            android:type="sweep"
+            android:useLevel="false"
+            />
+    </shape>
+
+</rotate>
