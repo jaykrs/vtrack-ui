@@ -297,7 +297,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           padding={0}
             style={styles.Input}
             label='First Name'
-            placeholder='Enter First Name'
+            placeholder='First Name'
             value={this.state.firstName}
             onChangeText={(firstName) => this.setState({ firstName })}
           />
@@ -305,7 +305,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           padding={0}
             style={styles.Input}
             label='Last Name'
-            placeholder='Enter Last Name'
+            placeholder='Last Name'
             value={this.state.lastName}
             onChangeText={(lastName) => this.setState({ lastName })}
           />
@@ -313,7 +313,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           padding={0}
             style={styles.Input}
             label='Email Address'
-            placeholder='Enter Email Address'
+            placeholder='Email Address'
             value={this.state.emailId}
             onChangeText={(emailId) => this.setState({ emailId })}
           />
@@ -321,7 +321,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           padding={0}
             style={styles.Input}
             label='Date Of Birth'
-            placeholder='Enter Date Of Birth'
+            placeholder='Date Of Birth'
             value={this.state.dob.length < 35
               ? `${this.state.dob.substring(0, 10)}`
               : `${this.state.dob}`}
@@ -333,7 +333,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           padding={0}
             style={styles.Input}
             label='City'
-            placeholder='Enter City Name'
+            placeholder='City Name'
             value={this.state.city}
             onChangeText={(city) => this.setState({ city })}
           />
@@ -341,7 +341,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
           padding={0}
             style={styles.Input}
             label='Phone Number'
-            placeholder='Enter Phone Number'
+            placeholder='Phone Number'
             value={this.state.phoneNo}
             onChangeText={(phoneNo) => this.setState({ phoneNo })}
           />
@@ -350,7 +350,7 @@ export class AccountsScreen extends React.Component<TodoInProgressScreenProps & 
             style={styles.Input}
             label='Password'
             value={this.state.Password}
-            placeholder='Enter Password'
+            placeholder='Password'
             //icon={renderIcon}
             secureTextEntry={true}
             // onIconPress={onIconPress}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Linking } from 'react-native';
+import { StyleSheet, Linking, View } from 'react-native';
 import {
   Divider,
   Layout,
@@ -12,7 +12,7 @@ import {
   SafeAreaLayoutElement,
   SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { Content } from 'native-base';
+import { Content, Footer, FooterTab } from 'native-base';
 
 
 
@@ -26,12 +26,24 @@ export const ContactUsScreen = (props: ContactUsScreenProps): SafeAreaLayoutElem
     />
     <Divider />
     <Content style={styles.container}>
-      <Text style = {styles.simpleHeading}>
+      <Text style={styles.simpleHeading}>
         For any issues or help you can directly contact us at
       </Text>
 
       <Text style={styles.link} onPress={() => Linking.openURL('http://vtrack@marksmantech.com')}>vtrack@marksmantech.com</Text>
     </Content>
+    <Footer style={styles.footer}>
+      <FooterTab style={styles.footerTab}>
+        <View style={styles.footerView}>
+          <Text style = {styles.footerHeading}>
+            FROM
+        </Text>
+          <Text style = {styles.footerHeading}>
+            marksman
+        </Text>
+        </View>
+      </FooterTab>
+    </Footer>
   </SafeAreaLayout>
 );
 
@@ -53,4 +65,25 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontSize: 16
   },
+
+  footer: {
+    height: 70,
+    backgroundColor: '#fff',
+    borderTopColor: '#fff',
+    borderTopWidth: 1,
+    opacity: 1
+  },
+
+  footerTab: {
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+
+  footerView: {
+    alignItems: 'center'
+  },
+
+  footerHeading: {
+    fontWeight: 'bold'
+  }
 })

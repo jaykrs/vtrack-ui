@@ -190,7 +190,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
         <ListItem style={{ borderBottomColor: '#fff', borderBottomWidth: 0 }}>
             {item != null ?                
                     <View style={styles.history}>
-                        <Text category='h6' style={styles.validity}>Payment {item.amount} {'\u20B9'} Received on {moment(item.transectionDate).format("D MMMM YYYY")}</Text>
+                        <Text category='h6' style={styles.validity}>Payment {Number(item.amount)/100} {'\u20B9'} Received on {moment(item.transectionDate).format("D MMMM YYYY")}</Text>
                     </View> :                   
                 null}
         </ListItem>

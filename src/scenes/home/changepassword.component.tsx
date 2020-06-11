@@ -199,7 +199,7 @@ export class ChangepasswordScreen extends React.Component<ThemedComponentProps, 
           padding={0}
             style={styles.Input}
             label='Password'
-            placeholder='Enter Password'
+            placeholder='Password'
             secureTextEntry={this.state.secureTextEntry}
             icon={this.renderIcon}
             onIconPress={this.onIconPress}           
@@ -210,7 +210,7 @@ export class ChangepasswordScreen extends React.Component<ThemedComponentProps, 
           padding={0}
             style={styles.Input}
             label='Confirm Password'
-            placeholder='Enter Confirm Password'
+            placeholder='Confirm Password'
             secureTextEntry={this.state.ConfirmPassSecureTextEntry}
             icon={this.ConfirmRenderIcon}
             onIconPress={this.ConfirmOnIconPress}     

@@ -190,15 +190,15 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
         const { dob, emailId, remarks, f_name, l_name, initial, city, country, phone_country_code, phone_number, address, pincode, vendor_id, vendor_name, vendor_location, profession, device_token } = this.state
         console.log('User All Data', 'dob', dob, emailId, remarks, f_name, l_name, initial, city, country, phone_country_code, phone_number, address, pincode, 'vendor_id', vendor_id, 'vendor_name', vendor_name, 'vendor_location', vendor_location, profession, 'device_token', device_token);
         if (f_name === " " || f_name.length === 0) {
-            alert("Please Enter First Name");
+            alert("Please First Name");
         } else if (l_name === "" || l_name.length === 0) {
-            alert("Please Enter Last Name");
+            alert("Please Last Name");
         } else if (country === "" || country.length === 0) {
             alert("Please Select Country");
         } else if (phone_country_code === "" || phone_country_code.length === 0) {
-            alert("Please Enter Phone Country Code");
+            alert("Please Phone Country Code");
         } else if (phone_number === "" || phone_number.length === 0) {
-            alert("Please Enter Phone Number");
+            alert("Please Phone Number");
         } else if (vendor_id === "" || vendor_id.length === 0) {
             alert("Something Went Wrong");
         } else if (vendor_location == null || vendor_location === "" || vendor_location.length === 0) {
@@ -303,7 +303,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter First Name'
+                                placeholder='First Name'
                                 onChangeText={(f_name) => { this.setState({ f_name: f_name }) }}
                             />
                         </View>
@@ -316,7 +316,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Last Name'
+                                placeholder='Last Name'
                                 onChangeText={(l_name) => { this.setState({ l_name: l_name }) }}
                             />
                         </View>
@@ -347,7 +347,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 editable={false}
                                 // textContentType='emailAddress'
-                                placeholder='Enter Phone Country Code'
+                                placeholder='Phone Country Code'
                                 onChangeText={(phone_country_code) => { this.setState({ phone_country_code: phone_country_code }) }}
                             />
                         </View>
@@ -360,7 +360,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 keyboardType='numeric'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Phone Number'
+                                placeholder='Phone Number'
                                 onChangeText={(phone_number) => { this.setState({ phone_number: phone_number }) }}
                             />
                         </View>
@@ -373,7 +373,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Profession'
+                                placeholder='Profession'
                                 onChangeText={(profession) => { this.setState({ profession: profession }) }}
                             />
                         </View>
@@ -386,7 +386,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 keyboardType='email-address'
                                 textContentType='emailAddress'
-                                placeholder='Enter Email'
+                                placeholder='Email'
                                 onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
                             />
                         </View>
@@ -399,7 +399,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Address'
+                                placeholder='Address'
                                 onChangeText={(address) => { this.setState({ address: address }) }}
                             />
                         </View>
@@ -412,7 +412,7 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Locality'
+                                placeholder='Locality'
                                 onChangeText={(Locality) => { this.setState({ Locality: Locality }) }}
                             />
                         </View>
@@ -425,11 +425,11 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter City'
+                                placeholder='City'
                                 onChangeText={(city) => { this.setState({ city: city }) }}
                             />
                         </View>
-                    </View>
+                    </View>                   
 
                     <View>
                         <View style={[Styles.inputBoxContainer, styles.emailBox]}>
@@ -438,50 +438,11 @@ export class AppliedScreen extends React.Component<AppliedScreenProps & ThemedCo
                                 style={Styles.inputBoxStyle}
                                 // keyboardType = 'email-address'
                                 // textContentType='emailAddress'
-                                placeholder='Enter Country'
-                                onChangeText={(country) => { this.setState({ country: country }) }}
-                            />
-                        </View>
-                    </View>
-
-                    <View>
-                        <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-                            {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
-                            <TextInput
-                                style={Styles.inputBoxStyle}
-                                // keyboardType = 'email-address'
-                                // textContentType='emailAddress'
-                                placeholder='Enter Pin Code'
+                                placeholder='Pin Code'
                                 onChangeText={(pincode) => { this.setState({ pincode: pincode }) }}
                             />
                         </View>
-                    </View>
-
-                    {/* <View>
-                        <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-                            <Text style={Styles.inputBoxLabel}>UserName</Text>
-                            <TextInput
-                                style={Styles.inputBoxStyle}
-                                // keyboardType = 'email-address'
-                                // textContentType='emailAddress'
-                                placeholder='Enter Premise Name'
-                                onChangeText={(vendor_name) => { this.setState({ vendor_name: vendor_name }) }}
-                            />
-                        </View>
-                    </View>
-
-                    <View>
-                        <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-                            <Text style={Styles.inputBoxLabel}>UserName</Text>
-                            <TextInput
-                                style={Styles.inputBoxStyle}
-                                // keyboardType = 'email-address'
-                                // textContentType='emailAddress'
-                                placeholder='Enter GSTIN/TIN'
-                                onChangeText={(vendor_id) => { this.setState({ vendor_id: vendor_id }) }}
-                            />
-                        </View>
-                    </View> */}
+                    </View>                   
 
                     <View style={styles.textAreaBox}>
                         <Textarea

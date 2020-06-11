@@ -221,7 +221,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
                 style={Styles.inputBoxStyle}
                 keyboardType='email-address'
                 textContentType='emailAddress'
-                placeholder='Enter User Name'
+                placeholder='User Name'
                 onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
               />
             </View>
@@ -231,7 +231,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
               <TextInput
                 style={Styles.inputBoxStyle}
                 secureTextEntry={this.state.passwordVisible}
-                placeholder='Enter Password'
+                placeholder='Password'
                 onChangeText={(pwd) => { this.setState({ pwd: pwd }) }}
               />
               <View style={{ marginTop: 14 }}>
@@ -273,7 +273,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
                   style={styles.inputBoxStyle}
                   keyboardType='email-address'
                   textContentType='emailAddress'
-                  placeholder='Enter Email Id'
+                  placeholder='Email Id'
                   onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
                 />
               </View>

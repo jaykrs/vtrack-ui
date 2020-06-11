@@ -393,18 +393,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                                 editable={editable}
                                 onChangeText={(pincode) => { this.setState({ pincode: pincode }) }}
                             />
-                        </View>
-
-                        {/* <View style={styles.dataView}>
-                            <Label>Country</Label>
-                            <TextInput
-                                style={styles.dataText}
-                                value={country}
-                                placeholder='Country'
-                                editable={editable}
-                                onChangeText={(country) => { this.setState({ country: country }) }}
-                            />
-                        </View> */}
+                        </View>                      
 
                         <View style={styles.dataView}>
                             <Label>GSTIN/TIN</Label>

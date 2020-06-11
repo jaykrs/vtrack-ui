@@ -61,7 +61,7 @@ export const FeedbackIcon = (style): AntDesign => (
 );
 
 export const CancelIcon = (style): AntDesign => (
-  <MaterialIcons size={23} name='cancel'/>
+  <MaterialIcons size={22} name='cancel'/>
 );
 
 export const ArroCircle = (style): AntDesign => (

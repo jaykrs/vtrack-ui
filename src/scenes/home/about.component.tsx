@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Divider,
   Layout,
@@ -12,7 +12,7 @@ import {
   SafeAreaLayoutElement,
   SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { Content } from 'native-base';
+import { Content, Footer, FooterTab } from 'native-base';
 
 
 
@@ -42,6 +42,19 @@ export const AboutScreen = (props: AboutScreenProps): SafeAreaLayoutElement => (
         Educational Institutions.
       </Text>
     </Content>
+    
+    <Footer style={styles.footer}>
+      <FooterTab style={styles.footerTab}>
+        <View style={styles.footerView}>
+          <Text style = {styles.bold}>
+            FROM
+        </Text>
+          <Text style = {styles.bold}>
+            marksman
+        </Text>
+        </View>
+      </FooterTab>
+    </Footer>
   </SafeAreaLayout>
 );
 
@@ -63,5 +76,22 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: 'bold'
-  }
+  },
+
+  footer: {
+    height: 70,
+    backgroundColor: '#fff',
+    borderTopColor: '#fff',
+    borderTopWidth: 1,
+    opacity: 1
+  },
+
+  footerTab: {
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+
+  footerView: {
+    alignItems: 'center'
+  },
 })

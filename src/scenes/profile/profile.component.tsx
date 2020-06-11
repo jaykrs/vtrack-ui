@@ -429,16 +429,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                             />
                         </View>
 
-                        {/* <View style={styles.dataView}>
-                            <Label>Country</Label>
-                            <TextInput
-                                style={styles.dataText}
-                                value={country}
-                                placeholder='Country'
-                                editable={editable}
-                                onChangeText={(country) => { this.setState({ country: country }) }}
-                            />
-                        </View> */}
+                       
 
                         <View style={styles.dataView}>
                             <Label>GSTIN/TIN</Label>

@@ -89,7 +89,7 @@ export class ResetPasswordScreen extends Component<ResetPasswordScreenProps & an
                   style={styles.inputBoxStyle}
                   keyboardType='email-address'
                   textContentType='emailAddress'
-                  placeholder='Enter Email Id'
+                  placeholder='Email Id'
                   onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
                 />
               </View>

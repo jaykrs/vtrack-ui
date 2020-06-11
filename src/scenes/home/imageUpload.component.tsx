@@ -105,7 +105,7 @@ console.log(this.state.userId);
           type='file' 
             style={styles.Input}
             label='Email Address'
-            placeholder='Enter Email Address'
+            placeholder='Email Address'
             value={this.state.emailId}
             onChangeText={(emailId) => this.setState({ emailId })}
             onChange={this.fileSelectedHandler}
