@@ -123,6 +123,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
             url: AppConstants.API_BASE_URL + '/api/visitor/update',
             data: {
                 id: id,
+                initial: initial,
                 emailId: emailId,
                 device_token: device_token,
                 f_name: f_name,
