@@ -1,20 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './auth.navigator';
-import { HomeNavigator, HomeBottomNavigator } from './home.navigator';
-import { HrHomeNavigator } from './hrNavigation/hrHome.navigator';
-import { InformaionNavigator } from './information.navigator';
-import { HrInformaionNavigator } from './hrNavigation/hrInformation.navigator';
+import { HomeBottomNavigator } from './home.navigator';
 import { AppRoute } from './app-routes';
 
 type StackNavigatorProps = React.ComponentProps<typeof Stack.Navigator>;
 
 export type AppNavigatorParams = {
   [AppRoute.AUTH]: undefined;
-  [AppRoute.HRINFORMATION]: undefined;
-  [AppRoute.INFORMATION]: undefined;
   [AppRoute.HOME]: undefined;
-  [AppRoute.HRHOME]: undefined;
 }
 
 const Stack = createStackNavigator<AppNavigatorParams>();

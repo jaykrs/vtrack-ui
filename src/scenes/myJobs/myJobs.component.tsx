@@ -1,79 +1,31 @@
 import React from 'react';
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator, RefreshControl, TextInput, Modal} from 'react-native';
 import {
-    ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
-    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput, Modal
-} from 'react-native';
-import {
-    // Input,
-    Layout,
     List,
-    ListElement,
     ListItem,
     ListItemElement,
     Text,
     ThemedComponentProps,
-    withStyles, TabBar,
-    styled, Divider, Avatar, Icon, Button
 } from 'react-native-ui-kitten';
-import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading, Thumbnail, Input, Label, Footer, FooterTab } from 'native-base';
+import { Content, Label, } from 'native-base';
 import { MyJobsScreenProps } from '../../navigation/myJobs.navigator';
 import { AppRoute } from '../../navigation/app-routes';
-import { ProgressBar } from '../../components/progress-bar.component';
 import { SearchIcon, CancelIcon,FilterIcon } from '../../assets/icons';
-import { TimeLineData } from '../../data/TimeLineData.model';
 import { AppConstants } from '../../constants/AppConstants';
-import { Toolbar } from '../../components/toolbar.component';
 import {
     SafeAreaLayout,
-    SafeAreaLayoutElement,
     SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { MenuIcon, ExperienceIcon, LocationIcon, PublicIcon, PencilIcon } from '../../assets/icons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { any } from 'prop-types';
+import { MenuIcon } from '../../assets/icons';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import { truncate, open } from 'fs';
-// import VideoPlayer from 'react-native-video-player';
-// import { FlatList } from 'react-native-gesture-handler';
-import Share from 'react-native-share';
-import { pathToFileURL, fileURLToPath } from 'url';
-// import SwipeHiddenHeader from 'react-native-swipe-hidden-header';
-import Animated from 'react-native-reanimated';
 import { Styles } from '../../assets/styles'
-// import axios from 'axios';  
-// import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
 import DeviceInfo from 'react-native-device-info';
 import DatePicker from 'react-native-datepicker';
 
-const allTodos: TimeLineData[] = [
-    TimeLineData.getAllTimelineData()
-];
-
 type MyState = {
-    displayName: String,
-    dataSource: [],
-    userId: String,
-    likeCount: number,
-    dislikeCount: number,
-    liked: boolean[],
-    disliked: boolean[],
-    categories: [],
-    textShown: -1,
-    selectedIndex: number;
+  
 }
-
-
-const renderItem = ({ item, index }) => (
-    <ListItem title={`${item.title} ${index + 1}`} />
-);
-
-const HEADER_MAX_HEIGHT = 120;
-const HEADER_MIN_HEIGHT = 70;
-const PROFILE_IMAGE_MAX_HEIGHT = 80;
-const PROFILE_IMAGE_MIN_HEIGHT = 40;
-
 
 export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComponentProps, MyState & any> {
     constructor(props) {
@@ -100,7 +52,6 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             vendorId: '',
             search: ''
         }
-        // this.submitFresher = this.submitFresher.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this._onRefresh = this._onRefresh.bind(this);
@@ -108,36 +59,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         this.handleFilter = this.handleFilter.bind(this);
     }
 
-    // async componentDidUpdate() {        
-    //     const value = await AsyncStorage.getItem('userDetail');
-    //     if (value) {
-    //         // console.log('user Details all data', value);
-    //         const user = JSON.parse(value);
-
-    //         axios({
-    //             method: 'get',
-    //             url: AppConstants.API_BASE_URL + '/api/visitor/search/' + user.id + '/' + user.vendorId,
-
-    //         }).then((response) => {
-    //             if (response.data !== this.state.visitor_list) {
-    //                 this.setState({
-    //                     ...this.state,
-    //                     visitor_list: response.data,
-    //                 })
-    //                 // console.log("Profile Data", response.data);
-    //             }
-    //         },
-    //             (error) => {
-    //                 console.log(error);
-    //                 if (error) {
-    //                     alert("Seems you have not created any visitor ! please add.");
-    //                 }
-    //             }
-    //         );
-    //     }
-    // }
-
-    getdeviceId = () => {
+       getdeviceId = () => {
         //Getting the Unique Id from here
         var id = DeviceInfo.getUniqueId();
         this.setState({
@@ -148,7 +70,6 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
     async componentDidMount() {
         const value = await AsyncStorage.getItem('userDetail');
         if (value) {
-            // console.log('user Details all data', value);
             const user = JSON.parse(value);
             this.setState({
                 id: user.id,
@@ -160,16 +81,15 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             }).then((response) => {
                 this.setState({
                     ...this.state,
-                    // visitor_list: response.data,
                     vendorId: response.data.vendorId,
                     createdAt: response.data.createdAt.length < 35
                         ? `${response.data.createdAt.substring(0, 10)}`
                         : `${response.data.createdAt}`
                 })
-                console.log("Profile Data", response.data);
+                // console.log("Profile Data", response.data);
             },
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                     if (error) {
                         alert("Seems you have not created any visitor ! please add.");
                     }
@@ -185,42 +105,16 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     ...this.state,
                     visitor_list: response.data,
                 })
-                console.log("Profile Data", response.data);
+                // console.log("Profile Data", response.data);
             },
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                     if (error) {
                         alert("Seems you have not created any visitor ! please add.");
                     }
                 }
             );
-            // console.log('user data id', this.state.userId);      
-        }
-
-
-
-        // axios({
-        //     method: 'get',
-        //     url: AppConstants.API_BASE_URL + '/api/lookup/getalllookup',
-        // }).then((response) => {
-        //     this.setState({
-        //         ...this.state,
-        //         salary_Type: response.data.SALARY_TYPE,
-        //         job_Industry: response.data.JOB_CATEGORY,
-        //         min_Qualification: response.data.QUALIFICATION,
-        //         experience_Required: response.data.EXPERIENCE,
-        //         employment_Type: response.data.EMPLOYMENT_TYPE,
-        //         skill: response.data.SKILL
-        //     })
-        //     // console.log("Profile Data", response.data);
-        // },
-        //     (error) => {
-        //         console.log(error);
-        //         if (error) {
-        //             alert("UserId or Password is invalid");
-        //         }
-        //     }
-        // );
+        }      
     }
 
     handleJobSubmit(e, jobId) {
@@ -229,7 +123,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         }
         AsyncStorage.setItem('visitorId', JSON.stringify(jobData), () => {
             AsyncStorage.getItem('visitorId', (err, result) => {
-                console.log('Visitor Id is', result);
+                // console.log('Visitor Id is', result);
             })
             this.props.navigation.navigate(AppRoute.JOBDETAIL);
         })
@@ -239,7 +133,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
         const { isVisible, vendorId, visitStartDate, visitEndDate } = this.state
         const visit1 = visitStartDate.substring(8, 10) + '-' + visitStartDate.substring(5, 7) + '-' + visitStartDate.substring(0, 4)
         const visit2 = visitEndDate.substring(8, 10) + '-' + visitEndDate.substring(5, 7) + '-' + visitEndDate.substring(0, 4)
-        console.log("vendorId", vendorId, visit1, visit2)
+        // console.log("vendorId", vendorId, visit1, visit2)
         axios({
             method: 'get',
             url: AppConstants.API_BASE_URL + '/api/visitor/searchDate/' + vendorId + '/' + visit1 + '/' + visit2,
@@ -250,10 +144,10 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                 isVisible: !isVisible,
                 visitor_list: response.data
             })
-            console.log("Profile Data", response.data);
+            // console.log("Profile Data", response.data);
         },
             (error) => {
-                console.log(error);
+                // console.log(error);
                 if (error) {
                     alert("Seems you have not created any visitor in this period ! please select another Date.");
                 }
@@ -273,10 +167,10 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                 ...this.state,
                 visitor_list: response.data,
             })
-            console.log("Profile Data", response.data);
+            // console.log("Profile Data", response.data);
         },
             (error) => {
-                console.log(error);
+                // console.log(error);
                 if (error) {
                     alert("Seems you have not created any visitor by this name !");
                 }
@@ -331,12 +225,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
             <SafeAreaLayout
                 style={styles.safeArea}
                 insets={SaveAreaInset.TOP}>
-                {/* <Toolbar
-                    title='All Jobs'
-                    // backIcon={MenuIcon}
-                    // onBackPress={this.props.navigation.goBack}
-                    style={{ marginTop: -5, marginLeft: -5 }}
-                /> */}
+               
                 <View style={{ flexDirection: 'row', backgroundColor: '#eee', paddingTop: 5, marginBottom: 0, alignItems: 'center', justifyContent: 'center' }}>
                     <View style={Styles.menuButton}>
                         <TouchableOpacity onPress={this.props.navigation.toggleDrawer}>
@@ -370,12 +259,7 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                     </View>
 
 
-                </View>
-
-                {/* <TouchableOpacity onPress={this.getdeviceId}>
-                    <Text>Device Id</Text>
-                </TouchableOpacity>
-                <Text>{this.state.deviceId}</Text> */}
+                </View>              
 
                 <Content style={styles.content}
                     refreshControl={
@@ -385,11 +269,6 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                         />
                     }
                 >
-                    {/* <Header style={styles.header}> */}
-
-                    {/* </Header> */}
-
-                    {/* <View style = {{height: 50, width: '100%', backgroundColor: 'rgba(145,174,225,0.3)'}}></View> */}
                     <List data={visitor_list}
                         renderItem={this.renderMyJob}
                     />
@@ -412,7 +291,6 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                                     maxDate={new Date()}
                                     onDateChange={(visitStartDate) => { this.setState({ visitStartDate: visitStartDate }) }}
                                 />
-                                {/* <Text>{visitStartDate}</Text> */}
                             </View>
 
                             <View style={{ width: '40%' }}>
@@ -424,7 +302,6 @@ export class MyJobsScreen extends React.Component<MyJobsScreenProps & ThemedComp
                                     maxDate={new Date()}
                                     onDateChange={(visitEndDate) => { this.setState({ visitEndDate: visitEndDate }) }}
                                 />
-                                {/* <Text>{visitEndDate}</Text> */}
                             </View>
                             <TouchableOpacity style={[Styles.buttonContainer, styles.button]} onPress={() => this.setState({ isVisible: !isVisible })}>
                                 <Text style={Styles.buttonCaption}>Cancel</Text>

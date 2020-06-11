@@ -13,9 +13,7 @@ import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { TodoNavigator } from './todo.navigator';
 import { ProfileNavigator } from './profile.navigator';
-import { TimelineNavigator } from './timeline.navigator';
 import { MyJobsNavigator } from './myJobs.navigator';
 import { AppliedNavigator } from './applied.navigator';
 import { AppRoute } from './app-routes';
@@ -32,52 +30,28 @@ import {
   TimeLineIcon,
   ProfileIcon,
   PostJobIcon,
-  PlanIcon,
   HomeIcon,
-  InfoIcon,
-  LayoutIcon,
-  PersonIcon,
-  BellIcon,
   WalletIcon,
   AccountsIcon,
   TermsIcon,
   ContactUsIcon,
-  ChangePasswordIcon,
   LogoutIcon,
-  TransactionHistoryIcon
 } from '../assets/icons';
-import { AuthNavigator } from './auth.navigator';
-//import { AccountsScreen } from 'src/scenes/home/Accounts.component';
 
 type HomeDrawerNavigatorParams = {
   [AppRoute.HOME]: undefined;
   [AppRoute.ABOUT]: undefined;
   [AppRoute.CONTACTUS]: undefined;
-  [AppRoute.ACCOUNTS]: undefined;
   [AppRoute.TERMS]: undefined;
-  [AppRoute.CHANGEPASSWORD]: undefined;
-  // [AppRoute.PROFILE]: undefined;
-  // [AppRoute.PROFILEEDIT]:undefined;
-  [AppRoute.WALLET]: undefined;
-  [AppRoute.IMAGEUPLOAD]: undefined;
   [AppRoute.LOGOUT]: undefined;
   [AppRoute.AUTH]: undefined;
-  // [AppRoute.ASKFREEQUESTION]:undefined;
-  [AppRoute.TRANSACTIONHISTORY]: undefined;
-  [AppRoute.MORE]: undefined;
-  [AppRoute.SETTING]: undefined;
-  [AppRoute.INFORMATION]: undefined;
   [AppRoute.PAYMENT]: undefined;
-
-
 }
 
 type HomeBottomTabsNavigatorParams = {
   [AppRoute.APPLIED]: undefined;
   [AppRoute.PROFILE]: undefined;
-  [AppRoute.TIMELINE]: undefined;
   [AppRoute.MYJOBS]: undefined;
-  [AppRoute.LIST]: undefined;
 }
 
 export type AppliedTabNavigationProp = CompositeNavigationProp<
@@ -87,11 +61,6 @@ export type AppliedTabNavigationProp = CompositeNavigationProp<
 
 export type ProfileTabNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<HomeBottomTabsNavigatorParams, AppRoute.PROFILE>,
-  DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.HOME>
->;
-
-export type TimelineTabNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<HomeBottomTabsNavigatorParams, AppRoute.TIMELINE>,
   DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.HOME>
 >;
 
@@ -115,66 +84,14 @@ export interface TermsScreenProps {
   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.TERMS>;
 }
 
-// export interface ProfileScreenProps {
-//   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.PROFILE>;
-//   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.PROFILE>;
-// }
-
-// export interface ProfileEditScreenProps {
-//   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.PROFILEEDIT>;
-//   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.PROFILEEDIT>;
-// }
-
-export interface ImageUploadScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.IMAGEUPLOAD>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.IMAGEUPLOAD>;
-}
-
-
-export interface WalletScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.WALLET>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.WALLET>;
-}
-
 export interface PaymentScreenProps {
   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.PAYMENT>;
   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.PAYMENT>;
 }
 
-export interface TransactionHistoryScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.TRANSACTIONHISTORY>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.TRANSACTIONHISTORY>;
-}
-
-export interface ChangepasswordScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.CHANGEPASSWORD>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.CHANGEPASSWORD>;
-}
-
 export interface AuthNavigatorScreenProps {
   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.AUTH>;
   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.AUTH>;
-}
-
-export interface InformaionNavigatorScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.INFORMATION>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.INFORMATION>;
-}
-
-// export interface AskFreeQuestionScreenprops {
-//   navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.ASKFREEQUESTION>;
-//   route: RouteProp<HomeDrawerNavigatorParams, AppRoute.ASKFREEQUESTION>;
-// }
-
-export interface MoreScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.MORE>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.MORE>;
-}
-
-
-export interface AccountsScreenProps {
-  navigation: DrawerNavigationProp<HomeDrawerNavigatorParams, AppRoute.ACCOUNTS>;
-  route: RouteProp<HomeDrawerNavigatorParams, AppRoute.ACCOUNTS>;
 }
 
 export type BottomHomeScreenProps = BottomTabBarProps & {
@@ -211,7 +128,7 @@ export const HomeBottomNavigator = (): React.ReactElement => (
     />
 
     <BottomTab.Screen
-      name={AppRoute.LIST}
+      name={AppRoute.APPLIED}
       component={AppliedNavigator}
       options={{ title: 'Add', tabBarIcon: PostJobIcon }}
     />

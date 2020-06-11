@@ -1,37 +1,14 @@
 import React, { Component } from 'react';
 import {
-  ImageBackground,
-  StyleSheet, Alert,
-  KeyboardAvoidingView, View, Image, TextInput, TouchableOpacity
+  StyleSheet, View, Image, TextInput, TouchableOpacity, Text, Alert
 } from 'react-native';
+
 import {
-  EdgeInsets,
-  useSafeArea,
-} from 'react-native-safe-area-context';
-import {
-  Formik,
-  FormikProps,
-} from 'formik';
-import {
-  Button,
-  Layout, Select,
-  LayoutElement,
-  Text,
-} from 'react-native-ui-kitten';
-import {
-  SafeAreaLayout,
-  SafeAreaLayoutElement,
-  SaveAreaInset,
+  SafeAreaLayout 
 } from '../../components/safe-area-layout.component';
-import { Item, Picker, Form, Icon, Content } from 'native-base';
+import {  Picker, Content } from 'native-base';
 import { SignUpScreenProps } from '../../navigation/auth.navigator';
 import { AppRoute } from '../../navigation/app-routes';
-import { Toolbar } from '../../components/toolbar.component';
-import { FormInput } from '../../components/form-input.component';
-import {
-  SignUpData,
-  SignUpSchema,
-} from '../../data/sign-up.model';
 import {
   EyeIcon,
   EyeOffIcon,
@@ -42,24 +19,9 @@ import { AppConstants } from '../../constants/AppConstants';
 import { LabelConstants } from '../../constants/LabelConstants';
 import DeviceInfo from 'react-native-device-info';
 import { country_data } from '../../assets/country';
-const data = [
-  { text: 'Candidate' },
-  { text: 'HR' },
-];
-
-// const useSelectChanges = (initialSelection = null) => {
-//   const [selectedOption, setSelectedOption] = React.useState(initialSelection);
-//   return {
-//     selectedOption,
-//     onSelect: setSelectedOption,
-//   };
-// };
-
-// const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
-// const insets: EdgeInsets = useSafeArea();
-// const largeSelectChanges = useSelectChanges();
 
 type State = {}
+
 export class SignUpScreen extends Component<SignUpScreenProps, any & State, any> {
   constructor(props) {
     super(props);
@@ -96,29 +58,26 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
 
   onFormSubmit() {
     const { emailId, f_name, l_name, address, country, phone_country_code, phone_number, vendor_id, vendor_name, pwd, device_token } = this.state
-    // let userName = values.username.split(" ", 2);
-    // let userRole = largeSelectChanges.selectedOption != undefined && largeSelectChanges.selectedOption.text === 'HR' ? 28 :  29;
-    //  console.log('User Role',userRole)
     if (emailId === " " || emailId.length === 0) {
-      alert("Please EmailId");
+      Alert.alert("Please Enter EmailId");
     } else if (f_name === "" || f_name.length === 0) {
-      alert("Please First Name");
+      Alert.alert("Please Enter First Name");
     } else if (l_name === "" || l_name.length === 0) {
-      alert("Please Last Name");
+      Alert.alert("Please Enter Last Name");
     } else if (address === "" || address.length === 0) {
-      alert("Please Address");
+      Alert.alert("Please Enter Address");
     } else if (country === "" || country.length === 0) {
-      alert("Please Select Country");
+      Alert.alert("Please Enter Select Country");
     } else if (phone_country_code === "" || phone_country_code.length === 0) {
-      alert("Please Country Code");
+      Alert.alert("Please Enter Country Code");
     } else if (phone_number === "" || phone_number.length === 0) {
-      alert("Please Phone Number");
+      Alert.alert("Please Enter Phone Number");
     } else if (vendor_id === "" || vendor_id.length === 0) {
-      alert("Please GSTIN/TIN");
+      Alert.alert("Please Enter GSTIN/TIN");
     } else if (vendor_name === "" || vendor_name.length === 0) {
-      alert("Please Premise Name");
+      Alert.alert("Please Enter Premise Name");
     } else if (pwd === "" || pwd.length === 0) {
-      alert("Please Password");
+      Alert.alert("Please Enter Password");
     } else {
       axios({
         method: 'post',
@@ -138,21 +97,16 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
         }
       }).then((response) => {
         if (response.data.status === "false") {
-          // console.log("from signup",response.data.status);
           alert(response.data.description + " : " + response.data.emailId);
         } else {
           alert(LabelConstants.com_alert_signup_user);
           this.props.navigation.navigate(AppRoute.SIGN_IN);
         }
 
-        //   this.props.navigation.navigate('Login');
-        //  alert("SignUp Successfull \n"+"\nLogin With Your Credential");
 
       }, (error) => {
         console.log(error);
       });
-      // alert("SignUp Successfull Login With Your Credential");
-      // navigateHome();
     }
   };
 
@@ -160,23 +114,18 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
     this.setState({ passwordVisible: !this.state.passwordVisible })
   };
 
-  // const navigateHome = (): void => {
-  //   props.navigation.navigate(AppRoute.HOME);
-  // };
 
   navigateSignIn() {
     this.props.navigation.navigate(AppRoute.SIGN_IN);
   };
 
   handleCountry(e, code) {
-    // Alert.alert("", code)
     this.setState({
       countryCode: code
     })
 
     this.state.country_data.map((item, index) => {
       if(code === item.code) {
-    // Alert.alert("adadad", item.dial_code)
         this.setState({
           country: item.name,
           phone_country_code: item.dial_code
@@ -185,70 +134,7 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
     })
   }
 
-  // const onPasswordIconPress = (): void => {
-  //   setPasswordVisible(!passwordVisible);
-  // };
 
-
-  // const renderForm = (props: FormikProps<SignUpData>): React.ReactFragment => (
-  //   <KeyboardAvoidingView style={styles.container} enabled>
-  //     <React.Fragment>
-  //       <ImageBackground
-  //         style={[styles.appBar, { paddingTop: insets.top }]}
-  //         source={require('../../assets/image-background.jpeg')}>
-
-  //       </ImageBackground>
-  //       <FormInput
-  //         padding={0}
-  //         id='email'
-  //         style={styles.formControl}
-  //         placeholder='Email'
-  //         keyboardType='email-address'
-  //       />
-  //       <FormInput
-  //         padding={0}
-  //         id='password'
-  //         style={styles.formControl}
-  //         placeholder='Password'
-  //         secureTextEntry={!passwordVisible}
-  //         icon={passwordVisible ? EyeIcon : EyeOffIcon}
-  //         onIconPress={onPasswordIconPress}
-  //       />
-  //       <FormInput
-  //         padding={0}
-  //         id='firstName'
-  //         style={styles.formControl}
-  //         placeholder='First Name'
-  //       />
-  //       <FormInput
-  //         padding={0}
-  //         id='lastName'
-  //         style={styles.formControl}
-  //         placeholder='Last Name'
-  //       />
-  //       <Select
-  //         style={styles.select}
-  //         data={data}
-  //         size='large'
-  //         placeholder='Candidate'
-  //         {...largeSelectChanges}
-  //       />
-  //       <Button
-  //         style={styles.submitButton}
-  //         onPress={props.handleSubmit}>
-  //         SIGN UP
-  //     </Button><Button
-  //         style={styles.haveAccountButton}
-  //         appearance='ghost'
-  //         status='basic'
-  //         onPress={navigateSignIn}>
-  //         Already have an account?
-  //       </Button>
-  //       <View style={{ height: 100 }}></View>
-
-  //     </React.Fragment>
-  //   </KeyboardAvoidingView>
-  // );
 
   render() {
     return (
@@ -269,7 +155,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
               style={Styles.loginImage}
             />
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 keyboardType='email-address'
@@ -280,7 +165,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 placeholder='First Name'
@@ -289,7 +173,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 placeholder='Last Name'
@@ -298,7 +181,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 placeholder='Address'
@@ -319,11 +201,9 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
                   )
                 })}
               </Picker> 
-              {/* <Text>{this.state.countryCode} {this.state.country} {this.state.phone_country_code}</Text> */}
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 value={this.state.phone_country_code}
                 style={Styles.inputBoxStyle}
@@ -333,7 +213,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 keyboardType='numeric'
                 style={Styles.inputBoxStyle}
@@ -343,7 +222,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 placeholder='GSTIN/TIN'
@@ -352,7 +230,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>Email</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 placeholder='Premise Name'
@@ -361,7 +238,6 @@ export class SignUpScreen extends Component<SignUpScreenProps, any & State, any>
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.password]}>
-              {/* <Text style={Styles.inputBoxLabel}>Password</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 secureTextEntry={this.state.passwordVisible}
@@ -409,14 +285,12 @@ const styles = StyleSheet.create({
   },
 
   emailBox: {
-    // width: '74%',
     height: 43,
     marginTop: 35,
     alignSelf: 'center'
   },
 
   password: {
-    // width: '74%',
     height: 43,
     marginTop: 35,
     alignSelf: 'center'

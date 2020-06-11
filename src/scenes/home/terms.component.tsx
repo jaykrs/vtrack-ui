@@ -131,7 +131,7 @@ export const TermsScreen = (props: TermsScreenProps): SafeAreaLayoutElement => (
 
         <Text style={styles.text}>
         If you have any questions about this privacy policy or other terms, you can contact us at        
-         <Text style={styles.link} onPress={() => Linking.openURL('http://vtrack@marksmantech.com')}>  vtrack@marksmantech.com</Text>
+         <Text style={styles.link}>  vtrack@marksmantech.com</Text>
       </Text>
 
         <View style = {Styles.bottomSpace}></View>      

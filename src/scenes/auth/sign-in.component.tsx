@@ -1,44 +1,25 @@
 import React, { Component } from 'react';
 import {
-  ImageBackground,
   StyleSheet,
   View,
   Alert,
-  RefreshControl,
   Image,
   Text,
-  Modal,
 } from 'react-native';
-import {
-  Button,
-  CheckBox,
-  Layout,
-} from 'react-native-ui-kitten';
-import {
-  Formik,
-  FormikProps,
-} from 'formik';
 import { SignInScreenProps } from '../../navigation/auth.navigator';
 import { AppRoute } from '../../navigation/app-routes';
-import { FormInput } from '../../components/form-input.component';
 import { AppConstants } from '../../constants/AppConstants';
 import { LabelConstants } from '../../constants/LabelConstants';
 import {
   EyeIcon,
   EyeOffIcon,
 } from '../../assets/icons';
-import {
-  SignInData,
-  SignInSchema,
-} from '../../data/sign-in.model';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import {
   SafeAreaLayout,
-  SafeAreaLayoutElement,
   SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { Toolbar } from 'src/components/toolbar.component';
 import { Content } from 'native-base';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Styles } from '../../assets/styles';
@@ -49,8 +30,6 @@ interface State {
   password: string | undefined;
   token: string | undefined;
 }
-// const [shouldRemember, setShouldRemember] = React.useState<boolean>(false);
-// const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
 
 export class SignInScreen extends Component<SignInScreenProps, any & State & any> {
   constructor(props) {
@@ -89,10 +68,6 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
         pwd: base64.encode(this.state.pwd)
       }
     }).then((response) => {
-      // AsyncStorage.setItem('userDetail', JSON.stringify(response.data), () => {
-      //   this.navigateHome();
-      //  });
-      // console.log(response);
       if (response) {
         if (response.data.isActive) {
           console.log('User Data', response.data);
@@ -107,7 +82,6 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
       }
     }, (error) => {
       Alert.alert(LabelConstants.com_alert_invalid_email_or_password);
-      // console.log(error);
     });
 
   };
@@ -156,45 +130,6 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
 
   }
 
-  // const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (
-  //   <React.Fragment>
-  //     <FormInput
-  //       padding={0}
-  //       id='email'
-  //       style={styles.formControl}
-  //       placeholder='Email'
-  //       keyboardType='email-address'
-  //     />
-  //     <FormInput
-  //       padding={0}
-  //       id='password'
-  //       style={styles.formControl}
-  //       placeholder='Password'
-  //       secureTextEntry={!passwordVisible}
-  //       icon={passwordVisible ? EyeIcon : EyeOffIcon}
-  //       onIconPress={onPasswordIconPress}
-  //     />
-  //     <View style={styles.resetPasswordContainer}>
-  //       <CheckBox
-  //         style={styles.formControl}
-  //         checked={shouldRemember}
-  //         onChange={setShouldRemember}
-  //         text='Remember Me'
-  //       />
-  //       <Button
-  //         appearance='ghost'
-  //         status='basic'
-  //         onPress={navigateResetPassword}>
-  //         Forgot password?
-  //       </Button>
-  //     </View>
-  //     <Button
-  //       style={styles.submitButton}
-  //       onPress={props.handleSubmit}>
-  //       SIGN IN
-  //     </Button>
-  //   </React.Fragment>
-  // );
 
   render() {
     const { isVisible } = this.state
@@ -216,7 +151,6 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
               style={Styles.loginImage}
             />
             <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-              {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 keyboardType='email-address'
@@ -227,7 +161,6 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
             </View>
 
             <View style={[Styles.inputBoxContainer, styles.password]}>
-              {/* <Text style={Styles.inputBoxLabel}>Password</Text> */}
               <TextInput
                 style={Styles.inputBoxStyle}
                 secureTextEntry={this.state.passwordVisible}
@@ -251,7 +184,7 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
                 <Text style={Styles.buttonCaption}>Sign In</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.RESET_PASSWORD)}}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.RESET_PASSWORD) }}>
               <Text style={styles.forgotPassword}>Forgot Password</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.SIGN_UP) }}>
@@ -260,34 +193,6 @@ export class SignInScreen extends Component<SignInScreenProps, any & State & any
 
           </View>
 
-          <Modal
-            animationType={"fade"}
-            transparent={false}
-            visible={this.state.isVisible}
-            onRequestClose={() => { console.log("Modal has been closed.") }}>
-            {/*All views of Modal*/}
-            <View style={styles.modal}>
-              <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-                {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
-                <TextInput
-                  style={styles.inputBoxStyle}
-                  keyboardType='email-address'
-                  textContentType='emailAddress'
-                  placeholder='Email Id'
-                  onChangeText={(emailId) => { this.setState({ emailId: emailId }) }}
-                />
-              </View>
-              <View style = {{flexDirection: 'row'}}>
-                <TouchableOpacity style={[Styles.buttonContainer, styles.button1]} onPress = {() => {this.setState({isVisible: !isVisible})}}>
-                  <Text style={Styles.buttonCaption}>Cancel</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={[Styles.buttonContainer, styles.button2]} onPress={() => this.handlePassword()}>
-                  <Text style={Styles.buttonCaption}>Submit</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
           <View style={Styles.bottomSpace}></View>
         </Content>
 
@@ -307,14 +212,12 @@ const styles = StyleSheet.create({
   },
 
   emailBox: {
-    // width: '74%',
     height: 43,
     marginTop: 35,
     alignSelf: 'center'
   },
 
   password: {
-    // width: '74%',
     height: 43,
     marginTop: 35,
     alignSelf: 'center'
@@ -325,22 +228,6 @@ const styles = StyleSheet.create({
     height: 52,
     marginTop: 35,
     alignSelf: 'center'
-  },
-
-  button1: {
-    width: '74%',
-    height: 52,
-    marginTop: 35,
-    marginRight: 15,
-    // alignSelf: 'center'
-  },
-
-  button2: {
-    width: '74%',
-    height: 52,
-    marginTop: 35,
-    marginLeft: 15,
-    // alignSelf: 'center'
   },
 
   loremIpsum: {
@@ -357,32 +244,5 @@ const styles = StyleSheet.create({
     fontFamily: "roboto-regular",
     marginTop: 35,
     alignSelf: 'center'
-  },
-
-  modal: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#eee",
-    height: 300,
-    width: '80%',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#AAAAAA',
-    marginTop: 80,
-    marginLeft: 40,
-  },
-
-  inputBoxStyle: {
-    flex: 1,
-    color: "#000",
-    backgroundColor: '#fff',
-    alignSelf: "stretch",
-    paddingTop: 14,
-    paddingRight: 5,
-    paddingBottom: 8,
-    paddingLeft: 5,
-    fontSize: 16,
-    fontFamily: "roboto-regular",
-    lineHeight: 16
-  },
+  }
 });

@@ -27,11 +27,7 @@ export default class App extends Component<any,any>{
 
     this.check = this.check.bind(this);
   }
-  // This value is used to determine the initial screen
-  // const isAuthorized: boolean = false;
-  // const [isAuthorized, setIsAuthorized] = React.useState<boolean>(false);
-  // const [isUser, setIsUser] = React.useState<boolean>(false);
-  // const [isProfile, setIsProfile] = React.useState<boolean>(true);
+ 
   componentDidMount() {
     this.check()
     SplashScreen.hide();

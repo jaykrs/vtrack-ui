@@ -1,81 +1,27 @@
 import React from 'react';
-import {
-    ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
-    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput, Picker
+import { View, StyleSheet, TouchableOpacity, RefreshControl, TextInput, Picker
 } from 'react-native';
 import {
-    // Input,
-    Layout,
-    List,
-    ListElement,
-    ListItem,
-    ListItemElement,
     Text,
     ThemedComponentProps,
-    withStyles, TabBar,
-    styled, Divider, Avatar, Icon, Button
 } from 'react-native-ui-kitten';
-import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading, Thumbnail, Input, Label, Footer, FooterTab } from 'native-base';
+import { Content, Label,  } from 'native-base';
 import { ProfileScreenProps } from '../../navigation/profile.navigator';
-import { AppRoute } from '../../navigation/app-routes';
-import { ProgressBar } from '../../components/progress-bar.component';
-import { SearchIcon, PencilIcon, EyeIcon, EyeOffIcon } from '../../assets/icons';
-import { TimeLineData } from '../../data/TimeLineData.model';
+import {  PencilIcon, EyeIcon, EyeOffIcon } from '../../assets/icons';
 import { AppConstants } from '../../constants/AppConstants';
 import { Toolbar } from '../../components/toolbar.component';
 import {
     SafeAreaLayout,
-    SafeAreaLayoutElement,
     SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { MenuIcon } from '../../assets/icons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { any } from 'prop-types';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import { truncate, open } from 'fs';
-// import VideoPlayer from 'react-native-video-player';
-// import { FlatList } from 'react-native-gesture-handler';
-import Share from 'react-native-share';
-import { pathToFileURL, fileURLToPath } from 'url';
-// import SwipeHiddenHeader from 'react-native-swipe-hidden-header';
-import Animated from 'react-native-reanimated';
-import { EditProfileScreen } from './editProfile.component';
-import { userInfo } from 'os';
 import { Styles } from '../../assets/styles';
 import { country_data } from '../../assets/country';
 
-// import axios from 'axios';  
-// import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
-
-const allTodos: TimeLineData[] = [
-    TimeLineData.getAllTimelineData()
-];
-
 type MyState = {
-    displayName: String,
-    dataSource: [],
-    userId: String,
-    likeCount: number,
-    dislikeCount: number,
-    liked: boolean[],
-    disliked: boolean[],
-    categories: [],
-    textShown: -1,
-    selectedIndex: number;
+   
 }
-
-
-const renderItem = ({ item, index }) => (
-    <ListItem title={`${item.title} ${index + 1}`} />
-);
-
-const HEADER_MAX_HEIGHT = 120;
-const HEADER_MIN_HEIGHT = 70;
-const PROFILE_IMAGE_MAX_HEIGHT = 80;
-const PROFILE_IMAGE_MIN_HEIGHT = 40;
-
 
 export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedComponentProps, MyState & any> {
     constructor(props) {
@@ -116,13 +62,11 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
     async componentDidMount() {
         const value = await AsyncStorage.getItem('userDetail');
         if (value) {
-            // console.log('user Details all data', value);
             const user = JSON.parse(value);
             this.setState({
                 userId: user.id,
                 device_token: user.deviceToken
             })
-            // console.log('user data id', this.state.userId);      
 
             axios({
                 method: 'get',
@@ -146,36 +90,17 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                     initial: response.data.initials,
                     phone_number: response.data.phone,
                 })
-                console.log("Profile Data", response.data);
+                // console.log("Profile Data", response.data);
                 this.handleCountryCode(response.data.countryCode);
             },
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                     if (error) {
-                        // alert("UserId or Password is invalid");
                     }
                 }
             );
         }
 
-        // axios({
-        //     method: 'get',
-        //     url: AppConstants.API_BASE_URL + '/api/lookup/getalllookup',
-
-        // }).then((response) => {
-        //     this.setState({
-        //         ...this.state,
-        //         qualification: response.data.QUALIFICATION
-        //     })
-        //     console.log("Profile Data", response.data);
-        // },
-        //     (error) => {
-        //         console.log(error);
-        //         if (error) {
-        //             alert("UserId or Password is invalid");
-        //         }
-        //     }
-        // );
     }
 
     edit() {
@@ -190,6 +115,7 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
             method: 'PUT',
             url: AppConstants.API_BASE_URL + '/api/user/update',
             data: {
+                initial: initial,
                 emailId: emailId,
                 device_token: device_token,
                 f_name: f_name,
@@ -215,21 +141,19 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                 }
             }
         }, (error) => {
-            console.log(error)
+            // console.log(error)
             alert('Server is Down or You are using wrong Data')
         });
 
     }
 
     handleCountry(e, code) {
-        // Alert.alert("", code)
         this.setState({
             countryCode: code
         })
 
         this.state.country_data.map((item, index) => {
             if (code === item.code) {
-                // Alert.alert("adadad", item.dial_code)
                 this.setState({
                     country: item.name,
                     phone_country_code: item.dial_code
@@ -241,7 +165,6 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
     handleCountryCode(code) {
         this.state.country_data.map((item, index) => {
             if (code === item.dial_code) {
-                // Alert.alert("adadad", item.dial_code)
                 this.setState({
                     countryCode: item.code,
                 })
@@ -283,7 +206,6 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                     }
                 >
                     <View style={styles.header}>
-                        {/* <Text style = {styles.headerText}>Profile</Text> */}
                         <TouchableOpacity style={styles.editButton} onPress={this.edit}>
                             <Text style={editable ? styles.editButtonTextSelected : styles.editButtonText}><PencilIcon /></Text>
                         </TouchableOpacity>
@@ -371,7 +293,6 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                                     )
                                 })}
                             </Picker>
-                            {/* <Text>{this.state.countryCode} {this.state.country} {this.state.phone_country_code}</Text> */}
                         </View>
 
                         <View style={styles.dataView}>
@@ -462,15 +383,6 @@ export class ProfileScreen extends React.Component<ProfileScreenProps & ThemedCo
                         null
                     }
 
-                    {/* <View style={styles.card2}>
-                        <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.LOGOUT) }}>
-                            <View style={styles.card2_2}>
-                                <Text style={styles.cardText3}>Sign Out</Text>
-                                <Text style={styles.cardText4}> > </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View> */}
-
                     <View style={Styles.bottomSpace}></View>
                 </Content>
 
@@ -500,7 +412,6 @@ const styles = StyleSheet.create({
 
     editButton: {
         width: '10%',
-        // backgroundColor: 'red',
         alignSelf: 'center',
         height: 30,
         justifyContent: 'center',

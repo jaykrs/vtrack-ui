@@ -85,10 +85,10 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                     ...this.state,
                     payment_Data: response.data,
                 })
-                console.log("Profile Data", response.data);
+                // console.log("Profile Data", response.data);
             },
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                     if (error) {
                         // alert("Seems You have not recharged yet ! Please Recharge");
                     }
@@ -103,10 +103,10 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
                     ...this.state,
                     validity: moment(response.data.validationDate).format("D MMMM YYYY"),
                 })
-                console.log("Profile Data", response.data);
+                // console.log("Profile Data", response.data);
             },
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                     if (error) {
                         alert("Something went wrong contact vtrack");
                     }
@@ -166,7 +166,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
               //      alert(`Success: ${data.razorpay_payment_id}`);
                 },
                     (error) => {
-                        console.log(error);
+                        // console.log(error);
                         if (error) {
                             alert("Something went wrong please contact vtrack");
                         }
@@ -178,7 +178,7 @@ export class PaymentScreen extends React.Component<PaymentScreenProps & ThemedCo
             });
         },
             (error) => {
-                console.log(error);
+                // console.log(error);
                 if (error) {
                     alert("Something went wrong please contact vtrack");
                 }

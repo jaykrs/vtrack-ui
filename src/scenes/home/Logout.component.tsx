@@ -60,7 +60,7 @@ export class LogoutScreen extends Component<ProfileScreenProps & SafeAreaLayoutE
            this.props.navigation.navigate('Auth');
       },
         (error) => {
-          console.log(error);
+          // console.log(error);
           if (error) {
             alert("Something went wrong");
             this.props.navigation.navigate('Auth');

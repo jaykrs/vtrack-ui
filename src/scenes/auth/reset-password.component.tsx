@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  ImageBackground,
   StyleSheet,
   Modal,
   TextInput,
@@ -9,27 +8,8 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import {
-  EdgeInsets,
-  useSafeArea,
-} from 'react-native-safe-area-context';
-import {
-  Button,
-  Layout,
-  LayoutElement,
-} from 'react-native-ui-kitten';
-import {
-  Formik,
-  FormikProps,
-} from 'formik';
 import { ResetPasswordScreenProps } from '../../navigation/auth.navigator';
 import { AppRoute } from '../../navigation/app-routes';
-import { FormInput } from '../../components/form-input.component';
-import { Toolbar } from '../../components/toolbar.component';
-import {
-  ResetPasswordData,
-  ResetPasswordSchema,
-} from '../../data/reset-password.model';
 import { SafeAreaLayout } from '../../components/safe-area-layout.component';
 import { Content } from 'native-base';
 import { Styles } from '../../assets/styles';
@@ -50,7 +30,7 @@ export class ResetPasswordScreen extends Component<ResetPasswordScreenProps & an
   }
 
   handlePassword() {
-    const { isVisible, emailId } = this.state
+    const { emailId } = this.state
     console.log("vendorId", emailId)
     axios({
       method: 'GET',
@@ -71,7 +51,6 @@ export class ResetPasswordScreen extends Component<ResetPasswordScreenProps & an
   }
 
   render() {
-    const {isVisible} = this.state;
     return (
       <SafeAreaLayout>
         <Content>
@@ -84,7 +63,6 @@ export class ResetPasswordScreen extends Component<ResetPasswordScreenProps & an
             {/*All views of Modal*/}
             <View style={styles.modal}>
               <View style={[Styles.inputBoxContainer, styles.emailBox]}>
-                {/* <Text style={Styles.inputBoxLabel}>UserName</Text> */}
                 <TextInput
                   style={styles.inputBoxStyle}
                   keyboardType='email-address'
@@ -119,7 +97,6 @@ const styles = StyleSheet.create({
     height: 52,
     marginTop: 35,
     marginRight: 15,
-    // alignSelf: 'center'
   },
 
   button2: {
@@ -127,11 +104,9 @@ const styles = StyleSheet.create({
     height: 52,
     marginTop: 35,
     marginLeft: 15,
-    // alignSelf: 'center'
   },
 
   emailBox: {
-    // width: '74%',
     height: 43,
     marginTop: 35,
     alignSelf: 'center'

@@ -30,7 +30,7 @@ export const ContactUsScreen = (props: ContactUsScreenProps): SafeAreaLayoutElem
         For any issues or help you can directly contact us at
       </Text>
 
-      <Text style={styles.link} onPress={() => Linking.openURL('http://vtrack@marksmantech.com')}>vtrack@marksmantech.com</Text>
+      <Text style={styles.link}>vtrack@marksmantech.com</Text>
     </Content>
     <Footer style={styles.footer}>
       <FooterTab style={styles.footerTab}>
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   simpleHeading: {
     marginBottom: 20,
     lineHeight: 18,
-    fontSize: 16
+    fontSize: 16,
+    textAlign: 'justify'
   },
 
   footer: {

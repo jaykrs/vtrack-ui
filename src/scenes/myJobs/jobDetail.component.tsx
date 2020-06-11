@@ -1,80 +1,26 @@
 import React from 'react';
+import { View, StyleSheet, TouchableOpacity, RefreshControl, TextInput, Picker } from 'react-native';
 import {
-    ListRenderItemInfo, View, StyleSheet, TouchableOpacity,
-    ActivityIndicator, Image, Alert, FlatList, ScrollView, RefreshControl, TextInput, Picker
-} from 'react-native';
-import {
-    // Input,
-    Layout,
-    List,
-    ListElement,
-    ListItem,
-    ListItemElement,
     Text,
     ThemedComponentProps,
-    withStyles, TabBar,
-    styled, Divider, Avatar, Icon, Button, Card
 } from 'react-native-ui-kitten';
-import { ScrollableTab, Tab, Item, Container, Content, Tabs, Header, TabHeading, Thumbnail, Input, Label, Footer, FooterTab, Textarea } from 'native-base';
+import { Content, Label, Textarea } from 'native-base';
 import { JobDetailScreenProps } from '../../navigation/myJobs.navigator';
-import { AppRoute } from '../../navigation/app-routes';
-import { ProgressBar } from '../../components/progress-bar.component';
-import { SearchIcon } from '../../assets/icons';
-import { TimeLineData } from '../../data/TimeLineData.model';
 import { AppConstants } from '../../constants/AppConstants';
 import { Toolbar } from '../../components/toolbar.component';
 import {
     SafeAreaLayout,
-    SafeAreaLayoutElement,
     SaveAreaInset,
 } from '../../components/safe-area-layout.component';
-import { MenuIcon, PencilIcon } from '../../assets/icons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { any } from 'prop-types';
+import { PencilIcon } from '../../assets/icons';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import { truncate, open } from 'fs';
-// import VideoPlayer from 'react-native-video-player';
-// import { FlatList } from 'react-native-gesture-handler';
-import Share from 'react-native-share';
-import { pathToFileURL, fileURLToPath } from 'url';
-// import SwipeHiddenHeader from 'react-native-swipe-hidden-header';
-import Animated from 'react-native-reanimated';
 import { Styles } from '../../assets/styles';
 import { country_data } from '../../assets/country';
-import { isDate } from 'util';
-
-// import axios from 'axios';  
-// import Container from '@react-navigation/core/lib/typescript/NavigationContainer';
-
-const allTodos: TimeLineData[] = [
-    TimeLineData.getAllTimelineData()
-];
 
 type MyState = {
-    displayName: String,
-    dataSource: [],
-    userId: String,
-    likeCount: number,
-    dislikeCount: number,
-    liked: boolean[],
-    disliked: boolean[],
-    categories: [],
-    textShown: -1,
-    selectedIndex: number;
+
 }
-
-
-const renderItem = ({ item, index }) => (
-    <ListItem title={`${item.title} ${index + 1}`} />
-);
-
-const HEADER_MAX_HEIGHT = 120;
-const HEADER_MIN_HEIGHT = 70;
-const PROFILE_IMAGE_MAX_HEIGHT = 80;
-const PROFILE_IMAGE_MIN_HEIGHT = 40;
-
 
 export class JobDetailScreen extends React.Component<JobDetailScreenProps & ThemedComponentProps, MyState & any> {
     constructor(props) {
@@ -114,19 +60,17 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
     async componentDidMount() {
         const value = await AsyncStorage.getItem('userDetail');
         if (value) {
-            // console.log('user Details all data', value);
             const user = JSON.parse(value);
-            this.setState({               
+            this.setState({
                 userId: user.userId,
                 device_token: user.deviceToken
             })
-            // console.log('user data id', this.state.userId);      
         }
 
         const value1 = await AsyncStorage.getItem('visitorId');
         if (value1) {
             const jobData = JSON.parse(value1);
-            console.log('user Details all data...', jobData);
+            // console.log('user Details all data...', jobData);
             this.setState({
                 id: jobData.jobId
             })
@@ -152,15 +96,14 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                     phone_number: response.data.phone,
                     vendor_location: response.data.vendorLocation,
                     remarks: response.data.remarks
-                    // id: response.data.id
                 })
-                console.log("Job Data", response.data);
+                // console.log("Job Data", response.data);
                 this.handleCountryCode(response.data.countryCode);
             },
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                     if (error) {
-                        alert("UserId or Password is invalid");
+                        // alert("UserId or Password is invalid");
                     }
                 }
             );
@@ -175,7 +118,6 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
 
     handleSubmit() {
         const { device_token, id, userData, editable, remarks, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
-       console.log("Visitor Data", device_token, id, userData, editable, remarks, f_name, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number)
         axios({
             method: 'PUT',
             url: AppConstants.API_BASE_URL + '/api/visitor/update',
@@ -196,7 +138,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
         }).then((response) => {
             if (response) {
                 if (response.data.emailId === emailId) {
-                    alert('User Updated Successfuly')
+                    alert('Visitor Updated Successfuly')
                     this.setState({
                         editable: false
                     })
@@ -204,21 +146,19 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                 }
             }
         }, (error) => {
-            console.log(error)
+            // console.log(error)
             alert('Server is Down or You are using wrong Data')
         });
 
     }
 
     handleCountry(e, code) {
-        // Alert.alert("", code)
         this.setState({
             countryCode: code
         })
 
         this.state.country_data.map((item, index) => {
             if (code === item.code) {
-                // Alert.alert("adadad", item.dial_code)
                 this.setState({
                     country: item.name,
                     phone_country_code: item.dial_code
@@ -230,7 +170,6 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
     handleCountryCode(code) {
         this.state.country_data.map((item, index) => {
             if (code === item.dial_code) {
-                // Alert.alert("adadad", item.dial_code)
                 this.setState({
                     countryCode: item.code,
                 })
@@ -248,7 +187,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
     }
 
     render() {
-        const { userData, editable, f_name, remarks, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
+        const {  editable, f_name, remarks, l_name, emailId, phone_country_code, vendor_id, vendor_name, city, address, pincode, country, createdBy, vendor_location, initial, phone_number } = this.state
         return (
             <SafeAreaLayout
                 style={styles.safeArea}
@@ -269,10 +208,8 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         />
                     }
                 >
-                    
-                {/* <Text>{this.state.device_token}</Text> */}
+
                     <View style={styles.header}>
-                        {/* <Text style = {styles.headerText}>Profile</Text> */}
                         <TouchableOpacity style={styles.editButton} onPress={this.edit}>
                             <Text style={editable ? styles.editButtonTextSelected : styles.editButtonText}><PencilIcon /></Text>
                         </TouchableOpacity>
@@ -325,7 +262,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         <View style={styles.dataView}>
                             <Label>Country</Label>
                             <Picker
-                            enabled= {editable}
+                                enabled={editable}
                                 selectedValue={this.state.countryCode}
                                 style={{ height: 50, width: '100%', color: '#000', opacity: 0.5 }}
                                 onValueChange={(itemValue, itemIndex) => { this.handleCountry(itemIndex, itemValue) }
@@ -336,7 +273,6 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                                     )
                                 })}
                             </Picker>
-                            {/* <Text>{this.state.countryCode} {this.state.country} {this.state.phone_country_code}</Text> */}
                         </View>
 
 
@@ -393,7 +329,7 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                                 editable={editable}
                                 onChangeText={(pincode) => { this.setState({ pincode: pincode }) }}
                             />
-                        </View>                      
+                        </View>
 
                         <View style={styles.dataView}>
                             <Label>GSTIN/TIN</Label>
@@ -429,15 +365,15 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         </View>
 
                         <View style={styles.textAreaBox}>
-                        <Textarea
-                            style={styles.textArea}
-                            value={remarks}
-                            editable={editable}
-                            placeholder='Remarks'
-                            onChangeText={(remarks) => { this.setState({ remarks: remarks }) }}
-                        ></Textarea>
-                    </View>
-                    
+                            <Textarea
+                                style={styles.textArea}
+                                value={remarks}
+                                editable={editable}
+                                placeholder='Remarks'
+                                onChangeText={(remarks) => { this.setState({ remarks: remarks }) }}
+                            ></Textarea>
+                        </View>
+
                     </View>
                     {editable ?
                         <View>
@@ -447,15 +383,6 @@ export class JobDetailScreen extends React.Component<JobDetailScreenProps & Them
                         </View> :
                         null
                     }
-
-                    {/* <View style={styles.card2}>
-                        <TouchableOpacity onPress={() => { this.props.navigation.navigate(AppRoute.LOGOUT) }}>
-                            <View style={styles.card2_2}>
-                                <Text style={styles.cardText3}>Sign Out</Text>
-                                <Text style={styles.cardText4}> > </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View> */}
 
                     <View style={Styles.bottomSpace}></View>
                 </Content>
