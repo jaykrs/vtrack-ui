@@ -84,10 +84,6 @@ export const TermsScreen = (props: TermsScreenProps): SafeAreaLayoutElement => (
         for any other purpose authorised by you
         </Text>
 
-        <Text style={styles.text}>
-        in the covid time to track and trace the actual visitor in the same place , if someone find the covid
-        </Text>
-
         <Text style={styles.heading}>
         Disclosing your personal information
         </Text>

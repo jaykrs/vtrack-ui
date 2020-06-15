@@ -6,7 +6,7 @@ export class AppConstants {
     public static readonly USER =  'USER';
     public static readonly CONSULTANT =  'CONSULTANT';
     public static readonly NOT_LOGIN = 'NOT_LOGIN';
-    public static readonly RAZOR_KEY = 'rzp_test_10eSP45VJvsTV4';
+    public static readonly RAZOR_KEY = 'rzp_live_WBFFjQwfNCHKTM';
     public static readonly RAZOR_NAME = 'marksman Technology P Ltd';
     public static readonly RAZOR_DESCRIPTION = 'Credits towards vtrack';    
 }; 

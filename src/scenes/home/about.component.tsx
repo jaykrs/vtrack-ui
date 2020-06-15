@@ -27,18 +27,14 @@ export const AboutScreen = (props: AboutScreenProps): SafeAreaLayoutElement => (
     <Divider />
     <Content style={styles.container}>
       <Text style = {styles.text}>
-        <Text style = {styles.bold}>Marksman Technologies</Text> create a Contact tracing app <Text style = {styles.bold}>– vTrack. vTrack</Text> is the Contact tracing for
+        <Text style = {styles.bold}>Marksman Technologies</Text> create a Visitor tracking app <Text style = {styles.bold}>– vTrack. vTrack</Text> is the Visitor tracing for
         workplaces, business places , hotels , hospitals , restaurant . vTrack a platform which help us to track of
         visitors in the same time and same place visited in your place.
       </Text>
 
+     
       <Text style={styles.text}>
-      <Text style = {styles.bold}>Now at the Covid –</Text> 19 time it will help a lot to trace and track people and help to all of us to fight against this
-        big problem.
-      </Text>
-
-      <Text style={styles.text}>
-      <Text style = {styles.bold}>vTrack can use –</Text> Restaurant, Hotels , Shops , Hospitals , Industries , Apartments, Government Offices and
+      <Text style = {styles.bold}>vTrack can be used at –</Text> Residential Sociaty, Restaurant, Hotels , Shops , Hospitals , Industries , Apartments, Government Offices and
         Educational Institutions.
       </Text>
     </Content>
